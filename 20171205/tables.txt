@@ -1,0 +1,170 @@
+{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171205\tables.txt
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res} 6 Dec 2017, 15:47:25
+{txt}
+{com}. 
+. 
+{txt}end of do-file
+
+{com}. tab edu
+
+        {txt}edu {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+          0 {c |}{res}          3        0.11        0.11
+{txt}          2 {c |}{res}          9        0.32        0.42
+{txt}          3 {c |}{res}         11        0.39        0.81
+{txt}        3.5 {c |}{res}          1        0.04        0.84
+{txt}          4 {c |}{res}          6        0.21        1.05
+{txt}        4.5 {c |}{res}          1        0.04        1.09
+{txt}          5 {c |}{res}         29        1.02        2.10
+{txt}          6 {c |}{res}         44        1.54        3.65
+{txt}        6.5 {c |}{res}          1        0.04        3.68
+{txt}          7 {c |}{res}         43        1.51        5.19
+{txt}        7.5 {c |}{res}          4        0.14        5.33
+{txt}          8 {c |}{res}        279        9.78       15.11
+{txt}        8.5 {c |}{res}          1        0.04       15.15
+{txt}          9 {c |}{res}        471       16.51       31.66
+{txt}        9.5 {c |}{res}          1        0.04       31.70
+{txt}         10 {c |}{res}        203        7.12       38.81
+{txt}       10.5 {c |}{res}         10        0.35       39.17
+{txt}         11 {c |}{res}        391       13.71       52.88
+{txt}       11.5 {c |}{res}          6        0.21       53.09
+{txt}         12 {c |}{res}        533       18.69       71.77
+{txt}       12.5 {c |}{res}          8        0.28       72.05
+{txt}         13 {c |}{res}        143        5.01       77.07
+{txt}       13.5 {c |}{res}          9        0.32       77.38
+{txt}         14 {c |}{res}        187        6.56       83.94
+{txt}       14.5 {c |}{res}          7        0.25       84.19
+{txt}         15 {c |}{res}        219        7.68       91.87
+{txt}       15.5 {c |}{res}          3        0.11       91.97
+{txt}         16 {c |}{res}        101        3.54       95.51
+{txt}       16.5 {c |}{res}          2        0.07       95.58
+{txt}         17 {c |}{res}         60        2.10       97.69
+{txt}       17.5 {c |}{res}          1        0.04       97.72
+{txt}         18 {c |}{res}         34        1.19       98.91
+{txt}       18.5 {c |}{res}          2        0.07       98.98
+{txt}         19 {c |}{res}         13        0.46       99.44
+{txt}         20 {c |}{res}          9        0.32       99.75
+{txt}       20.5 {c |}{res}          2        0.07       99.82
+{txt}         21 {c |}{res}          3        0.11       99.93
+{txt}         22 {c |}{res}          1        0.04       99.96
+{txt}         23 {c |}{res}          1        0.04      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}      2,852      100.00
+
+{com}. tab edu_level
+
+  {txt}edu_level {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+          1 {c |}{res}         99        3.47        3.47
+{txt}          2 {c |}{res}        862       30.22       33.70
+{txt}          3 {c |}{res}        814       28.54       62.24
+{txt}          4 {c |}{res}        854       29.94       92.18
+{txt}          5 {c |}{res}        223        7.82      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}      2,852      100.00
+
+{com}. gen edu_level1   = edu
+
+. 
+. replace edu_level1 =1 if (a1_2==2&a1_3==2&a1_4==2&a1_5==2&a1_6==2&a1_7==2&a1_8==2)
+{txt}(98 real changes made)
+
+{com}. 
+. replace edu_level1=2 if (junior==1)
+{txt}(862 real changes made)
+
+{com}. 
+. replace edu_level1 =3 if (high==1)
+{txt}(814 real changes made)
+
+{com}. 
+. replace edu_level1 =4 if (tech==1)
+{txt}(854 real changes made)
+
+{com}. 
+. replace edu_level1 =5 if (univ==1)
+{txt}(223 real changes made)
+
+{com}. tab edu
+
+        {txt}edu {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+          0 {c |}{res}          3        0.11        0.11
+{txt}          2 {c |}{res}          9        0.32        0.42
+{txt}          3 {c |}{res}         11        0.39        0.81
+{txt}        3.5 {c |}{res}          1        0.04        0.84
+{txt}          4 {c |}{res}          6        0.21        1.05
+{txt}        4.5 {c |}{res}          1        0.04        1.09
+{txt}          5 {c |}{res}         29        1.02        2.10
+{txt}          6 {c |}{res}         44        1.54        3.65
+{txt}        6.5 {c |}{res}          1        0.04        3.68
+{txt}          7 {c |}{res}         43        1.51        5.19
+{txt}        7.5 {c |}{res}          4        0.14        5.33
+{txt}          8 {c |}{res}        279        9.78       15.11
+{txt}        8.5 {c |}{res}          1        0.04       15.15
+{txt}          9 {c |}{res}        471       16.51       31.66
+{txt}        9.5 {c |}{res}          1        0.04       31.70
+{txt}         10 {c |}{res}        203        7.12       38.81
+{txt}       10.5 {c |}{res}         10        0.35       39.17
+{txt}         11 {c |}{res}        391       13.71       52.88
+{txt}       11.5 {c |}{res}          6        0.21       53.09
+{txt}         12 {c |}{res}        533       18.69       71.77
+{txt}       12.5 {c |}{res}          8        0.28       72.05
+{txt}         13 {c |}{res}        143        5.01       77.07
+{txt}       13.5 {c |}{res}          9        0.32       77.38
+{txt}         14 {c |}{res}        187        6.56       83.94
+{txt}       14.5 {c |}{res}          7        0.25       84.19
+{txt}         15 {c |}{res}        219        7.68       91.87
+{txt}       15.5 {c |}{res}          3        0.11       91.97
+{txt}         16 {c |}{res}        101        3.54       95.51
+{txt}       16.5 {c |}{res}          2        0.07       95.58
+{txt}         17 {c |}{res}         60        2.10       97.69
+{txt}       17.5 {c |}{res}          1        0.04       97.72
+{txt}         18 {c |}{res}         34        1.19       98.91
+{txt}       18.5 {c |}{res}          2        0.07       98.98
+{txt}         19 {c |}{res}         13        0.46       99.44
+{txt}         20 {c |}{res}          9        0.32       99.75
+{txt}       20.5 {c |}{res}          2        0.07       99.82
+{txt}         21 {c |}{res}          3        0.11       99.93
+{txt}         22 {c |}{res}          1        0.04       99.96
+{txt}         23 {c |}{res}          1        0.04      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}      2,852      100.00
+
+{com}. tab edu_level1
+
+ {txt}edu_level1 {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+          1 {c |}{res}         98        3.44        3.44
+{txt}          2 {c |}{res}        862       30.22       33.66
+{txt}          3 {c |}{res}        814       28.54       62.20
+{txt}          4 {c |}{res}        854       29.94       92.15
+{txt}          5 {c |}{res}        223        7.82       99.96
+{txt}          6 {c |}{res}          1        0.04      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}      2,852      100.00
+
+{com}. do "C:\Users\AIQING~1\AppData\Local\Temp\STD02000000.tmp"
+{txt}
+{com}. clear
+{txt}
+{com}. clear matrix
+{txt}
+{com}. set mem 80m
+{txt}{bf:set memory} ignored.
+{p 4 4 2}
+Memory no longer
+needs to be set in modern Statas;
+memory adjustments are performed on the fly
+automatically.
+{p_end}
+
+{com}. set matsize 800
+{txt}
+{com}. capture log close
+{smcl}
+{com}{sf}{ul off}

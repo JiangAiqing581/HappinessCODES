@@ -1,0 +1,1233 @@
+{smcl}
+{txt}{sf}{ul off}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206\tables.txt
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res} 6 Dec 2017, 21:26:38
+{txt}
+{com}. 
+. 
+. //Draw Figure 1
+. egen bins=cut(income_num),at(0(100)30000)
+{txt}(1 missing value generated)
+
+{com}. replace bins=bins+25
+{txt}(2851 real changes made)
+
+{com}. drop if income==0
+{txt}(217 observations deleted)
+
+{com}. 
+. bysort edu: egen happiness_4scale_mean=mean(happiness_4scale)
+{txt}
+{com}. twoway (scatter happiness_4scale_mean edu) (lfit happiness_4scale edu)(qfit happiness_4scale edu), ///
+> ytitle(Mean happiness_4scale) xtitle(Education) saving(Meanhappiness_4scale_Edu.tif, replace) legend(label(1 "Mean happiness") label(2 "Linear fit") label(3 "Quadratic fit")) 
+{res}{txt}(note: file Meanhappiness_4scale_Edu.tif not found)
+{res}{txt}(file Meanhappiness_4scale_Edu.tif saved)
+
+{com}. 
+. drop happiness_4scale_mean
+{txt}
+{com}. 
+{txt}end of do-file
+
+{com}. do "C:\Users\AIQING~1\AppData\Local\Temp\STD02000000.tmp"
+{txt}
+{com}. cd "C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"
+{res}C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206
+{txt}
+{com}. 
+{txt}end of do-file
+
+{com}. do "C:\Users\AIQING~1\AppData\Local\Temp\STD02000000.tmp"
+{txt}
+{com}. collapse Dhappiness_4scale Dincome Dincome_highschoolabove Dincome_collegeabove sDincome IVDincome sIVDincome Dwage Dedu IVDedu sDedu sIVDedu Dedu_level IVDedu_level sDedu_level sIVDedu_level Dedu_highschoolabove Dedu_collegeabove Dmarried Dunemployed Dhealth Dwork_over_40h Dbirth_rate DVeryEarly_disease_d Dincome_spouse Dwage_spouse Dedu_spouse ///
+>          Ahappiness_4scale Aincome Awage Amarried Ahealth Awork_over_40h Aedu Aunemployed Abirth_rate AVeryEarly_disease_d Aincome_spouse Awage_spouse Aedu_spouse ///
+>          Dtenure Atenure, by(twinpair) 
+{err}variable Dhappiness_4scale not found
+{txt}{search r(111):r(111);}
+
+end of do-file
+
+{search r(111):r(111);}
+
+{com}. do "C:\Users\AIQING~1\AppData\Local\Temp\STD02000000.tmp"
+{txt}
+{com}. cd "E:\MyPapers\happiness\TWINSDATA"
+{err}unable to change to E:\MyPapers\happiness\TWINSDATA
+{txt}{search r(170):r(170);}
+
+end of do-file
+
+{search r(170):r(170);}
+
+{com}. do "C:\Users\AIQING~1\AppData\Local\Temp\STD02000000.tmp"
+{txt}
+{com}. collapse Dhappiness_4scale Dincome Dincome_highschoolabove Dincome_collegeabove sDincome IVDincome sIVDincome Dwage Dedu IVDedu sDedu sIVDedu Dedu_level IVDedu_level sDedu_level sIVDedu_level Dedu_highschoolabove Dedu_collegeabove Dmarried Dunemployed Dhealth Dwork_over_40h Dbirth_rate DVeryEarly_disease_d Dincome_spouse Dwage_spouse Dedu_spouse ///
+>          Ahappiness_4scale Aincome Awage Amarried Ahealth Awork_over_40h Aedu Aunemployed Abirth_rate AVeryEarly_disease_d Aincome_spouse Awage_spouse Aedu_spouse ///
+>          Dtenure Atenure, by(twinpair) 
+{err}variable Dhappiness_4scale not found
+{txt}{search r(111):r(111);}
+
+end of do-file
+
+{search r(111):r(111);}
+
+{com}. do "C:\Users\AIQING~1\AppData\Local\Temp\STD02000000.tmp"
+{txt}
+{com}. cd "C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\TWINSDATA"
+{res}C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\TWINSDATA
+{txt}
+{com}. 
+. use twins_MZ_IV_DIF.dta, clear
+{txt}
+{com}. quiet reshape wide
+{txt}
+{com}. 
+. drop if income1==0 | income2==0
+{txt}(87 observations deleted)
+
+{com}. //drop if IVincome1 ==0 | IVincome2==0
+. 
+. quiet reshape long
+{txt}
+{com}. 
+. pwcorr income IVincome
+
+             {txt}{c |}   income IVincome
+{hline 13}{c +}{hline 18}
+      income {c |} {res}  1.0000 
+    {txt}IVincome {c |} {res}  0.4571   1.0000 
+{txt}
+{com}. pwcorr income IVincome if twcode==1
+
+             {txt}{c |}   income IVincome
+{hline 13}{c +}{hline 18}
+      income {c |} {res}  1.0000 
+    {txt}IVincome {c |} {res}  0.4422   1.0000 
+{txt}
+{com}. pwcorr income IVincome if twcode==2
+
+             {txt}{c |}   income IVincome
+{hline 13}{c +}{hline 18}
+      income {c |} {res}  1.0000 
+    {txt}IVincome {c |} {res}  0.4757   1.0000 
+{txt}
+{com}. 
+. pwcorr Dincome IVDincome, sig star(.05)
+
+             {txt}{c |}  Dincome IVDinc~e
+{hline 13}{c +}{hline 18}
+     Dincome {c |} {res}  1.0000 
+             {txt}{c |}
+             {c |}
+   IVDincome {c |} {res}  0.3536*  1.0000 
+             {txt}{c |}{res}   0.0000
+             {txt}{c |}
+
+{com}. pwcorr sDincome sIVDincome, sig star(.05)
+
+             {txt}{c |} sDincome sIVDin~e
+{hline 13}{c +}{hline 18}
+    sDincome {c |} {res}  1.0000 
+             {txt}{c |}
+             {c |}
+  sIVDincome {c |} {res} -0.1287*  1.0000 
+             {txt}{c |}{res}   0.0000
+             {txt}{c |}
+
+{com}. 
+. ttest Dincome=0
+
+{txt}One-sample t test
+{hline 9}{c TT}{hline 68}
+Variable{col 10}{c |}{col 16}Obs{col 27}Mean{col 35}Std. Err.{col 47}Std. Dev.{col 59}[95% Conf. Interval]
+{hline 9}{c +}{hline 68}
+ Dincome {c |}{res}{col 12}   1320{col 22}-.0025535{col 34} .0198823{col 46} .7223606{col 58}-.0415579{col 70} .0364509
+{txt}{hline 9}{c BT}{hline 68}
+    mean = mean({res}Dincome{txt})                                          t = {res} -0.1284
+{txt}Ho: mean = {res}0                                     {txt}degrees of freedom = {res}    1319
+
+    {txt}Ha: mean < {res}0                 {txt}Ha: mean != {res}0                 {txt}Ha: mean > {res}0
+ {txt}Pr(T < t) = {res}0.4489         {txt}Pr(|T| > |t|) = {res}0.8978          {txt}Pr(T > t) = {res}0.5511
+{txt}
+{com}. ttest IVDincome=0
+
+{txt}One-sample t test
+{hline 9}{c TT}{hline 68}
+Variable{col 10}{c |}{col 16}Obs{col 27}Mean{col 35}Std. Err.{col 47}Std. Dev.{col 59}[95% Conf. Interval]
+{hline 9}{c +}{hline 68}
+IVDinc~e {c |}{res}{col 12}   1308{col 22}-.0431965{col 34} .0345005{col 46} 1.247756{col 58} -.110879{col 70}  .024486
+{txt}{hline 9}{c BT}{hline 68}
+    mean = mean({res}IVDincome{txt})                                        t = {res} -1.2521
+{txt}Ho: mean = {res}0                                     {txt}degrees of freedom = {res}    1307
+
+    {txt}Ha: mean < {res}0                 {txt}Ha: mean != {res}0                 {txt}Ha: mean > {res}0
+ {txt}Pr(T < t) = {res}0.1054         {txt}Pr(|T| > |t|) = {res}0.2108          {txt}Pr(T > t) = {res}0.8946
+{txt}
+{com}. ttest sDincome=0
+
+{txt}One-sample t test
+{hline 9}{c TT}{hline 68}
+Variable{col 10}{c |}{col 16}Obs{col 27}Mean{col 35}Std. Err.{col 47}Std. Dev.{col 59}[95% Conf. Interval]
+{hline 9}{c +}{hline 68}
+sDincome {c |}{res}{col 12}   1310{col 22} .2444251{col 34}  .031752{col 46}  1.14923{col 58} .1821347{col 70} .3067155
+{txt}{hline 9}{c BT}{hline 68}
+    mean = mean({res}sDincome{txt})                                         t = {res}  7.6979
+{txt}Ho: mean = {res}0                                     {txt}degrees of freedom = {res}    1309
+
+    {txt}Ha: mean < {res}0                 {txt}Ha: mean != {res}0                 {txt}Ha: mean > {res}0
+ {txt}Pr(T < t) = {res}1.0000         {txt}Pr(|T| > |t|) = {res}0.0000          {txt}Pr(T > t) = {res}0.0000
+{txt}
+{com}. ttest sIVDincome=0
+
+{txt}One-sample t test
+{hline 9}{c TT}{hline 68}
+Variable{col 10}{c |}{col 16}Obs{col 27}Mean{col 35}Std. Err.{col 47}Std. Dev.{col 59}[95% Conf. Interval]
+{hline 9}{c +}{hline 68}
+sIVDin~e {c |}{res}{col 12}   1316{col 22}-.2876573{col 34} .0367792{col 46} 1.334228{col 58}-.3598096{col 70} -.215505
+{txt}{hline 9}{c BT}{hline 68}
+    mean = mean({res}sIVDincome{txt})                                       t = {res} -7.8212
+{txt}Ho: mean = {res}0                                     {txt}degrees of freedom = {res}    1315
+
+    {txt}Ha: mean < {res}0                 {txt}Ha: mean != {res}0                 {txt}Ha: mean > {res}0
+ {txt}Pr(T < t) = {res}0.0000         {txt}Pr(|T| > |t|) = {res}0.0000          {txt}Pr(T > t) = {res}1.0000
+{txt}
+{com}. 
+. 
+. collapse Dhappiness_4scale Dincome Dincome_highschoolabove Dincome_collegeabove sDincome IVDincome sIVDincome Dwage Dedu IVDedu sDedu sIVDedu Dedu_level IVDedu_level sDedu_level sIVDedu_level Dedu_highschoolabove Dedu_collegeabove Dmarried Dunemployed Dhealth Dwork_over_40h Dbirth_rate DVeryEarly_disease_d Dincome_spouse Dwage_spouse Dedu_spouse ///
+>          Ahappiness_4scale Aincome Awage Amarried Ahealth Awork_over_40h Aedu Aunemployed Abirth_rate AVeryEarly_disease_d Aincome_spouse Awage_spouse Aedu_spouse ///
+>          Dtenure Atenure, by(twinpair) 
+{txt}
+{com}. 
+{txt}end of do-file
+
+{com}. do "C:\Users\AIQING~1\AppData\Local\Temp\STD02000000.tmp"
+{txt}
+{com}. cd "C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"
+{res}C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206
+{txt}
+{com}. 
+. 
+. 
+. ****  Table 6: IVFE *****
+. ****  IVFE-1 ****
+. quiet ivreg Dhappiness_4scale (Dedu=IVDedu) Dbirth_rate DVeryEarly_disease_d,noc robust
+{txt}
+{com}. outreg2 using Table6IVFE_Edu_happiness4scale.doc,  nolabel replace coefastr se
+{txt}{stata `"shellout using `"Table6IVFE_Edu_happiness4scale.doc"'"':Table6IVFE_Edu_happiness4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_Edu_happiness4scale.txt""':seeout}
+
+{com}. 
+. quiet ivreg Dhappiness_4scale (Dedu=IVDedu) Dbirth_rate DVeryEarly_disease_d Dincome,noc robust
+{txt}
+{com}. outreg2 using Table6IVFE_Edu_happiness4scale.doc,  nolabel append coefastr se
+{txt}{stata `"shellout using `"Table6IVFE_Edu_happiness4scale.doc"'"':Table6IVFE_Edu_happiness4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_Edu_happiness4scale.txt""':seeout}
+
+{com}. 
+. quiet ivreg Dhappiness_4scale (Dedu=IVDedu) Dbirth_rate DVeryEarly_disease_d Dincome Dmarried Dhealth, noc robust
+{txt}
+{com}. outreg2 using Table6IVFE_Edu_happiness4scale.doc,  nolabel append coefastr se
+{txt}{stata `"shellout using `"Table6IVFE_Edu_happiness4scale.doc"'"':Table6IVFE_Edu_happiness4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_Edu_happiness4scale.txt""':seeout}
+
+{com}. 
+. quiet ivreg Dhappiness_4scale (Dedu=IVDedu) Dbirth_rate DVeryEarly_disease_d Dincome Dmarried Dhealth Dwork_over_40h, noc robust
+{txt}
+{com}. //quiet ivreg2 Dhappiness_4scale (Dincome=IVDincome) Dedu Dmarried Dhealth Dwork_over_40h, noc robust
+. outreg2 using Table6IVFE_Edu_happiness4scale.doc,  nolabel append coefastr se
+{txt}{stata `"shellout using `"Table6IVFE_Edu_happiness4scale.doc"'"':Table6IVFE_Edu_happiness4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_Edu_happiness4scale.txt""':seeout}
+
+{com}. 
+. est store IVFE1_MZtwins
+{txt}
+{com}. 
+. ****  IVFE-2 ****
+. quiet ivreg Dhappiness_4scale (sDedu=sIVDedu) Dbirth_rate DVeryEarly_disease_d,noc robust
+{txt}
+{com}. outreg2 using Table6IVFE_Edu_happiness4scale.doc,  nolabel append coefastr se
+{txt}{stata `"shellout using `"Table6IVFE_Edu_happiness4scale.doc"'"':Table6IVFE_Edu_happiness4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_Edu_happiness4scale.txt""':seeout}
+
+{com}. 
+. quiet ivreg Dhappiness_4scale (sDedu=sIVDedu) Dbirth_rate DVeryEarly_disease_d Dincome,noc robust
+{txt}
+{com}. outreg2 using Table6IVFE_Edu_happiness4scale.doc,  nolabel append coefastr se
+{txt}{stata `"shellout using `"Table6IVFE_Edu_happiness4scale.doc"'"':Table6IVFE_Edu_happiness4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_Edu_happiness4scale.txt""':seeout}
+
+{com}. 
+. quiet ivreg Dhappiness_4scale (sDedu=sIVDedu) Dbirth_rate DVeryEarly_disease_d Dincome Dmarried Dhealth, noc robust
+{txt}
+{com}. outreg2 using Table6IVFE_Edu_happiness4scale.doc,  nolabel append coefastr se
+{txt}{stata `"shellout using `"Table6IVFE_Edu_happiness4scale.doc"'"':Table6IVFE_Edu_happiness4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_Edu_happiness4scale.txt""':seeout}
+
+{com}. 
+. quiet ivreg Dhappiness_4scale (sDedu=sIVDedu) Dbirth_rate DVeryEarly_disease_d Dincome Dmarried Dhealth Dwork_over_40h, noc robust
+{txt}
+{com}. //quiet ivreg2 Dhappiness_4scale (Dincome=IVDincome) Dedu Dmarried Dhealth Dwork_over_40h, noc robust
+. outreg2 using Table6IVFE_Edu_happiness4scale.doc,  nolabel append coefastr se
+{txt}{stata `"shellout using `"Table6IVFE_Edu_happiness4scale.doc"'"':Table6IVFE_Edu_happiness4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_Edu_happiness4scale.txt""':seeout}
+
+{com}. 
+. //codes below are optional
+. 
+{txt}end of do-file
+
+{com}. shellout using `"Table6IVFE_Edu_happiness4scale.doc"'
+
+. do "C:\Users\AIQING~1\AppData\Local\Temp\STD02000000.tmp"
+{txt}
+{com}. 
+. foreach i in edu edu_level{c -(}
+{txt}  2{com}. foreach var in sad_4scale  scared_4scale   happiness_4scale angry_4scale  hateful_4scale  sad_hide_4scale  scared_hide_4scale  happiness_hide_4scale  angry_hide_4scale  ///
+>   hateful_hide_4scale sad_control_4scale  scared_control_4scale  happiness_control_4scale  angry_control_4scale  hateful_control_4scale life_short future_decided {c -(}
+{txt}  3{com}.   
+. ****  Table 6: IVFE *****
+. ****  IVFE-1 ****
+. foreach 
+{txt}  4{com}. quiet ivreg D`var' (D`i'=IVD`i') Dbirth_rate DVeryEarly_disease_d,noc robust
+{txt}  5{com}. outreg2 using Table6IVFE_`i'_`var'.doc,  nolabel replace coefastr se
+{txt}  6{com}. 
+. quiet ivreg D`var' (D`i'=IVD`i') Dbirth_rate DVeryEarly_disease_d Dincome,noc robust
+{txt}  7{com}. outreg2 using Table6IVFE_`i'_`var'.doc,  nolabel append coefastr se
+{txt}  8{com}. 
+. quiet ivreg D`var' (D`i'=IVD`i') Dbirth_rate DVeryEarly_disease_d Dincome Dmarried Dhealth, noc robust
+{txt}  9{com}. outreg2 using Table6IVFE_`i'_`var'.doc,  nolabel append coefastr se
+{txt} 10{com}. 
+. quiet ivreg D`var' (D`i'=IVD`i') Dbirth_rate DVeryEarly_disease_d Dincome Dmarried Dhealth Dwork_over_40h, noc robust
+{txt} 11{com}. //quiet ivreg2 Dhappiness_4scale (Dincome=IVDincome) Dedu Dmarried Dhealth Dwork_over_40h, noc robust
+. outreg2 using Table6IVFE_`i'_`var'.doc,  nolabel append coefastr se
+{txt} 12{com}. 
+. est store IVFE1_MZtwins
+{txt} 13{com}. 
+. ****  IVFE-2 ****
+. quiet ivreg D`var' (sD`i'=sIVD`i') Dbirth_rate DVeryEarly_disease_d,noc robust
+{txt} 14{com}. outreg2 using Table6IVFE_`i'_`var'.doc,  nolabel append coefastr se
+{txt} 15{com}. 
+. quiet ivreg D`var' (sD`i'=sIVD`i') Dbirth_rate DVeryEarly_disease_d Dincome,noc robust
+{txt} 16{com}. outreg2 using Table6IVFE_`i'_`var'.doc,  nolabel append coefastr se
+{txt} 17{com}. 
+. quiet ivreg D`var' (sD`i'=sIVD`i') Dbirth_rate DVeryEarly_disease_d Dincome Dmarried Dhealth, noc robust
+{txt} 18{com}. outreg2 using Table6IVFE_`i'_`var'.doc,  nolabel append coefastr se
+{txt} 19{com}. 
+. quiet ivreg D`var' (sD`i'=sIVD`i') Dbirth_rate DVeryEarly_disease_d Dincome Dmarried Dhealth Dwork_over_40h, noc robust
+{txt} 20{com}. //quiet ivreg2 Dhappiness_4scale (Dincome=IVDincome) Dedu Dmarried Dhealth Dwork_over_40h, noc robust
+. outreg2 using Table6IVFE_`i'_`var'.doc,  nolabel append coefastr se
+{txt} 21{com}. 
+. //codes below are optional
+. {c )-}
+{txt} 22{com}. {c )-}
+{err}{c -(} required
+{txt}{search r(100):r(100);}
+
+end of do-file
+
+{search r(100):r(100);}
+
+{com}. do "C:\Users\AIQING~1\AppData\Local\Temp\STD02000000.tmp"
+{txt}
+{com}. foreach i in edu edu_level {c -(}
+{txt}  2{com}. foreach var in sad_4scale  scared_4scale   happiness_4scale angry_4scale  hateful_4scale  sad_hide_4scale  scared_hide_4scale  happiness_hide_4scale  angry_hide_4scale  ///
+>   hateful_hide_4scale sad_control_4scale  scared_control_4scale  happiness_control_4scale  angry_control_4scale  hateful_control_4scale life_short future_decided {c -(}
+{txt}  3{com}.   
+. ****  Table 6: IVFE *****
+. ****  IVFE-1 ****
+. foreach 
+{txt}  4{com}. quiet ivreg D`var' (D`i'=IVD`i') Dbirth_rate DVeryEarly_disease_d,noc robust
+{txt}  5{com}. outreg2 using Table6IVFE_`i'_`var'.doc,  nolabel replace coefastr se
+{txt}  6{com}. 
+. quiet ivreg D`var' (D`i'=IVD`i') Dbirth_rate DVeryEarly_disease_d Dincome,noc robust
+{txt}  7{com}. outreg2 using Table6IVFE_`i'_`var'.doc,  nolabel append coefastr se
+{txt}  8{com}. 
+. quiet ivreg D`var' (D`i'=IVD`i') Dbirth_rate DVeryEarly_disease_d Dincome Dmarried Dhealth, noc robust
+{txt}  9{com}. outreg2 using Table6IVFE_`i'_`var'.doc,  nolabel append coefastr se
+{txt} 10{com}. 
+. quiet ivreg D`var' (D`i'=IVD`i') Dbirth_rate DVeryEarly_disease_d Dincome Dmarried Dhealth Dwork_over_40h, noc robust
+{txt} 11{com}. //quiet ivreg2 Dhappiness_4scale (Dincome=IVDincome) Dedu Dmarried Dhealth Dwork_over_40h, noc robust
+. outreg2 using Table6IVFE_`i'_`var'.doc,  nolabel append coefastr se
+{txt} 12{com}. 
+. est store IVFE1_MZtwins
+{txt} 13{com}. 
+. ****  IVFE-2 ****
+. quiet ivreg D`var' (sD`i'=sIVD`i') Dbirth_rate DVeryEarly_disease_d,noc robust
+{txt} 14{com}. outreg2 using Table6IVFE_`i'_`var'.doc,  nolabel append coefastr se
+{txt} 15{com}. 
+. quiet ivreg D`var' (sD`i'=sIVD`i') Dbirth_rate DVeryEarly_disease_d Dincome,noc robust
+{txt} 16{com}. outreg2 using Table6IVFE_`i'_`var'.doc,  nolabel append coefastr se
+{txt} 17{com}. 
+. quiet ivreg D`var' (sD`i'=sIVD`i') Dbirth_rate DVeryEarly_disease_d Dincome Dmarried Dhealth, noc robust
+{txt} 18{com}. outreg2 using Table6IVFE_`i'_`var'.doc,  nolabel append coefastr se
+{txt} 19{com}. 
+. quiet ivreg D`var' (sD`i'=sIVD`i') Dbirth_rate DVeryEarly_disease_d Dincome Dmarried Dhealth Dwork_over_40h, noc robust
+{txt} 20{com}. //quiet ivreg2 Dhappiness_4scale (Dincome=IVDincome) Dedu Dmarried Dhealth Dwork_over_40h, noc robust
+. outreg2 using Table6IVFE_`i'_`var'.doc,  nolabel append coefastr se
+{txt} 21{com}. 
+. //codes below are optional
+. {c )-}
+{txt} 22{com}. {c )-}
+{err}{c -(} required
+{txt}{search r(100):r(100);}
+
+end of do-file
+
+{search r(100):r(100);}
+
+{com}. do "C:\Users\AIQING~1\AppData\Local\Temp\STD02000000.tmp"
+{txt}
+{com}. foreach i in edu edu_level {c -(}
+{txt}  2{com}.         foreach var in sad_4scale  scared_4scale   happiness_4scale angry_4scale  hateful_4scale  sad_hide_4scale  scared_hide_4scale  happiness_hide_4scale  angry_hide_4scale  ///
+>   hateful_hide_4scale sad_control_4scale  scared_control_4scale  happiness_control_4scale  angry_control_4scale  hateful_control_4scale life_short future_decided {c -(}
+{txt}  3{com}.   
+. ****  Table 6: IVFE *****
+. ****  IVFE-1 ****
+. foreach 
+{txt}  4{com}. quiet ivreg D`var' (D`i'=IVD`i') Dbirth_rate DVeryEarly_disease_d,noc robust
+{txt}  5{com}. outreg2 using Table6IVFE_`i'_`var'.doc,  nolabel replace coefastr se
+{txt}  6{com}. 
+. quiet ivreg D`var' (D`i'=IVD`i') Dbirth_rate DVeryEarly_disease_d Dincome,noc robust
+{txt}  7{com}. outreg2 using Table6IVFE_`i'_`var'.doc,  nolabel append coefastr se
+{txt}  8{com}. 
+. quiet ivreg D`var' (D`i'=IVD`i') Dbirth_rate DVeryEarly_disease_d Dincome Dmarried Dhealth, noc robust
+{txt}  9{com}. outreg2 using Table6IVFE_`i'_`var'.doc,  nolabel append coefastr se
+{txt} 10{com}. 
+. quiet ivreg D`var' (D`i'=IVD`i') Dbirth_rate DVeryEarly_disease_d Dincome Dmarried Dhealth Dwork_over_40h, noc robust
+{txt} 11{com}. //quiet ivreg2 Dhappiness_4scale (Dincome=IVDincome) Dedu Dmarried Dhealth Dwork_over_40h, noc robust
+. outreg2 using Table6IVFE_`i'_`var'.doc,  nolabel append coefastr se
+{txt} 12{com}. 
+. est store IVFE1_MZtwins
+{txt} 13{com}. 
+. ****  IVFE-2 ****
+. quiet ivreg D`var' (sD`i'=sIVD`i') Dbirth_rate DVeryEarly_disease_d,noc robust
+{txt} 14{com}. outreg2 using Table6IVFE_`i'_`var'.doc,  nolabel append coefastr se
+{txt} 15{com}. 
+. quiet ivreg D`var' (sD`i'=sIVD`i') Dbirth_rate DVeryEarly_disease_d Dincome,noc robust
+{txt} 16{com}. outreg2 using Table6IVFE_`i'_`var'.doc,  nolabel append coefastr se
+{txt} 17{com}. 
+. quiet ivreg D`var' (sD`i'=sIVD`i') Dbirth_rate DVeryEarly_disease_d Dincome Dmarried Dhealth, noc robust
+{txt} 18{com}. outreg2 using Table6IVFE_`i'_`var'.doc,  nolabel append coefastr se
+{txt} 19{com}. 
+. quiet ivreg D`var' (sD`i'=sIVD`i') Dbirth_rate DVeryEarly_disease_d Dincome Dmarried Dhealth Dwork_over_40h, noc robust
+{txt} 20{com}. //quiet ivreg2 Dhappiness_4scale (Dincome=IVDincome) Dedu Dmarried Dhealth Dwork_over_40h, noc robust
+. outreg2 using Table6IVFE_`i'_`var'.doc,  nolabel append coefastr se
+{txt} 21{com}. 
+. //codes below are optional
+. {c )-}
+{txt} 22{com}. {c )-}
+{err}{c -(} required
+{txt}{search r(100):r(100);}
+
+end of do-file
+
+{search r(100):r(100);}
+
+{com}. do "C:\Users\AIQING~1\AppData\Local\Temp\STD02000000.tmp"
+{txt}
+{com}. foreach i in edu edu_level {c -(}
+{txt}  2{com}. foreach var in sad_4scale  scared_4scale   happiness_4scale angry_4scale  hateful_4scale  sad_hide_4scale  scared_hide_4scale  happiness_hide_4scale  angry_hide_4scale  ///
+> hateful_hide_4scale sad_control_4scale  scared_control_4scale  happiness_control_4scale  angry_control_4scale  hateful_control_4scale life_short future_decided {c -(}
+{txt}  3{com}.   
+. ****  Table 6: IVFE *****
+. ****  IVFE-1 ****
+. foreach 
+{txt}  4{com}. quiet ivreg D`var' (D`i'=IVD`i') Dbirth_rate DVeryEarly_disease_d,noc robust
+{txt}  5{com}. outreg2 using Table6IVFE_`i'_`var'.doc,  nolabel replace coefastr se
+{txt}  6{com}. 
+. quiet ivreg D`var' (D`i'=IVD`i') Dbirth_rate DVeryEarly_disease_d Dincome,noc robust
+{txt}  7{com}. outreg2 using Table6IVFE_`i'_`var'.doc,  nolabel append coefastr se
+{txt}  8{com}. 
+. quiet ivreg D`var' (D`i'=IVD`i') Dbirth_rate DVeryEarly_disease_d Dincome Dmarried Dhealth, noc robust
+{txt}  9{com}. outreg2 using Table6IVFE_`i'_`var'.doc,  nolabel append coefastr se
+{txt} 10{com}. 
+. quiet ivreg D`var' (D`i'=IVD`i') Dbirth_rate DVeryEarly_disease_d Dincome Dmarried Dhealth Dwork_over_40h, noc robust
+{txt} 11{com}. //quiet ivreg2 Dhappiness_4scale (Dincome=IVDincome) Dedu Dmarried Dhealth Dwork_over_40h, noc robust
+. outreg2 using Table6IVFE_`i'_`var'.doc,  nolabel append coefastr se
+{txt} 12{com}. 
+. est store IVFE1_MZtwins
+{txt} 13{com}. {c )-}
+{txt} 14{com}. {c )-}
+{err}{c -(} required
+{txt}{search r(100):r(100);}
+
+end of do-file
+
+{search r(100):r(100);}
+
+{com}. do "C:\Users\AIQING~1\AppData\Local\Temp\STD02000000.tmp"
+{txt}
+{com}. foreach i in edu edu_level {c -(}
+{txt}  2{com}. foreach var in sad_4scale  scared_4scale   happiness_4scale angry_4scale  hateful_4scale  sad_hide_4scale  scared_hide_4scale  happiness_hide_4scale  angry_hide_4scale  ///
+> hateful_hide_4scale sad_control_4scale  scared_control_4scale  happiness_control_4scale  angry_control_4scale  hateful_control_4scale life_short future_decided {c -(}
+{txt}  3{com}.   
+. ****  Table 6: IVFE *****
+. ****  IVFE-1 ****
+. quiet ivreg D`var' (D`i'=IVD`i') Dbirth_rate DVeryEarly_disease_d,noc robust
+{txt}  4{com}. outreg2 using Table6IVFE_`i'_`var'.doc,  nolabel replace coefastr se
+{txt}  5{com}. 
+. quiet ivreg D`var' (D`i'=IVD`i') Dbirth_rate DVeryEarly_disease_d Dincome,noc robust
+{txt}  6{com}. outreg2 using Table6IVFE_`i'_`var'.doc,  nolabel append coefastr se
+{txt}  7{com}. 
+. quiet ivreg D`var' (D`i'=IVD`i') Dbirth_rate DVeryEarly_disease_d Dincome Dmarried Dhealth, noc robust
+{txt}  8{com}. outreg2 using Table6IVFE_`i'_`var'.doc,  nolabel append coefastr se
+{txt}  9{com}. 
+. quiet ivreg D`var' (D`i'=IVD`i') Dbirth_rate DVeryEarly_disease_d Dincome Dmarried Dhealth Dwork_over_40h, noc robust
+{txt} 10{com}. //quiet ivreg2 Dhappiness_4scale (Dincome=IVDincome) Dedu Dmarried Dhealth Dwork_over_40h, noc robust
+. outreg2 using Table6IVFE_`i'_`var'.doc,  nolabel append coefastr se
+{txt} 11{com}. 
+. est store IVFE1_MZtwins
+{txt} 12{com}. 
+. ****  IVFE-2 ****
+. quiet ivreg D`var' (sD`i'=sIVD`i') Dbirth_rate DVeryEarly_disease_d,noc robust
+{txt} 13{com}. outreg2 using Table6IVFE_`i'_`var'.doc,  nolabel append coefastr se
+{txt} 14{com}. 
+. quiet ivreg D`var' (sD`i'=sIVD`i') Dbirth_rate DVeryEarly_disease_d Dincome,noc robust
+{txt} 15{com}. outreg2 using Table6IVFE_`i'_`var'.doc,  nolabel append coefastr se
+{txt} 16{com}. 
+. quiet ivreg D`var' (sD`i'=sIVD`i') Dbirth_rate DVeryEarly_disease_d Dincome Dmarried Dhealth, noc robust
+{txt} 17{com}. outreg2 using Table6IVFE_`i'_`var'.doc,  nolabel append coefastr se
+{txt} 18{com}. 
+. quiet ivreg D`var' (sD`i'=sIVD`i') Dbirth_rate DVeryEarly_disease_d Dincome Dmarried Dhealth Dwork_over_40h, noc robust
+{txt} 19{com}. //quiet ivreg2 Dhappiness_4scale (Dincome=IVDincome) Dedu Dmarried Dhealth Dwork_over_40h, noc robust
+. outreg2 using Table6IVFE_`i'_`var'.doc,  nolabel append coefastr se
+{txt} 20{com}. 
+. //codes below are optional
+. {c )-}
+{txt} 21{com}. 
+. {c )-}
+{err}variable Dsad_4scale not found
+{txt}{search r(111):r(111);}
+
+end of do-file
+
+{search r(111):r(111);}
+
+{com}. do "C:\Users\AIQING~1\AppData\Local\Temp\STD02000000.tmp"
+{txt}
+{com}. //IVFE 
+. //cd "I:\happiness\TWINSDATA"
+. cd "C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\TWINSDATA"
+{res}C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\TWINSDATA
+{txt}
+{com}. 
+. use twins_MZ_IV_DIF.dta, clear
+{txt}
+{com}. quiet reshape wide
+{txt}
+{com}. 
+. drop if income1==0 | income2==0
+{txt}(87 observations deleted)
+
+{com}. //drop if IVincome1 ==0 | IVincome2==0
+. 
+. quiet reshape long
+{txt}
+{com}. 
+. pwcorr income IVincome
+
+             {txt}{c |}   income IVincome
+{hline 13}{c +}{hline 18}
+      income {c |} {res}  1.0000 
+    {txt}IVincome {c |} {res}  0.4571   1.0000 
+{txt}
+{com}. pwcorr income IVincome if twcode==1
+
+             {txt}{c |}   income IVincome
+{hline 13}{c +}{hline 18}
+      income {c |} {res}  1.0000 
+    {txt}IVincome {c |} {res}  0.4422   1.0000 
+{txt}
+{com}. pwcorr income IVincome if twcode==2
+
+             {txt}{c |}   income IVincome
+{hline 13}{c +}{hline 18}
+      income {c |} {res}  1.0000 
+    {txt}IVincome {c |} {res}  0.4757   1.0000 
+{txt}
+{com}. 
+. pwcorr Dincome IVDincome, sig star(.05)
+
+             {txt}{c |}  Dincome IVDinc~e
+{hline 13}{c +}{hline 18}
+     Dincome {c |} {res}  1.0000 
+             {txt}{c |}
+             {c |}
+   IVDincome {c |} {res}  0.3536*  1.0000 
+             {txt}{c |}{res}   0.0000
+             {txt}{c |}
+
+{com}. pwcorr sDincome sIVDincome, sig star(.05)
+
+             {txt}{c |} sDincome sIVDin~e
+{hline 13}{c +}{hline 18}
+    sDincome {c |} {res}  1.0000 
+             {txt}{c |}
+             {c |}
+  sIVDincome {c |} {res} -0.1287*  1.0000 
+             {txt}{c |}{res}   0.0000
+             {txt}{c |}
+
+{com}. 
+. ttest Dincome=0
+
+{txt}One-sample t test
+{hline 9}{c TT}{hline 68}
+Variable{col 10}{c |}{col 16}Obs{col 27}Mean{col 35}Std. Err.{col 47}Std. Dev.{col 59}[95% Conf. Interval]
+{hline 9}{c +}{hline 68}
+ Dincome {c |}{res}{col 12}   1320{col 22}-.0025535{col 34} .0198823{col 46} .7223606{col 58}-.0415579{col 70} .0364509
+{txt}{hline 9}{c BT}{hline 68}
+    mean = mean({res}Dincome{txt})                                          t = {res} -0.1284
+{txt}Ho: mean = {res}0                                     {txt}degrees of freedom = {res}    1319
+
+    {txt}Ha: mean < {res}0                 {txt}Ha: mean != {res}0                 {txt}Ha: mean > {res}0
+ {txt}Pr(T < t) = {res}0.4489         {txt}Pr(|T| > |t|) = {res}0.8978          {txt}Pr(T > t) = {res}0.5511
+{txt}
+{com}. ttest IVDincome=0
+
+{txt}One-sample t test
+{hline 9}{c TT}{hline 68}
+Variable{col 10}{c |}{col 16}Obs{col 27}Mean{col 35}Std. Err.{col 47}Std. Dev.{col 59}[95% Conf. Interval]
+{hline 9}{c +}{hline 68}
+IVDinc~e {c |}{res}{col 12}   1308{col 22}-.0431965{col 34} .0345005{col 46} 1.247756{col 58} -.110879{col 70}  .024486
+{txt}{hline 9}{c BT}{hline 68}
+    mean = mean({res}IVDincome{txt})                                        t = {res} -1.2521
+{txt}Ho: mean = {res}0                                     {txt}degrees of freedom = {res}    1307
+
+    {txt}Ha: mean < {res}0                 {txt}Ha: mean != {res}0                 {txt}Ha: mean > {res}0
+ {txt}Pr(T < t) = {res}0.1054         {txt}Pr(|T| > |t|) = {res}0.2108          {txt}Pr(T > t) = {res}0.8946
+{txt}
+{com}. ttest sDincome=0
+
+{txt}One-sample t test
+{hline 9}{c TT}{hline 68}
+Variable{col 10}{c |}{col 16}Obs{col 27}Mean{col 35}Std. Err.{col 47}Std. Dev.{col 59}[95% Conf. Interval]
+{hline 9}{c +}{hline 68}
+sDincome {c |}{res}{col 12}   1310{col 22} .2444251{col 34}  .031752{col 46}  1.14923{col 58} .1821347{col 70} .3067155
+{txt}{hline 9}{c BT}{hline 68}
+    mean = mean({res}sDincome{txt})                                         t = {res}  7.6979
+{txt}Ho: mean = {res}0                                     {txt}degrees of freedom = {res}    1309
+
+    {txt}Ha: mean < {res}0                 {txt}Ha: mean != {res}0                 {txt}Ha: mean > {res}0
+ {txt}Pr(T < t) = {res}1.0000         {txt}Pr(|T| > |t|) = {res}0.0000          {txt}Pr(T > t) = {res}0.0000
+{txt}
+{com}. ttest sIVDincome=0
+
+{txt}One-sample t test
+{hline 9}{c TT}{hline 68}
+Variable{col 10}{c |}{col 16}Obs{col 27}Mean{col 35}Std. Err.{col 47}Std. Dev.{col 59}[95% Conf. Interval]
+{hline 9}{c +}{hline 68}
+sIVDin~e {c |}{res}{col 12}   1316{col 22}-.2876573{col 34} .0367792{col 46} 1.334228{col 58}-.3598096{col 70} -.215505
+{txt}{hline 9}{c BT}{hline 68}
+    mean = mean({res}sIVDincome{txt})                                       t = {res} -7.8212
+{txt}Ho: mean = {res}0                                     {txt}degrees of freedom = {res}    1315
+
+    {txt}Ha: mean < {res}0                 {txt}Ha: mean != {res}0                 {txt}Ha: mean > {res}0
+ {txt}Pr(T < t) = {res}0.0000         {txt}Pr(|T| > |t|) = {res}0.0000          {txt}Pr(T > t) = {res}1.0000
+{txt}
+{com}. 
+. 
+. collapse Dsad_4scale  Dscared_4scale   Dhappiness_4scale  Dangry_4scale  Dhateful_4scale ///  
+>          Dsad_hide_4scale  Dscared_hide_4scale  Dhappiness_hide_4scale  Dangry_hide_4scale  Dhateful_hide_4scale ///
+>          Dsad_control_4scale  Dscared_control_4scale  Dhappiness_control_4scale  Dangry_control_4scale  Dhateful_control_4scale ///
+>          Dlife_short   Dfuture_decided /// 
+>                  Dincome Dincome_highschoolabove Dincome_collegeabove sDincome IVDincome sIVDincome Dwage Dedu IVDedu sDedu sIVDedu Dedu_level IVDedu_level sDedu_level sIVDedu_level Dedu_highschoolabove Dedu_collegeabove Dmarried Dunemployed Dhealth Dwork_over_40h Dbirth_rate DVeryEarly_disease_d Dincome_spouse Dwage_spouse Dedu_spouse ///
+>          Ahappiness_4scale Aincome Awage Amarried Ahealth Awork_over_40h Aedu Aunemployed Abirth_rate AVeryEarly_disease_d Aincome_spouse Awage_spouse Aedu_spouse ///
+>          Dtenure Atenure, by(twinpair) 
+{txt}
+{com}. 
+. cd "C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"
+{res}C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206
+{txt}
+{com}. 
+. 
+. foreach i in edu edu_level {c -(}
+{txt}  2{com}. foreach var in sad_4scale  scared_4scale   happiness_4scale angry_4scale  hateful_4scale  sad_hide_4scale  scared_hide_4scale  happiness_hide_4scale  angry_hide_4scale  ///
+> hateful_hide_4scale sad_control_4scale  scared_control_4scale  happiness_control_4scale  angry_control_4scale  hateful_control_4scale life_short future_decided {c -(}
+{txt}  3{com}.   
+. ****  Table 6: IVFE *****
+. ****  IVFE-1 ****
+. quiet ivreg D`var' (D`i'=IVD`i') Dbirth_rate DVeryEarly_disease_d,noc robust
+{txt}  4{com}. outreg2 using Table6IVFE_`i'_`var'.doc,  nolabel replace coefastr se
+{txt}  5{com}. 
+. quiet ivreg D`var' (D`i'=IVD`i') Dbirth_rate DVeryEarly_disease_d Dincome,noc robust
+{txt}  6{com}. outreg2 using Table6IVFE_`i'_`var'.doc,  nolabel append coefastr se
+{txt}  7{com}. 
+. quiet ivreg D`var' (D`i'=IVD`i') Dbirth_rate DVeryEarly_disease_d Dincome Dmarried Dhealth, noc robust
+{txt}  8{com}. outreg2 using Table6IVFE_`i'_`var'.doc,  nolabel append coefastr se
+{txt}  9{com}. 
+. quiet ivreg D`var' (D`i'=IVD`i') Dbirth_rate DVeryEarly_disease_d Dincome Dmarried Dhealth Dwork_over_40h, noc robust
+{txt} 10{com}. //quiet ivreg2 Dhappiness_4scale (Dincome=IVDincome) Dedu Dmarried Dhealth Dwork_over_40h, noc robust
+. outreg2 using Table6IVFE_`i'_`var'.doc,  nolabel append coefastr se
+{txt} 11{com}. 
+. est store IVFE1_MZtwins
+{txt} 12{com}. 
+. ****  IVFE-2 ****
+. quiet ivreg D`var' (sD`i'=sIVD`i') Dbirth_rate DVeryEarly_disease_d,noc robust
+{txt} 13{com}. outreg2 using Table6IVFE_`i'_`var'.doc,  nolabel append coefastr se
+{txt} 14{com}. 
+. quiet ivreg D`var' (sD`i'=sIVD`i') Dbirth_rate DVeryEarly_disease_d Dincome,noc robust
+{txt} 15{com}. outreg2 using Table6IVFE_`i'_`var'.doc,  nolabel append coefastr se
+{txt} 16{com}. 
+. quiet ivreg D`var' (sD`i'=sIVD`i') Dbirth_rate DVeryEarly_disease_d Dincome Dmarried Dhealth, noc robust
+{txt} 17{com}. outreg2 using Table6IVFE_`i'_`var'.doc,  nolabel append coefastr se
+{txt} 18{com}. 
+. quiet ivreg D`var' (sD`i'=sIVD`i') Dbirth_rate DVeryEarly_disease_d Dincome Dmarried Dhealth Dwork_over_40h, noc robust
+{txt} 19{com}. //quiet ivreg2 Dhappiness_4scale (Dincome=IVDincome) Dedu Dmarried Dhealth Dwork_over_40h, noc robust
+. outreg2 using Table6IVFE_`i'_`var'.doc,  nolabel append coefastr se
+{txt} 20{com}. 
+. //codes below are optional
+. {c )-}
+{txt} 21{com}. 
+. {c )-}
+{txt}{stata `"shellout using `"Table6IVFE_edu_sad_4scale.doc"'"':Table6IVFE_edu_sad_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_sad_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_sad_4scale.doc"'"':Table6IVFE_edu_sad_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_sad_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_sad_4scale.doc"'"':Table6IVFE_edu_sad_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_sad_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_sad_4scale.doc"'"':Table6IVFE_edu_sad_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_sad_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_sad_4scale.doc"'"':Table6IVFE_edu_sad_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_sad_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_sad_4scale.doc"'"':Table6IVFE_edu_sad_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_sad_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_sad_4scale.doc"'"':Table6IVFE_edu_sad_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_sad_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_sad_4scale.doc"'"':Table6IVFE_edu_sad_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_sad_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_scared_4scale.doc"'"':Table6IVFE_edu_scared_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_scared_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_scared_4scale.doc"'"':Table6IVFE_edu_scared_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_scared_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_scared_4scale.doc"'"':Table6IVFE_edu_scared_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_scared_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_scared_4scale.doc"'"':Table6IVFE_edu_scared_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_scared_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_scared_4scale.doc"'"':Table6IVFE_edu_scared_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_scared_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_scared_4scale.doc"'"':Table6IVFE_edu_scared_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_scared_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_scared_4scale.doc"'"':Table6IVFE_edu_scared_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_scared_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_scared_4scale.doc"'"':Table6IVFE_edu_scared_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_scared_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_happiness_4scale.doc"'"':Table6IVFE_edu_happiness_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_happiness_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_happiness_4scale.doc"'"':Table6IVFE_edu_happiness_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_happiness_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_happiness_4scale.doc"'"':Table6IVFE_edu_happiness_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_happiness_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_happiness_4scale.doc"'"':Table6IVFE_edu_happiness_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_happiness_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_happiness_4scale.doc"'"':Table6IVFE_edu_happiness_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_happiness_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_happiness_4scale.doc"'"':Table6IVFE_edu_happiness_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_happiness_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_happiness_4scale.doc"'"':Table6IVFE_edu_happiness_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_happiness_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_happiness_4scale.doc"'"':Table6IVFE_edu_happiness_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_happiness_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_angry_4scale.doc"'"':Table6IVFE_edu_angry_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_angry_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_angry_4scale.doc"'"':Table6IVFE_edu_angry_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_angry_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_angry_4scale.doc"'"':Table6IVFE_edu_angry_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_angry_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_angry_4scale.doc"'"':Table6IVFE_edu_angry_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_angry_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_angry_4scale.doc"'"':Table6IVFE_edu_angry_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_angry_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_angry_4scale.doc"'"':Table6IVFE_edu_angry_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_angry_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_angry_4scale.doc"'"':Table6IVFE_edu_angry_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_angry_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_angry_4scale.doc"'"':Table6IVFE_edu_angry_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_angry_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_hateful_4scale.doc"'"':Table6IVFE_edu_hateful_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_hateful_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_hateful_4scale.doc"'"':Table6IVFE_edu_hateful_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_hateful_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_hateful_4scale.doc"'"':Table6IVFE_edu_hateful_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_hateful_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_hateful_4scale.doc"'"':Table6IVFE_edu_hateful_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_hateful_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_hateful_4scale.doc"'"':Table6IVFE_edu_hateful_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_hateful_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_hateful_4scale.doc"'"':Table6IVFE_edu_hateful_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_hateful_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_hateful_4scale.doc"'"':Table6IVFE_edu_hateful_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_hateful_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_hateful_4scale.doc"'"':Table6IVFE_edu_hateful_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_hateful_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_sad_hide_4scale.doc"'"':Table6IVFE_edu_sad_hide_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_sad_hide_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_sad_hide_4scale.doc"'"':Table6IVFE_edu_sad_hide_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_sad_hide_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_sad_hide_4scale.doc"'"':Table6IVFE_edu_sad_hide_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_sad_hide_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_sad_hide_4scale.doc"'"':Table6IVFE_edu_sad_hide_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_sad_hide_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_sad_hide_4scale.doc"'"':Table6IVFE_edu_sad_hide_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_sad_hide_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_sad_hide_4scale.doc"'"':Table6IVFE_edu_sad_hide_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_sad_hide_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_sad_hide_4scale.doc"'"':Table6IVFE_edu_sad_hide_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_sad_hide_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_sad_hide_4scale.doc"'"':Table6IVFE_edu_sad_hide_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_sad_hide_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_scared_hide_4scale.doc"'"':Table6IVFE_edu_scared_hide_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_scared_hide_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_scared_hide_4scale.doc"'"':Table6IVFE_edu_scared_hide_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_scared_hide_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_scared_hide_4scale.doc"'"':Table6IVFE_edu_scared_hide_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_scared_hide_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_scared_hide_4scale.doc"'"':Table6IVFE_edu_scared_hide_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_scared_hide_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_scared_hide_4scale.doc"'"':Table6IVFE_edu_scared_hide_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_scared_hide_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_scared_hide_4scale.doc"'"':Table6IVFE_edu_scared_hide_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_scared_hide_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_scared_hide_4scale.doc"'"':Table6IVFE_edu_scared_hide_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_scared_hide_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_scared_hide_4scale.doc"'"':Table6IVFE_edu_scared_hide_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_scared_hide_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_happiness_hide_4scale.doc"'"':Table6IVFE_edu_happiness_hide_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_happiness_hide_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_happiness_hide_4scale.doc"'"':Table6IVFE_edu_happiness_hide_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_happiness_hide_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_happiness_hide_4scale.doc"'"':Table6IVFE_edu_happiness_hide_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_happiness_hide_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_happiness_hide_4scale.doc"'"':Table6IVFE_edu_happiness_hide_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_happiness_hide_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_happiness_hide_4scale.doc"'"':Table6IVFE_edu_happiness_hide_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_happiness_hide_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_happiness_hide_4scale.doc"'"':Table6IVFE_edu_happiness_hide_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_happiness_hide_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_happiness_hide_4scale.doc"'"':Table6IVFE_edu_happiness_hide_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_happiness_hide_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_happiness_hide_4scale.doc"'"':Table6IVFE_edu_happiness_hide_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_happiness_hide_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_angry_hide_4scale.doc"'"':Table6IVFE_edu_angry_hide_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_angry_hide_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_angry_hide_4scale.doc"'"':Table6IVFE_edu_angry_hide_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_angry_hide_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_angry_hide_4scale.doc"'"':Table6IVFE_edu_angry_hide_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_angry_hide_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_angry_hide_4scale.doc"'"':Table6IVFE_edu_angry_hide_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_angry_hide_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_angry_hide_4scale.doc"'"':Table6IVFE_edu_angry_hide_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_angry_hide_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_angry_hide_4scale.doc"'"':Table6IVFE_edu_angry_hide_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_angry_hide_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_angry_hide_4scale.doc"'"':Table6IVFE_edu_angry_hide_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_angry_hide_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_angry_hide_4scale.doc"'"':Table6IVFE_edu_angry_hide_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_angry_hide_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_hateful_hide_4scale.doc"'"':Table6IVFE_edu_hateful_hide_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_hateful_hide_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_hateful_hide_4scale.doc"'"':Table6IVFE_edu_hateful_hide_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_hateful_hide_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_hateful_hide_4scale.doc"'"':Table6IVFE_edu_hateful_hide_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_hateful_hide_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_hateful_hide_4scale.doc"'"':Table6IVFE_edu_hateful_hide_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_hateful_hide_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_hateful_hide_4scale.doc"'"':Table6IVFE_edu_hateful_hide_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_hateful_hide_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_hateful_hide_4scale.doc"'"':Table6IVFE_edu_hateful_hide_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_hateful_hide_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_hateful_hide_4scale.doc"'"':Table6IVFE_edu_hateful_hide_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_hateful_hide_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_hateful_hide_4scale.doc"'"':Table6IVFE_edu_hateful_hide_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_hateful_hide_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_sad_control_4scale.doc"'"':Table6IVFE_edu_sad_control_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_sad_control_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_sad_control_4scale.doc"'"':Table6IVFE_edu_sad_control_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_sad_control_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_sad_control_4scale.doc"'"':Table6IVFE_edu_sad_control_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_sad_control_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_sad_control_4scale.doc"'"':Table6IVFE_edu_sad_control_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_sad_control_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_sad_control_4scale.doc"'"':Table6IVFE_edu_sad_control_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_sad_control_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_sad_control_4scale.doc"'"':Table6IVFE_edu_sad_control_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_sad_control_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_sad_control_4scale.doc"'"':Table6IVFE_edu_sad_control_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_sad_control_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_sad_control_4scale.doc"'"':Table6IVFE_edu_sad_control_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_sad_control_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_scared_control_4scale.doc"'"':Table6IVFE_edu_scared_control_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_scared_control_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_scared_control_4scale.doc"'"':Table6IVFE_edu_scared_control_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_scared_control_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_scared_control_4scale.doc"'"':Table6IVFE_edu_scared_control_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_scared_control_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_scared_control_4scale.doc"'"':Table6IVFE_edu_scared_control_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_scared_control_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_scared_control_4scale.doc"'"':Table6IVFE_edu_scared_control_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_scared_control_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_scared_control_4scale.doc"'"':Table6IVFE_edu_scared_control_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_scared_control_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_scared_control_4scale.doc"'"':Table6IVFE_edu_scared_control_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_scared_control_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_scared_control_4scale.doc"'"':Table6IVFE_edu_scared_control_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_scared_control_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_happiness_control_4scale.doc"'"':Table6IVFE_edu_happiness_control_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_happiness_control_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_happiness_control_4scale.doc"'"':Table6IVFE_edu_happiness_control_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_happiness_control_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_happiness_control_4scale.doc"'"':Table6IVFE_edu_happiness_control_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_happiness_control_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_happiness_control_4scale.doc"'"':Table6IVFE_edu_happiness_control_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_happiness_control_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_happiness_control_4scale.doc"'"':Table6IVFE_edu_happiness_control_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_happiness_control_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_happiness_control_4scale.doc"'"':Table6IVFE_edu_happiness_control_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_happiness_control_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_happiness_control_4scale.doc"'"':Table6IVFE_edu_happiness_control_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_happiness_control_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_happiness_control_4scale.doc"'"':Table6IVFE_edu_happiness_control_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_happiness_control_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_angry_control_4scale.doc"'"':Table6IVFE_edu_angry_control_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_angry_control_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_angry_control_4scale.doc"'"':Table6IVFE_edu_angry_control_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_angry_control_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_angry_control_4scale.doc"'"':Table6IVFE_edu_angry_control_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_angry_control_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_angry_control_4scale.doc"'"':Table6IVFE_edu_angry_control_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_angry_control_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_angry_control_4scale.doc"'"':Table6IVFE_edu_angry_control_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_angry_control_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_angry_control_4scale.doc"'"':Table6IVFE_edu_angry_control_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_angry_control_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_angry_control_4scale.doc"'"':Table6IVFE_edu_angry_control_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_angry_control_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_angry_control_4scale.doc"'"':Table6IVFE_edu_angry_control_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_angry_control_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_hateful_control_4scale.doc"'"':Table6IVFE_edu_hateful_control_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_hateful_control_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_hateful_control_4scale.doc"'"':Table6IVFE_edu_hateful_control_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_hateful_control_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_hateful_control_4scale.doc"'"':Table6IVFE_edu_hateful_control_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_hateful_control_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_hateful_control_4scale.doc"'"':Table6IVFE_edu_hateful_control_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_hateful_control_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_hateful_control_4scale.doc"'"':Table6IVFE_edu_hateful_control_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_hateful_control_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_hateful_control_4scale.doc"'"':Table6IVFE_edu_hateful_control_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_hateful_control_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_hateful_control_4scale.doc"'"':Table6IVFE_edu_hateful_control_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_hateful_control_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_hateful_control_4scale.doc"'"':Table6IVFE_edu_hateful_control_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_hateful_control_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_life_short.doc"'"':Table6IVFE_edu_life_short.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_life_short.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_life_short.doc"'"':Table6IVFE_edu_life_short.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_life_short.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_life_short.doc"'"':Table6IVFE_edu_life_short.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_life_short.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_life_short.doc"'"':Table6IVFE_edu_life_short.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_life_short.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_life_short.doc"'"':Table6IVFE_edu_life_short.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_life_short.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_life_short.doc"'"':Table6IVFE_edu_life_short.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_life_short.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_life_short.doc"'"':Table6IVFE_edu_life_short.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_life_short.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_life_short.doc"'"':Table6IVFE_edu_life_short.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_life_short.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_future_decided.doc"'"':Table6IVFE_edu_future_decided.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_future_decided.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_future_decided.doc"'"':Table6IVFE_edu_future_decided.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_future_decided.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_future_decided.doc"'"':Table6IVFE_edu_future_decided.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_future_decided.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_future_decided.doc"'"':Table6IVFE_edu_future_decided.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_future_decided.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_future_decided.doc"'"':Table6IVFE_edu_future_decided.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_future_decided.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_future_decided.doc"'"':Table6IVFE_edu_future_decided.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_future_decided.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_future_decided.doc"'"':Table6IVFE_edu_future_decided.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_future_decided.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_future_decided.doc"'"':Table6IVFE_edu_future_decided.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_future_decided.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_level_sad_4scale.doc"'"':Table6IVFE_edu_level_sad_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_level_sad_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_level_sad_4scale.doc"'"':Table6IVFE_edu_level_sad_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_level_sad_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_level_sad_4scale.doc"'"':Table6IVFE_edu_level_sad_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_level_sad_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_level_sad_4scale.doc"'"':Table6IVFE_edu_level_sad_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_level_sad_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_level_sad_4scale.doc"'"':Table6IVFE_edu_level_sad_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_level_sad_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_level_sad_4scale.doc"'"':Table6IVFE_edu_level_sad_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_level_sad_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_level_sad_4scale.doc"'"':Table6IVFE_edu_level_sad_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_level_sad_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_level_sad_4scale.doc"'"':Table6IVFE_edu_level_sad_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_level_sad_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_level_scared_4scale.doc"'"':Table6IVFE_edu_level_scared_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_level_scared_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_level_scared_4scale.doc"'"':Table6IVFE_edu_level_scared_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_level_scared_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_level_scared_4scale.doc"'"':Table6IVFE_edu_level_scared_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_level_scared_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_level_scared_4scale.doc"'"':Table6IVFE_edu_level_scared_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_level_scared_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_level_scared_4scale.doc"'"':Table6IVFE_edu_level_scared_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_level_scared_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_level_scared_4scale.doc"'"':Table6IVFE_edu_level_scared_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_level_scared_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_level_scared_4scale.doc"'"':Table6IVFE_edu_level_scared_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_level_scared_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_level_scared_4scale.doc"'"':Table6IVFE_edu_level_scared_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_level_scared_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_level_happiness_4scale.doc"'"':Table6IVFE_edu_level_happiness_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_level_happiness_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_level_happiness_4scale.doc"'"':Table6IVFE_edu_level_happiness_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_level_happiness_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_level_happiness_4scale.doc"'"':Table6IVFE_edu_level_happiness_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_level_happiness_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_level_happiness_4scale.doc"'"':Table6IVFE_edu_level_happiness_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_level_happiness_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_level_happiness_4scale.doc"'"':Table6IVFE_edu_level_happiness_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_level_happiness_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_level_happiness_4scale.doc"'"':Table6IVFE_edu_level_happiness_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_level_happiness_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_level_happiness_4scale.doc"'"':Table6IVFE_edu_level_happiness_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_level_happiness_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_level_happiness_4scale.doc"'"':Table6IVFE_edu_level_happiness_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_level_happiness_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_level_angry_4scale.doc"'"':Table6IVFE_edu_level_angry_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_level_angry_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_level_angry_4scale.doc"'"':Table6IVFE_edu_level_angry_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_level_angry_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_level_angry_4scale.doc"'"':Table6IVFE_edu_level_angry_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_level_angry_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_level_angry_4scale.doc"'"':Table6IVFE_edu_level_angry_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_level_angry_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_level_angry_4scale.doc"'"':Table6IVFE_edu_level_angry_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_level_angry_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_level_angry_4scale.doc"'"':Table6IVFE_edu_level_angry_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_level_angry_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_level_angry_4scale.doc"'"':Table6IVFE_edu_level_angry_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_level_angry_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_level_angry_4scale.doc"'"':Table6IVFE_edu_level_angry_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_level_angry_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_level_hateful_4scale.doc"'"':Table6IVFE_edu_level_hateful_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_level_hateful_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_level_hateful_4scale.doc"'"':Table6IVFE_edu_level_hateful_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_level_hateful_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_level_hateful_4scale.doc"'"':Table6IVFE_edu_level_hateful_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_level_hateful_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_level_hateful_4scale.doc"'"':Table6IVFE_edu_level_hateful_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_level_hateful_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_level_hateful_4scale.doc"'"':Table6IVFE_edu_level_hateful_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_level_hateful_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_level_hateful_4scale.doc"'"':Table6IVFE_edu_level_hateful_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_level_hateful_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_level_hateful_4scale.doc"'"':Table6IVFE_edu_level_hateful_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_level_hateful_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_level_hateful_4scale.doc"'"':Table6IVFE_edu_level_hateful_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_level_hateful_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_level_sad_hide_4scale.doc"'"':Table6IVFE_edu_level_sad_hide_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_level_sad_hide_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_level_sad_hide_4scale.doc"'"':Table6IVFE_edu_level_sad_hide_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_level_sad_hide_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_level_sad_hide_4scale.doc"'"':Table6IVFE_edu_level_sad_hide_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_level_sad_hide_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_level_sad_hide_4scale.doc"'"':Table6IVFE_edu_level_sad_hide_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_level_sad_hide_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_level_sad_hide_4scale.doc"'"':Table6IVFE_edu_level_sad_hide_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_level_sad_hide_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_level_sad_hide_4scale.doc"'"':Table6IVFE_edu_level_sad_hide_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_level_sad_hide_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_level_sad_hide_4scale.doc"'"':Table6IVFE_edu_level_sad_hide_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_level_sad_hide_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_level_sad_hide_4scale.doc"'"':Table6IVFE_edu_level_sad_hide_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_level_sad_hide_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_level_scared_hide_4scale.doc"'"':Table6IVFE_edu_level_scared_hide_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_level_scared_hide_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_level_scared_hide_4scale.doc"'"':Table6IVFE_edu_level_scared_hide_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_level_scared_hide_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_level_scared_hide_4scale.doc"'"':Table6IVFE_edu_level_scared_hide_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_level_scared_hide_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_level_scared_hide_4scale.doc"'"':Table6IVFE_edu_level_scared_hide_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_level_scared_hide_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_level_scared_hide_4scale.doc"'"':Table6IVFE_edu_level_scared_hide_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_level_scared_hide_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_level_scared_hide_4scale.doc"'"':Table6IVFE_edu_level_scared_hide_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_level_scared_hide_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_level_scared_hide_4scale.doc"'"':Table6IVFE_edu_level_scared_hide_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_level_scared_hide_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_level_scared_hide_4scale.doc"'"':Table6IVFE_edu_level_scared_hide_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_level_scared_hide_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_level_happiness_hide_4scale.doc"'"':Table6IVFE_edu_level_happiness_hide_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_level_happiness_hide_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_level_happiness_hide_4scale.doc"'"':Table6IVFE_edu_level_happiness_hide_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_level_happiness_hide_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_level_happiness_hide_4scale.doc"'"':Table6IVFE_edu_level_happiness_hide_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_level_happiness_hide_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_level_happiness_hide_4scale.doc"'"':Table6IVFE_edu_level_happiness_hide_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_level_happiness_hide_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_level_happiness_hide_4scale.doc"'"':Table6IVFE_edu_level_happiness_hide_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_level_happiness_hide_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_level_happiness_hide_4scale.doc"'"':Table6IVFE_edu_level_happiness_hide_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_level_happiness_hide_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_level_happiness_hide_4scale.doc"'"':Table6IVFE_edu_level_happiness_hide_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_level_happiness_hide_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_level_happiness_hide_4scale.doc"'"':Table6IVFE_edu_level_happiness_hide_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_level_happiness_hide_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_level_angry_hide_4scale.doc"'"':Table6IVFE_edu_level_angry_hide_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_level_angry_hide_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_level_angry_hide_4scale.doc"'"':Table6IVFE_edu_level_angry_hide_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_level_angry_hide_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_level_angry_hide_4scale.doc"'"':Table6IVFE_edu_level_angry_hide_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_level_angry_hide_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_level_angry_hide_4scale.doc"'"':Table6IVFE_edu_level_angry_hide_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_level_angry_hide_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_level_angry_hide_4scale.doc"'"':Table6IVFE_edu_level_angry_hide_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_level_angry_hide_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_level_angry_hide_4scale.doc"'"':Table6IVFE_edu_level_angry_hide_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_level_angry_hide_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_level_angry_hide_4scale.doc"'"':Table6IVFE_edu_level_angry_hide_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_level_angry_hide_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_level_angry_hide_4scale.doc"'"':Table6IVFE_edu_level_angry_hide_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_level_angry_hide_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_level_hateful_hide_4scale.doc"'"':Table6IVFE_edu_level_hateful_hide_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_level_hateful_hide_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_level_hateful_hide_4scale.doc"'"':Table6IVFE_edu_level_hateful_hide_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_level_hateful_hide_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_level_hateful_hide_4scale.doc"'"':Table6IVFE_edu_level_hateful_hide_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_level_hateful_hide_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_level_hateful_hide_4scale.doc"'"':Table6IVFE_edu_level_hateful_hide_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_level_hateful_hide_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_level_hateful_hide_4scale.doc"'"':Table6IVFE_edu_level_hateful_hide_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_level_hateful_hide_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_level_hateful_hide_4scale.doc"'"':Table6IVFE_edu_level_hateful_hide_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_level_hateful_hide_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_level_hateful_hide_4scale.doc"'"':Table6IVFE_edu_level_hateful_hide_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_level_hateful_hide_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_level_hateful_hide_4scale.doc"'"':Table6IVFE_edu_level_hateful_hide_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_level_hateful_hide_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_level_sad_control_4scale.doc"'"':Table6IVFE_edu_level_sad_control_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_level_sad_control_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_level_sad_control_4scale.doc"'"':Table6IVFE_edu_level_sad_control_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_level_sad_control_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_level_sad_control_4scale.doc"'"':Table6IVFE_edu_level_sad_control_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_level_sad_control_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_level_sad_control_4scale.doc"'"':Table6IVFE_edu_level_sad_control_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_level_sad_control_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_level_sad_control_4scale.doc"'"':Table6IVFE_edu_level_sad_control_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_level_sad_control_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_level_sad_control_4scale.doc"'"':Table6IVFE_edu_level_sad_control_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_level_sad_control_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_level_sad_control_4scale.doc"'"':Table6IVFE_edu_level_sad_control_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_level_sad_control_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_level_sad_control_4scale.doc"'"':Table6IVFE_edu_level_sad_control_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_level_sad_control_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_level_scared_control_4scale.doc"'"':Table6IVFE_edu_level_scared_control_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_level_scared_control_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_level_scared_control_4scale.doc"'"':Table6IVFE_edu_level_scared_control_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_level_scared_control_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_level_scared_control_4scale.doc"'"':Table6IVFE_edu_level_scared_control_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_level_scared_control_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_level_scared_control_4scale.doc"'"':Table6IVFE_edu_level_scared_control_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_level_scared_control_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_level_scared_control_4scale.doc"'"':Table6IVFE_edu_level_scared_control_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_level_scared_control_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_level_scared_control_4scale.doc"'"':Table6IVFE_edu_level_scared_control_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_level_scared_control_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_level_scared_control_4scale.doc"'"':Table6IVFE_edu_level_scared_control_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_level_scared_control_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_level_scared_control_4scale.doc"'"':Table6IVFE_edu_level_scared_control_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_level_scared_control_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_level_happiness_control_4scale.doc"'"':Table6IVFE_edu_level_happiness_control_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_level_happiness_control_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_level_happiness_control_4scale.doc"'"':Table6IVFE_edu_level_happiness_control_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_level_happiness_control_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_level_happiness_control_4scale.doc"'"':Table6IVFE_edu_level_happiness_control_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_level_happiness_control_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_level_happiness_control_4scale.doc"'"':Table6IVFE_edu_level_happiness_control_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_level_happiness_control_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_level_happiness_control_4scale.doc"'"':Table6IVFE_edu_level_happiness_control_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_level_happiness_control_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_level_happiness_control_4scale.doc"'"':Table6IVFE_edu_level_happiness_control_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_level_happiness_control_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_level_happiness_control_4scale.doc"'"':Table6IVFE_edu_level_happiness_control_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_level_happiness_control_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_level_happiness_control_4scale.doc"'"':Table6IVFE_edu_level_happiness_control_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_level_happiness_control_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_level_angry_control_4scale.doc"'"':Table6IVFE_edu_level_angry_control_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_level_angry_control_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_level_angry_control_4scale.doc"'"':Table6IVFE_edu_level_angry_control_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_level_angry_control_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_level_angry_control_4scale.doc"'"':Table6IVFE_edu_level_angry_control_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_level_angry_control_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_level_angry_control_4scale.doc"'"':Table6IVFE_edu_level_angry_control_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_level_angry_control_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_level_angry_control_4scale.doc"'"':Table6IVFE_edu_level_angry_control_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_level_angry_control_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_level_angry_control_4scale.doc"'"':Table6IVFE_edu_level_angry_control_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_level_angry_control_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_level_angry_control_4scale.doc"'"':Table6IVFE_edu_level_angry_control_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_level_angry_control_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_level_angry_control_4scale.doc"'"':Table6IVFE_edu_level_angry_control_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_level_angry_control_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_level_hateful_control_4scale.doc"'"':Table6IVFE_edu_level_hateful_control_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_level_hateful_control_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_level_hateful_control_4scale.doc"'"':Table6IVFE_edu_level_hateful_control_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_level_hateful_control_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_level_hateful_control_4scale.doc"'"':Table6IVFE_edu_level_hateful_control_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_level_hateful_control_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_level_hateful_control_4scale.doc"'"':Table6IVFE_edu_level_hateful_control_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_level_hateful_control_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_level_hateful_control_4scale.doc"'"':Table6IVFE_edu_level_hateful_control_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_level_hateful_control_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_level_hateful_control_4scale.doc"'"':Table6IVFE_edu_level_hateful_control_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_level_hateful_control_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_level_hateful_control_4scale.doc"'"':Table6IVFE_edu_level_hateful_control_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_level_hateful_control_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_level_hateful_control_4scale.doc"'"':Table6IVFE_edu_level_hateful_control_4scale.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_level_hateful_control_4scale.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_level_life_short.doc"'"':Table6IVFE_edu_level_life_short.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_level_life_short.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_level_life_short.doc"'"':Table6IVFE_edu_level_life_short.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_level_life_short.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_level_life_short.doc"'"':Table6IVFE_edu_level_life_short.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_level_life_short.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_level_life_short.doc"'"':Table6IVFE_edu_level_life_short.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_level_life_short.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_level_life_short.doc"'"':Table6IVFE_edu_level_life_short.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_level_life_short.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_level_life_short.doc"'"':Table6IVFE_edu_level_life_short.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_level_life_short.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_level_life_short.doc"'"':Table6IVFE_edu_level_life_short.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_level_life_short.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_level_life_short.doc"'"':Table6IVFE_edu_level_life_short.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_level_life_short.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_level_future_decided.doc"'"':Table6IVFE_edu_level_future_decided.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_level_future_decided.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_level_future_decided.doc"'"':Table6IVFE_edu_level_future_decided.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_level_future_decided.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_level_future_decided.doc"'"':Table6IVFE_edu_level_future_decided.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_level_future_decided.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_level_future_decided.doc"'"':Table6IVFE_edu_level_future_decided.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_level_future_decided.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_level_future_decided.doc"'"':Table6IVFE_edu_level_future_decided.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_level_future_decided.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_level_future_decided.doc"'"':Table6IVFE_edu_level_future_decided.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_level_future_decided.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_level_future_decided.doc"'"':Table6IVFE_edu_level_future_decided.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_level_future_decided.txt""':seeout}
+{stata `"shellout using `"Table6IVFE_edu_level_future_decided.doc"'"':Table6IVFE_edu_level_future_decided.doc}
+{browse `"C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\20171206"' :dir}{com} : {txt}{stata `"seeout using "Table6IVFE_edu_level_future_decided.txt""':seeout}
+
+{com}. 
+{txt}end of do-file
+
+{com}. exit, clear

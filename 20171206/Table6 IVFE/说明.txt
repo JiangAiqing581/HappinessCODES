@@ -1,0 +1,88 @@
+code:
+**************************educational level*************************
+
+gen junior      = (a4_2==1 & a4_3~=1 & a4_4~=1 & a4_5~=1 & a4_6~=1 & a4_7~=1 & a4_8~=1)
+gen high		= (a4_3==1 & a4_4~=1 & a4_5~=1 & a4_6~=1 & a4_7~=1 & a4_8~=1)
+gen techhigh	= (a4_4==1 & a4_5~=1 & a4_6~=1 & a4_7~=1 & a4_8~=1)
+gen college		= (a4_5==1 & a4_6~=1 & a4_7~=1 & a4_8~=1)
+gen univ		= (a4_6==1|a4_7==1|a4_8==1)
+
+gen edu_level   = edu
+replace edu_level =1 if (junior==0&high==0&techhigh==0&college==0&univ==0)
+replace edu_level =2 if (junior==1)
+replace edu_level =3 if (high==1)
+replace edu_level =4 if (techhigh==1)
+replace edu_level =5 if (college==1)
+replace edu_level =6 if (univ==1)
+
+
+**************************IV educational level*************************
+gen IVjunior	= (a17_2==1 & a17_3~=1 & a17_4~=1 & a17_5~=1 & a17_6~=1 & a17_7~=1 & a17_8~=1)
+gen IVhigh		= (a17_3==1 & a17_4~=1 & a17_5~=1 & a17_6~=1 & a17_7~=1 & a17_8~=1)
+gen IVtechhigh	= (a17_4==1 & a17_5~=1 & a17_6~=1 & a17_7~=1 & a17_8~=1)
+gen IVcollege	= (a17_5==1 & a17_6~=1 & a17_7~=1 & a17_8~=1)
+gen IVuniv		= (a17_6==1|a17_7==1|a17_8==1)
+
+gen IVtech=IVtechhigh==1|IVcollege==1
+
+gen edu_level_sib   = edu_sib
+replace edu_level_sib =1 if (IVjunior==0&IVhigh==0&IVtechhigh==0&IVcollege==0&IVuniv==0)
+replace edu_level_sib =2 if (IVjunior==1)
+replace edu_level_sib =3 if (IVhigh==1)
+replace edu_level_sib =4 if (IVtechhigh==1)
+replace edu_level_sib =5 if (IVcollege==1)
+replace edu_level_sib =6 if (IVuniv==1)
+
+
+**********************************************************************
+gen  Dedu         = edu1-edu2
+gen  Dedu_level   = edu_level1-edu_level2
+
+gen  IVDedu       = edu_sib2-edu_sib1
+gen  IVDedu_level = edu_level_sib2-edu_level_sib1
+
+gen  sDedu        = edu1-edu_sib1
+gen  sDedu_level  = edu_level1-edu_level_sib1
+
+gen  sIVDedu      = edu_sib2-edu2 
+gen  sIVDedu_level= edu_level_sib2-edu_level2
+
+
+*******************************  Table 6: IVFE ****************************
+foreach i in edu edu_level {
+foreach var in sad_4scale  scared_4scale   happiness_4scale angry_4scale  hateful_4scale  sad_hide_4scale  scared_hide_4scale  happiness_hide_4scale  angry_hide_4scale  ///
+hateful_hide_4scale sad_control_4scale  scared_control_4scale  happiness_control_4scale  angry_control_4scale  hateful_control_4scale life_short future_decided {
+  
+****  IVFE-1 ****
+quiet ivreg D`var' (D`i'=IVD`i') Dbirth_rate DVeryEarly_disease_d,noc robust
+outreg2 using Table6IVFE_`i'_`var'.doc,  nolabel replace coefastr se
+
+quiet ivreg D`var' (D`i'=IVD`i') Dbirth_rate DVeryEarly_disease_d Dincome,noc robust
+outreg2 using Table6IVFE_`i'_`var'.doc,  nolabel append coefastr se
+
+quiet ivreg D`var' (D`i'=IVD`i') Dbirth_rate DVeryEarly_disease_d Dincome Dmarried Dhealth, noc robust
+outreg2 using Table6IVFE_`i'_`var'.doc,  nolabel append coefastr se
+
+quiet ivreg D`var' (D`i'=IVD`i') Dbirth_rate DVeryEarly_disease_d Dincome Dmarried Dhealth Dwork_over_40h, noc robust
+//quiet ivreg2 Dhappiness_4scale (Dincome=IVDincome) Dedu Dmarried Dhealth Dwork_over_40h, noc robust
+outreg2 using Table6IVFE_`i'_`var'.doc,  nolabel append coefastr se
+
+est store IVFE1_MZtwins
+
+****  IVFE-2 ****
+quiet ivreg D`var' (sD`i'=sIVD`i') Dbirth_rate DVeryEarly_disease_d,noc robust
+outreg2 using Table6IVFE_`i'_`var'.doc,  nolabel append coefastr se
+
+quiet ivreg D`var' (sD`i'=sIVD`i') Dbirth_rate DVeryEarly_disease_d Dincome,noc robust
+outreg2 using Table6IVFE_`i'_`var'.doc,  nolabel append coefastr se
+
+quiet ivreg D`var' (sD`i'=sIVD`i') Dbirth_rate DVeryEarly_disease_d Dincome Dmarried Dhealth, noc robust
+outreg2 using Table6IVFE_`i'_`var'.doc,  nolabel append coefastr se
+
+quiet ivreg D`var' (sD`i'=sIVD`i') Dbirth_rate DVeryEarly_disease_d Dincome Dmarried Dhealth Dwork_over_40h, noc robust
+//quiet ivreg2 Dhappiness_4scale (Dincome=IVDincome) Dedu Dmarried Dhealth Dwork_over_40h, noc robust
+outreg2 using Table6IVFE_`i'_`var'.doc,  nolabel append coefastr se
+
+//codes below are optional
+}
+}

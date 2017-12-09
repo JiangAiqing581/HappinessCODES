@@ -1,0 +1,2021 @@
+{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\TWINSDATA\happiness_data.txt
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res}16 Nov 2017, 00:12:09
+{txt}
+{com}. 
+. sort c7a
+{txt}
+{com}. merge c7a using industry_wagegrowth.dta
+{txt}{p}
+(note: you are using old
+{bf:merge} syntax; see
+{bf:{help merge:[D] merge}} for new syntax)
+{p_end}
+{p 0 4 2}
+variable{txt} c7a
+does not uniquely identify observations in
+the master data
+{p_end}
+
+{com}. 
+. ***** rename industry_wage_growth_past9y industry_wage_growth_past8y
+. replace industry_wage_growth_past8y=industry_wage_growth_past8y*9/8
+{txt}(2112 real changes made)
+
+{com}. 
+. 
+. ***** keep the pairs only have two siblings *****
+. gen double twinpair = citycode*1000+hhcode
+{txt}
+{com}. egen number=count(twinpair), by(twinpair)
+{txt}
+{com}. drop if number!=2
+{txt}(16 observations deleted)
+
+{com}. drop number
+{txt}
+{com}. 
+. 
+. ***** Randomize the twin code (1,2) *****
+. gen random_12 = uniform()
+{txt}
+{com}. bysort twinpair: egen switch= sum(random_12)
+{txt}
+{com}. replace switch = (switch>1.0)
+{txt}(2996 real changes made)
+
+{com}. gen twcode_backup = twcode
+{txt}
+{com}. replace twcode=3-twcode if switch==1
+{txt}(1462 real changes made)
+
+{com}. 
+. 
+. ** another way to randomize
+. /*
+> gen first_as_first=switch
+> replace twcode=1 if (first_as_first==1 & twcode_backup==1)
+> replace twcode=2 if (first_as_first==1 & twcode_backup==2)
+> replace twcode=2 if (first_as_first==0 & twcode_backup==1)
+> replace twcode=1 if (first_as_first==0 & twcode_backup==2)
+> */
+. 
+. tab twcode
+
+    {txt}tw code {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+          1 {c |}{res}      1,498       50.00       50.00
+{txt}          2 {c |}{res}      1,498       50.00      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}      2,996      100.00
+{txt}
+{com}. sum switch
+
+{txt}    Variable {c |}       Obs        Mean    Std. Dev.       Min        Max
+{hline 13}{c +}{hline 56}
+{space 6}switch {c |}{res}      2996     .487984     .499939          0          1
+{txt}
+{com}. 
+. 
+. ***********************Birth Order**********************
+. tab e1
+
+         {txt}E1 {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+          1 {c |}{res}      1,501       50.12       50.12
+{txt}          2 {c |}{res}      1,494       49.88      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}      2,995      100.00
+{txt}
+{com}. gen BirthOrder_ElderDummy = e1==1
+{txt}
+{com}. 
+. 
+. ***********************CITY DUMMIES*********************
+. tab city
+
+       {txt}city {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+    Chengdu {c |}{res}        358       11.95       11.95
+{txt}  Chongqing {c |}{res}        294        9.81       21.76
+{txt}    Haerbin {c |}{res}        340       11.35       33.11
+{txt}      Hefei {c |}{res}        478       15.95       49.07
+{txt}      Wuhan {c |}{res}      1,526       50.93      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}      2,996      100.00
+{txt}
+{com}. gen d_Chengdu =  (city=="Chengdu") & (city~="")
+{txt}
+{com}. gen d_Chongqing = (city=="Chongqing") & (city~="")
+{txt}
+{com}. gen d_Haerbin = (city=="Haerbin") & (city~="")
+{txt}
+{com}. gen d_Hefei = (city=="Hefei") & (city~="")
+{txt}
+{com}. gen d_Wuhan =  (city=="Wuhan") & (city~="")
+{txt}
+{com}. 
+. 
+. ****** Birth Rate and Early Life Health ******
+. gen birth_rate = e4_2
+{txt}(17 missing values generated)
+
+{com}. gen height     = f6
+{txt}(5 missing values generated)
+
+{com}. gen height_spouse = f9
+{txt}(941 missing values generated)
+
+{com}. 
+. 
+. gen early_disease=0
+{txt}
+{com}. forvalues i=1(1)8 {c -(}
+{txt}  2{com}. replace early_disease= early_disease+(f11_`i'==1 & f12_`i'<=18)
+{txt}  3{com}. {c )-}
+{txt}(49 real changes made)
+(15 real changes made)
+(48 real changes made)
+(32 real changes made)
+(2 real changes made)
+(11 real changes made)
+(0 real changes made)
+(23 real changes made)
+
+{com}. forvalues j=1(1)4{c -(}
+{txt}  2{com}. replace early_disease= early_disease+(f11_9_`j'==1 & f12_9_`j'<=18)
+{txt}  3{com}. {c )-}
+{txt}(4 real changes made)
+(8 real changes made)
+(9 real changes made)
+(25 real changes made)
+
+{com}. gen early_disease_d = early_disease>0
+{txt}
+{com}. 
+. 
+. gen VeryEarly_disease=0
+{txt}
+{com}. forvalues i=1(1)8 {c -(}
+{txt}  2{com}. replace VeryEarly_disease= VeryEarly_disease+(f11_`i'==1 & f12_`i'<=3)
+{txt}  3{com}. {c )-}
+{txt}(4 real changes made)
+(3 real changes made)
+(7 real changes made)
+(4 real changes made)
+(0 real changes made)
+(1 real change made)
+(0 real changes made)
+(19 real changes made)
+
+{com}. forvalues j=1(1)4{c -(}
+{txt}  2{com}. replace VeryEarly_disease= VeryEarly_disease+(f11_9_`j'==1 & f12_9_`j'<=3)
+{txt}  3{com}. {c )-}
+{txt}(2 real changes made)
+(0 real changes made)
+(1 real change made)
+(13 real changes made)
+
+{com}. gen VeryEarly_disease_d = VeryEarly_disease>0
+{txt}
+{com}. 
+. *******************EDUCATION PROCESSING METHOD BY ZHEYU************
+. **self-reported education level
+. **replace a3_1=0 if a3_1==.
+. **replace a3_2=0 if a3_2==.
+. **replace a3_3=0 if a3_3==.
+. **replace a3_4=0 if a3_4==.
+. **replace a3_5=0 if a3_5==.
+. **replace a3_6=0 if a3_6==.
+. **replace a3_7=0 if a3_7==.
+. **replace a3_8=0 if a3_8==.
+. **gen edu=a3_1+a3_2+a3_3+a3_4+a3_5+a3_6+a3_7+a3_8
+. ********************************************************************
+. 
+. *******************EDUCATION*****************************
+. gen year_primary = a3_1
+{txt}(13 missing values generated)
+
+{com}. replace year_primary =  0 if (a3_1==. & a1_1~=1 & a4_1~=1)
+{txt}(6 real changes made)
+
+{com}. replace year_primary =  6 if (a3_1==. & a4_1==1)
+{txt}(7 real changes made)
+
+{com}. 
+. gen year_junior = a3_2
+{txt}(120 missing values generated)
+
+{com}. replace year_junior =  0 if (a3_2==. & a1_2~=1 & a4_2~=1)
+{txt}(113 real changes made)
+
+{com}. replace year_junior =  3 if (a3_2==. & a4_2==1)
+{txt}(7 real changes made)
+
+{com}. 
+. gen year_senior = a3_3
+{txt}(1528 missing values generated)
+
+{com}. replace year_senior  =  0 if (a3_3==. & a1_3~=1 & a4_3~=1)
+{txt}(1521 real changes made)
+
+{com}. replace year_senior  =  3 if (a3_3==. & a4_3==1)
+{txt}(5 real changes made)
+
+{com}. 
+. gen year_vaca = a3_4
+{txt}(2288 missing values generated)
+
+{com}. replace year_vaca  =  0 if (a3_4==. & a1_4~=1 & a4_4~=1)
+{txt}(2285 real changes made)
+
+{com}. replace year_vaca  =  3 if (a3_4==. & a4_4==1)
+{txt}(2 real changes made)
+
+{com}.  
+. gen year_college = a3_5
+{txt}(2375 missing values generated)
+
+{com}. replace year_college  =  0 if (a3_5==. & a1_5~=1 & a4_5~=1)
+{txt}(2371 real changes made)
+
+{com}. replace year_college  =  3 if (a3_5==. & a4_5==1)
+{txt}(0 real changes made)
+
+{com}. 
+. 
+. gen year_bachelor = a3_6
+{txt}(2748 missing values generated)
+
+{com}. replace year_bachelor  =  0 if (a3_6==. & a1_6~=1 & a4_6~=1)
+{txt}(2743 real changes made)
+
+{com}. replace year_bachelor  =  4 if (a3_6==. & a4_6==1)
+{txt}(1 real change made)
+
+{com}. 
+. gen year_master = a3_7
+{txt}(2979 missing values generated)
+
+{com}. replace year_master   =  0 if (a3_7==. & a1_7~=1 & a4_7~=1)
+{txt}(2977 real changes made)
+
+{com}. replace year_master   =  3 if (a3_7==. & a4_7==1)
+{txt}(0 real changes made)
+
+{com}. 
+. gen year_doctor = a3_8
+{txt}(2993 missing values generated)
+
+{com}. replace year_doctor   =  0 if (a3_8==. & a1_8~=1 & a4_8~=1)
+{txt}(2992 real changes made)
+
+{com}. replace year_doctor   =  3 if (a3_8==. & a4_8==1)
+{txt}(0 real changes made)
+
+{com}. 
+. gen edu =   year_primary+ year_junior +year_senior+year_vaca+ year_college+ year_bachelor+ year_master +year_doctor
+{txt}(11 missing values generated)
+
+{com}. gen edusquared = edu*edu
+{txt}(11 missing values generated)
+
+{com}. 
+. //dummies
+. gen edu_primary = a4_1==1 & a4_2~=1 & a4_3~=1 & a4_4~=1 & a4_5~=1 & a4_6~=1 & a4_7~=1 & a4_8~=1
+{txt}
+{com}. gen edu_junior  = a4_2==1 & a4_3~=1 & a4_4~=1 & a4_5~=1 & a4_6~=1 & a4_7~=1 & a4_8~=1
+{txt}
+{com}. gen edu_senior  = a4_3==1 & a4_4~=1 & a4_5~=1 & a4_6~=1 & a4_7~=1 & a4_8~=1
+{txt}
+{com}. gen edu_voc     = a4_4==1 & a4_5~=1 & a4_6~=1 & a4_7~=1 & a4_8~=1
+{txt}
+{com}. gen edu_college = a4_5==1 & a4_6~=1 & a4_7~=1 & a4_8~=1
+{txt}
+{com}. gen edu_univ    = a4_6==1 & a4_7~=1 & a4_8~=1
+{txt}
+{com}. gen edu_master  = a4_7==1 & a4_8~=1
+{txt}
+{com}. gen edu_doctoral= a4_8==1
+{txt}
+{com}. gen edu_univabove = edu_univ | edu_master |edu_doctoral // too few master & doctorals
+{txt}
+{com}. 
+. gen edu_highschoolabove = a4_3==1 | a4_4==1 | a4_5==1 | a4_6==1 | a4_7==1 | a4_8==1
+{txt}
+{com}. gen edu_collegeabove = a4_5==1 | a4_6==1 | a4_7==1 | a4_8==1
+{txt}
+{com}. 
+. 
+. 
+. **************************educational level*************************
+. gen junior      = (a1_2==1&a1_3==2&a1_4==2&a1_5==2&a1_6==2&a1_7==2&a1_8==2)
+{txt}
+{com}. gen high                = (a1_3==1&a1_4==2&a1_5==2&a1_6==2&a1_7==2&a1_8==2)
+{txt}
+{com}. gen techhigh    = (a1_4==1&a1_5==2&a1_6==2&a1_7==2&a1_8==2)
+{txt}
+{com}. gen college             = (a1_5==1&a1_6==2&a1_7==2&a1_8==2)
+{txt}
+{com}. gen univ                = (a1_6==1|a1_7==1|a1_8==1)
+{txt}
+{com}. gen tech=techhigh==1|college==1 //combine techhigh and college
+{txt}
+{com}. 
+. 
+. **IV educational level
+. gen IVjunior    = (a14_2==1&a14_3==2&a14_4==2&a14_5==2&a14_6==2&a14_7==2&a14_8==2)
+{txt}
+{com}. gen IVhigh              = (a14_3==1&a14_4==2&a14_5==2&a14_6==2&a14_7==2&a14_8==2)
+{txt}
+{com}. gen IVtechhigh  = (a14_3==2&a14_4==1&a14_5==2&a14_6==2&a14_7==2&a14_8==2)
+{txt}
+{com}. gen IVcollege   = (a14_5==1&a14_6==2&a14_7==2&a14_8==2)
+{txt}
+{com}. gen IVuniv              = (a14_6==1|a14_7==1|a14_8==1)
+{txt}
+{com}. gen IVtech=IVtechhigh==1|IVcollege==1
+{txt}
+{com}. 
+. 
+. ******************SIBLING'S EDUCATION***********************
+. gen       year_primary_sib = a16_1
+{txt}(27 missing values generated)
+
+{com}. replace year_primary_sib =  0 if (a16_1==. & a14_1~=1 & a17_1~=1)
+{txt}(11 real changes made)
+
+{com}. 
+. gen       year_junior_sib  = a16_2
+{txt}(137 missing values generated)
+
+{com}. replace year_junior_sib  =  0 if (a16_2==. & a14_2~=1 & a17_2~=1)
+{txt}(122 real changes made)
+
+{com}. 
+. gen       year_senior_sib  = a16_3
+{txt}(1553 missing values generated)
+
+{com}. replace year_senior_sib  =  0 if (a16_3==. & a14_3~=1 & a17_3~=1)
+{txt}(1536 real changes made)
+
+{com}. 
+. gen       year_vaca_sib    = a16_4
+{txt}(2309 missing values generated)
+
+{com}. replace year_vaca_sib    =  0 if (a16_4==. & a14_4~=1 & a17_4~=1)
+{txt}(2303 real changes made)
+
+{com}.  
+. gen       year_college_sib = a16_5
+{txt}(2396 missing values generated)
+
+{com}. replace year_college_sib =  0 if (a16_5==. & a14_5~=1 & a17_5~=1)
+{txt}(2385 real changes made)
+
+{com}. 
+. gen       year_bachelor_sib = a16_6
+{txt}(2754 missing values generated)
+
+{com}. replace year_bachelor_sib =  0 if (a16_6==. & a14_6~=1 & a17_6~=1)
+{txt}(2750 real changes made)
+
+{com}. 
+. gen       year_master_sib = a16_7
+{txt}(2979 missing values generated)
+
+{com}. replace year_master_sib =  0 if (a16_7==. & a14_7~=1 & a17_7~=1)
+{txt}(2977 real changes made)
+
+{com}. 
+. gen       year_doctor_sib = a16_8
+{txt}(2993 missing values generated)
+
+{com}. replace year_doctor_sib =  0 if (a16_8==. & a14_8~=1 & a17_8~=1)
+{txt}(2992 real changes made)
+
+{com}. 
+. gen edu_sib =   year_primary_sib+ year_junior_sib +year_senior_sib+year_vaca_sib+ year_college_sib+ year_bachelor_sib+ year_master_sib +year_doctor_sib
+{txt}(35 missing values generated)
+
+{com}. gen edusquared_sib = edu_sib*edu_sib
+{txt}(35 missing values generated)
+
+{com}. 
+. 
+. //dummies
+. gen edu_primary_sib = a17_1==1 & a17_2~=1 & a17_3~=1 & a17_4~=1 & a17_5~=1 & a17_6~=1 & a17_7~=1 & a17_8~=1
+{txt}
+{com}. gen edu_junior_sib  = a17_2==1 & a17_3~=1 & a17_4~=1 & a17_5~=1 & a17_6~=1 & a17_7~=1 & a17_8~=1
+{txt}
+{com}. gen edu_senior_sib  = a17_3==1 & a17_4~=1 & a17_5~=1 & a17_6~=1 & a17_7~=1 & a17_8~=1
+{txt}
+{com}. gen edu_voc_sib     = a17_4==1 & a17_5~=1 & a17_6~=1 & a17_7~=1 & a17_8~=1
+{txt}
+{com}. gen edu_college_sib = a17_5==1 & a17_6~=1 & a17_7~=1 & a17_8~=1
+{txt}
+{com}. gen edu_univ_sib    = a17_6==1 & a17_7~=1 & a17_8~=1
+{txt}
+{com}. gen edu_master_sib  = a17_7==1 & a17_8~=1
+{txt}
+{com}. gen edu_doctoral_sib= a17_8==1
+{txt}
+{com}. gen edu_univabove_sib = edu_univ_sib | edu_master_sib | edu_doctoral_sib // too few master & doctorals
+{txt}
+{com}. 
+. ***** create a IV, and replace IVedu1 as edu_sib2 later **********
+. gen IVedu    = edu 
+{txt}(11 missing values generated)
+
+{com}. gen sIVedu   = edu_sib
+{txt}(35 missing values generated)
+
+{com}. gen Aedu_own     = edu
+{txt}(11 missing values generated)
+
+{com}. 
+.  
+. *******************SPOUSE'S EDUCATION************************
+. gen edu_spouse_level = 6 if (b4==1)
+{txt}(2867 missing values generated)
+
+{com}. replace edu_spouse_level = 9  if (b4==2)
+{txt}(655 real changes made)
+
+{com}. replace edu_spouse_level = 12  if (b4==3 | b4==4)
+{txt}(792 real changes made)
+
+{com}. replace edu_spouse_level = 15  if (b4==5)
+{txt}(303 real changes made)
+
+{com}. replace edu_spouse_level = 16  if (b4==6)
+{txt}(149 real changes made)
+
+{com}. replace edu_spouse_level = 19  if (b4==7)
+{txt}(19 real changes made)
+
+{com}. *gen edu_spouse = b7
+. gen edu_spouse = edu_spouse_level
+{txt}(949 missing values generated)
+
+{com}. gen edusquared_spouse = edu_spouse*edu_spouse
+{txt}(949 missing values generated)
+
+{com}. gen edu_cou_dif = edu - edu_spouse
+{txt}(956 missing values generated)
+
+{com}. 
+. gen CCP = e10==1 if e10~=.
+{txt}(31 missing values generated)
+
+{com}. 
+. 
+. *****************BASIC *********************************
+. gen tenure = c3
+{txt}(66 missing values generated)
+
+{com}. gen age = (2002-e4_1_1)/10
+{txt}
+{com}. gen agesquared = age*age
+{txt}
+{com}. gen male = (e8==1) 
+{txt}
+{com}. replace male = . if(e8==.)
+{txt}(0 real changes made)
+
+{com}. gen married = (b1==2)
+{txt}
+{com}. replace married = . if  (b1==.)
+{txt}(5 real changes made, 5 to missing)
+
+{com}. gen divorced = (b1==3)  if  (b1~=.)
+{txt}(5 missing values generated)
+
+{com}. gen widowed = (b1==4)  if  (b1~=.)
+{txt}(5 missing values generated)
+
+{com}. gen nchild      = b8_2
+{txt}(993 missing values generated)
+
+{com}. gen nchild_died = b8_1-b8_2
+{txt}(994 missing values generated)
+
+{com}. 
+. 
+. *******************INCOME*******************************
+. gen population = e13
+{txt}(1 missing value generated)
+
+{com}. 
+. gen income = ln(c12a+1)
+{txt}(87 missing values generated)
+
+{com}. gen income_num = c12a
+{txt}(87 missing values generated)
+
+{com}. 
+. replace income=0 if c12a==. & c4a~=1   // a looser defintion to have more observations
+{txt}(43 real changes made)
+
+{com}. replace income_num=0 if c12a==. & c4a~=1   // a looser defintion to have more observations
+{txt}(43 real changes made)
+
+{com}. 
+. xtile Incrank_Chengdu= income if d_Chengdu==1, nquantiles(5) //Create variable containing quantile categories
+{txt}
+{com}. 
+. xtile Incrank_Chongqing= income if d_Chongqing==1, nquantiles(5)
+{txt}
+{com}. 
+. xtile Incrank_Haerbin= income if d_Haerbin==1, nquantiles(5)
+{txt}
+{com}. 
+. xtile Incrank_Hefei= income if d_Hefei==1, nquantiles(5)
+{txt}
+{com}. 
+. xtile Incrank_Wuhan= income if d_Wuhan==1, nquantiles(5)
+{txt}
+{com}. 
+. gen Incrank=1 if income~=.
+{txt}(44 missing values generated)
+
+{com}. replace Incrank=2 if Incrank_Chengdu==2|Incrank_Chongqing==2|Incrank_Haerbin==2|Incrank_Hefei==2|Incrank_Wuhan==2
+{txt}(560 real changes made)
+
+{com}. replace Incrank=3 if Incrank_Chengdu==3|Incrank_Chongqing==3|Incrank_Haerbin==3|Incrank_Hefei==3|Incrank_Wuhan==3
+{txt}(624 real changes made)
+
+{com}. replace Incrank=4 if Incrank_Chengdu==4|Incrank_Chongqing==4|Incrank_Haerbin==4|Incrank_Hefei==4|Incrank_Wuhan==4
+{txt}(557 real changes made)
+
+{com}. replace Incrank=5 if Incrank_Chengdu==5|Incrank_Chongqing==5|Incrank_Haerbin==5|Incrank_Hefei==5|Incrank_Wuhan==5
+{txt}(574 real changes made)
+
+{com}. 
+. gen income_squared = income*income
+{txt}(44 missing values generated)
+
+{com}. gen d_income_zero = income==0 if income~=.
+{txt}(44 missing values generated)
+
+{com}. gen d_income_below100 = income<log(100) if income~=.
+{txt}(44 missing values generated)
+
+{com}. 
+. //income braket
+. gen income_0to200     = income_num<200
+{txt}
+{com}. gen income_200to400   = income_num>=200 & income_num<400
+{txt}
+{com}. gen income_400to800   = income_num>=400 & income_num<800
+{txt}
+{com}. gen income_800to1600  = income_num>=800 & income_num<1600
+{txt}
+{com}. gen income_1600above  = income_num>=1600 & income_num~=.
+{txt}
+{com}. 
+. gen income_bracket = 1 
+{txt}
+{com}. replace income_bracket = 2 if income_200to400==1
+{txt}(333 real changes made)
+
+{com}. replace income_bracket = 3 if income_400to800==1
+{txt}(1046 real changes made)
+
+{com}. replace income_bracket = 4 if income_800to1600==1
+{txt}(996 real changes made)
+
+{com}. replace income_bracket = 5 if income_1600above==1
+{txt}(256 real changes made)
+
+{com}. 
+. gen income_highschoolabove = income*edu_highschoolabove
+{txt}(44 missing values generated)
+
+{com}. gen income_collegeabove = income*edu_collegeabove
+{txt}(44 missing values generated)
+
+{com}. 
+. gen income_spouse = ln(c12b+1)
+{txt}(1023 missing values generated)
+
+{com}. gen rawwage = c121a
+{txt}(356 missing values generated)
+
+{com}. //gen wage = ln(c121a+1)
+. //only use those with positive earning
+. gen wage_withzero = ln(c121a+1)
+{txt}(356 missing values generated)
+
+{com}. gen wage = ln(c121a)
+{txt}(987 missing values generated)
+
+{com}. gen d_zerowage = wage_withzero==0 if wage_withzero~=.
+{txt}(356 missing values generated)
+
+{com}. 
+. gen wage_spouse = ln(c121b+1)
+{txt}(1260 missing values generated)
+
+{com}. gen inc_cou_dif = income-income_spouse
+{txt}(1026 missing values generated)
+
+{com}. gen wage_cou_dif = wage-wage_spouse
+{txt}(1839 missing values generated)
+
+{com}. gen income_bothspouse = ln(c12a+c12b+1)
+{txt}(1037 missing values generated)
+
+{com}. gen income_aver  = ln((c12a+c12b)/population+1)
+{txt}(1038 missing values generated)
+
+{com}. 
+. // Family income of last year (9 scales)
+. gen familyinc = e18
+{txt}(9 missing values generated)
+
+{com}. gen unemployed = (c4a==4) if (c4a~=.)
+{txt}(3 missing values generated)
+
+{com}. gen working = (c4a==1) if c4a~=.
+{txt}(3 missing values generated)
+
+{com}. gen not_in_lf = (c4a==2 | c4a==3 | c4a==5) if c4a~=.
+{txt}(3 missing values generated)
+
+{com}. 
+. gen workday = c9a
+{txt}(482 missing values generated)
+
+{com}. replace workday=0 if working==0 & workday==.
+{txt}(469 real changes made)
+
+{com}. 
+. gen workhour_legal = c10a
+{txt}(509 missing values generated)
+
+{com}. replace workhour_legal=0 if working==0 & workhour_legal==.
+{txt}(479 real changes made)
+
+{com}. 
+. gen workhour = c11a
+{txt}(496 missing values generated)
+
+{com}. replace workhour=0 if working==0 & workhour==.
+{txt}(477 real changes made)
+
+{com}. gen workhour_sq = workhour*workhour
+{txt}(19 missing values generated)
+
+{com}. 
+. gen work_zero = workhour==0
+{txt}
+{com}. gen work_pt  = workhour<=20 & workhour~=0 
+{txt}
+{com}. gen work_ot  = workhour>workhour_legal if workhour~=. & workhour_legal~=.
+{txt}(34 missing values generated)
+
+{com}. gen work_over_fifty  = workhour>50 if workhour~=. 
+{txt}(19 missing values generated)
+
+{com}. gen work_over_40h    = workhour>40 if workhour~=.
+{txt}(19 missing values generated)
+
+{com}. 
+. gen workhour_month = (workday/7)*workhour
+{txt}(21 missing values generated)
+
+{com}. replace workhour_month = workhour_month/100
+{txt}(2128 real changes made)
+
+{com}. gen workhour_month_sq = workhour_month*workhour_month
+{txt}(21 missing values generated)
+
+{com}. 
+. gen wage_rate_num = c121a/workhour_month
+{txt}(970 missing values generated)
+
+{com}. gen wage_rate     = ln(wage_rate_num)
+{txt}(1118 missing values generated)
+
+{com}. 
+. 
+. ** 82 percentile **
+. ***** Industry Mean Income from outside data (NBS) ******
+. 
+. gen log_industry_wage_2001 = log(industry_wage_2001)
+{txt}(900 missing values generated)
+
+{com}. 
+. 
+. ***** Median/Mean Income within Industries from the data*****
+. 
+. gen c7a_recode = c7a
+{txt}(900 missing values generated)
+
+{com}. replace c7a_recode=0 if c7a_recode==.
+{txt}(900 real changes made)
+
+{com}. 
+. bysort c7a: egen indu_med_income=median(c12a)
+{txt}
+{com}. replace indu_med_income = log(indu_med_income)
+{txt}(2996 real changes made)
+
+{com}. 
+. bysort c7a_recode: egen indu_mean_income=mean(c12a)
+{txt}
+{com}. egen cell_pop=count(c7a_recode), by(c7a_recode)
+{txt}
+{com}. tab cell_pop
+
+   {txt}cell_pop {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+          8 {c |}{res}          8        0.27        0.27
+{txt}         13 {c |}{res}         13        0.43        0.70
+{txt}         28 {c |}{res}         28        0.93        1.64
+{txt}         30 {c |}{res}         30        1.00        2.64
+{txt}         55 {c |}{res}         55        1.84        4.47
+{txt}         60 {c |}{res}         60        2.00        6.48
+{txt}         72 {c |}{res}         72        2.40        8.88
+{txt}         82 {c |}{res}         82        2.74       11.62
+{txt}        104 {c |}{res}        104        3.47       15.09
+{txt}        118 {c |}{res}        118        3.94       19.03
+{txt}        122 {c |}{res}        122        4.07       23.10
+{txt}        124 {c |}{res}        124        4.14       27.24
+{txt}        253 {c |}{res}        253        8.44       35.68
+{txt}        261 {c |}{res}        261        8.71       44.39
+{txt}        268 {c |}{res}        268        8.95       53.34
+{txt}        498 {c |}{res}        498       16.62       69.96
+{txt}        900 {c |}{res}        900       30.04      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}      2,996      100.00
+{txt}
+{com}. replace indu_mean_income=(indu_mean_income*cell_pop-c12a)/(cell_pop-1)
+{txt}(2996 real changes made, 87 to missing)
+
+{com}. drop cell_pop
+{txt}
+{com}. replace indu_mean_income = log(indu_mean_income)
+{txt}(2909 real changes made)
+
+{com}. 
+. bysort c7a c6a: egen indu_occu_med_income=median(c12a)
+{txt}
+{com}. replace indu_occu_med_income = log(indu_occu_med_income)
+{txt}(2996 real changes made)
+
+{com}. 
+. bysort c7a c6a: egen indu_occu_mean_income=mean(c12a)
+{txt}
+{com}. replace indu_occu_mean_income = log(indu_occu_mean_income)
+{txt}(2996 real changes made)
+
+{com}. 
+. bysort city c7a c6a: egen indu_occu_city_med_income=median(c12a)
+{txt}(3 missing values generated)
+
+{com}. replace indu_occu_city_med_income = log(indu_occu_city_med_income)
+{txt}(2993 real changes made, 1 to missing)
+
+{com}. 
+. bysort city c7a c6a: egen indu_occu_city_mean_income=mean(c12a)
+{txt}(3 missing values generated)
+
+{com}. replace indu_occu_city_mean_income = log(indu_occu_city_mean_income)
+{txt}(2993 real changes made, 1 to missing)
+
+{com}. 
+. //generate age group
+. gen age_group=1 if age~=.
+{txt}
+{com}. replace age_group=2 if age>2.5 & age<=3.5
+{txt}(933 real changes made)
+
+{com}. replace age_group=3 if age>3.5 & age<=4.5
+{txt}(832 real changes made)
+
+{com}. replace age_group=4 if age>4.5 & age~=.
+{txt}(690 real changes made)
+
+{com}. 
+. bysort c7a age_group: egen indu_age_med_income=median(c12a)
+{txt}
+{com}. replace indu_age_med_income=log(indu_age_med_income)
+{txt}(2996 real changes made)
+
+{com}. 
+. bysort c7a_recode age_group: egen indu_age_mean_income=mean(c12a)
+{txt}
+{com}. gen indu_age_group=c7a_recode*10+age_group
+{txt}
+{com}. egen cell_pop=count(indu_age_group), by(indu_age_group)
+{txt}
+{com}. quiet tab cell_pop
+{txt}
+{com}. replace indu_age_mean_income=(indu_age_mean_income*cell_pop-c12a)/(cell_pop-1)
+{txt}(2996 real changes made, 89 to missing)
+
+{com}. drop cell_pop
+{txt}
+{com}. replace indu_age_mean_income= log(indu_age_mean_income)
+{txt}(2907 real changes made)
+
+{com}. 
+. bysort c7a c6a age_group: egen indu_occu_age_med_income=median(c12a)
+{txt}(2 missing values generated)
+
+{com}. replace indu_occu_age_med_income = log(indu_occu_age_med_income)
+{txt}(2994 real changes made)
+
+{com}. 
+. bysort c7a c6a age_group: egen indu_occu_age_mean_income=mean(c12a)
+{txt}(2 missing values generated)
+
+{com}. replace indu_occu_age_mean_income = log(indu_occu_age_mean_income)
+{txt}(2994 real changes made)
+
+{com}. 
+. 
+. bysort city c7a c6a age_group: egen indu_occu_city_age_med_income=median(c12a)
+{txt}(17 missing values generated)
+
+{com}. replace indu_occu_city_age_med_income = log(indu_occu_city_age_med_income)
+{txt}(2979 real changes made, 67 to missing)
+
+{com}. 
+. bysort city c7a c6a age_group: egen indu_occu_city_age_mean_income=mean(c12a)
+{txt}(17 missing values generated)
+
+{com}. replace indu_occu_city_age_mean_income = log(indu_occu_city_age_mean_income)
+{txt}(2979 real changes made, 1 to missing)
+
+{com}. 
+. gen nochangofjob_past5y= c161b<=1996 | c161b==.
+{txt}
+{com}. 
+. 
+. *******************INCOME IV****************************
+. //Sibling's income reported by you
+. gen             income_sib = ln(d43a/12+1)
+{txt}(56 missing values generated)
+
+{com}. replace         income_sib = ln(d43b/12+1) if d32b==1
+{txt}(647 real changes made, 8 to missing)
+
+{com}. replace         income_sib = ln(d43c/12+1) if d32c==1
+{txt}(403 real changes made, 1 to missing)
+
+{com}. replace         income_sib = ln(d43d/12+1) if d32d==1
+{txt}(234 real changes made, 1 to missing)
+
+{com}. replace         income_sib = ln(d43e/12+1) if d32e==1
+{txt}(141 real changes made)
+
+{com}. replace         income_sib = ln(d43f/12+1) if d32f==1
+{txt}(55 real changes made, 1 to missing)
+
+{com}. replace         income_sib = ln(d43g/12+1) if d32g==1
+{txt}(10 real changes made)
+
+{com}. replace         income_sib = ln(d43h/12+1) if d32h==1
+{txt}(0 real changes made)
+
+{com}. 
+. gen income_sib_selfreported = income_sib // sibling's self-reported income, to be replaced
+{txt}(36 missing values generated)
+
+{com}. gen d_income_zero_sib_selfreported = income_sib_selfreported==0 if income_sib_selfreported ~=.
+{txt}(36 missing values generated)
+
+{com}. 
+. 
+. gen             IVincome   = income_sib
+{txt}(36 missing values generated)
+
+{com}. gen         income_squared_sib = income_sib * income_sib
+{txt}(36 missing values generated)
+
+{com}. gen         IVincome_squared = income_squared_sib
+{txt}(36 missing values generated)
+
+{com}. 
+. gen         d_income_zero_sib = income_sib==0 if income_sib~=.
+{txt}(36 missing values generated)
+
+{com}. gen         IV_d_income_zero = d_income_zero_sib 
+{txt}(36 missing values generated)
+
+{com}. 
+. gen         d_income_below100_sib = income_sib<log(100) if income_sib~=.
+{txt}(36 missing values generated)
+
+{com}. gen         IV_d_income_below100 = d_income_below100_sib  
+{txt}(36 missing values generated)
+
+{com}. 
+. 
+. 
+. xtile IVIncrank_Chengdu= IVincome if d_Chengdu==1, nquantiles(5) //Create variable containing quantile categories
+{txt}
+{com}. 
+. xtile IVIncrank_Chongqing= IVincome if d_Chongqing==1, nquantiles(5)
+{txt}
+{com}. 
+. xtile IVIncrank_Haerbin= IVincome if d_Haerbin==1, nquantiles(5)
+{txt}
+{com}. 
+. xtile IVIncrank_Hefei= IVincome if d_Hefei==1, nquantiles(5)
+{txt}
+{com}. 
+. xtile IVIncrank_Wuhan= IVincome if d_Wuhan==1, nquantiles(5)
+{txt}
+{com}. 
+. gen IVIncrank=1 if income~=.
+{txt}(44 missing values generated)
+
+{com}. replace IVIncrank=2 if IVIncrank_Chengdu==2|IVIncrank_Chongqing==2|IVIncrank_Haerbin==2|IVIncrank_Hefei==2|IVIncrank_Wuhan==2
+{txt}(676 real changes made)
+
+{com}. replace IVIncrank=3 if IVIncrank_Chengdu==3|IVIncrank_Chongqing==3|IVIncrank_Haerbin==3|IVIncrank_Hefei==3|IVIncrank_Wuhan==3
+{txt}(535 real changes made)
+
+{com}. replace IVIncrank=4 if IVIncrank_Chengdu==4|IVIncrank_Chongqing==4|IVIncrank_Haerbin==4|IVIncrank_Hefei==4|IVIncrank_Wuhan==4
+{txt}(598 real changes made)
+
+{com}. replace IVIncrank=5 if IVIncrank_Chengdu==5|IVIncrank_Chongqing==5|IVIncrank_Haerbin==5|IVIncrank_Hefei==5|IVIncrank_Wuhan==5
+{txt}(511 real changes made)
+
+{com}. 
+. /*
+> gen IVincome_0to200     = income_num<200
+> gen IVincome_200to400   = income_num>=200 & income_num<400
+> gen IVincome_400to800   = income_num>=400 & income_num<800
+> gen IVincome_800to1600  = income_num>=800 & income_num<1600
+> gen IVincome_1600above  = income_num>=1600 & income_num~=.
+> */
+. /*
+> tab f15_3 income_0to100 
+> tab f15_3 income_100to200 
+> tab f15_3 income_100to200 
+> */
+. /*
+> gen income_bracket = 1 
+> replace income_bracket = 2 if income_200to400==1
+> replace income_bracket = 3 if income_400to800==1
+> replace income_bracket = 4 if income_800to1600==1
+> replace income_bracket = 5 if income_1600above==1
+> */
+. 
+. ****************** Transfer between Twins***************
+. gen transfer_out                = d44a
+{txt}(69 missing values generated)
+
+{com}. replace transfer_out    = d44b if d32b==1
+{txt}(217 real changes made, 6 to missing)
+
+{com}. replace transfer_out    = d44c if d32c==1
+{txt}(161 real changes made, 5 to missing)
+
+{com}. replace transfer_out    = d44d if d32d==1
+{txt}(79 real changes made, 2 to missing)
+
+{com}. replace transfer_out    = d44e if d32e==1
+{txt}(48 real changes made)
+
+{com}. replace transfer_out    = d44f if d32f==1
+{txt}(16 real changes made, 1 to missing)
+
+{com}. replace transfer_out    = d44g if d32g==1
+{txt}(6 real changes made)
+
+{com}. replace transfer_out    = d44h if d32h==1
+{txt}(0 real changes made)
+
+{com}. 
+. gen transfer_in                 = d45a
+{txt}(63 missing values generated)
+
+{com}. replace transfer_in     = d45b if d32b==1
+{txt}(236 real changes made, 10 to missing)
+
+{com}. replace transfer_in     = d45c if d32c==1
+{txt}(157 real changes made, 3 to missing)
+
+{com}. replace transfer_in     = d45d if d32d==1
+{txt}(79 real changes made, 1 to missing)
+
+{com}. replace transfer_in     = d45e if d32e==1
+{txt}(45 real changes made)
+
+{com}. replace transfer_in     = d45f if d32f==1
+{txt}(16 real changes made, 2 to missing)
+
+{com}. replace transfer_in     = d45g if d32g==1
+{txt}(8 real changes made)
+
+{com}. replace transfer_in     = d45h if d32h==1
+{txt}(0 real changes made)
+
+{com}. 
+. gen transfer_d = (transfer_out~=. & transfer_out~=0)|(transfer_in~=. & transfer_in~=0)
+{txt}
+{com}. 
+. gen transfer_net = transfer_in-transfer_out
+{txt}(65 missing values generated)
+
+{com}. 
+. // sibling number, including self
+. gen sibling_num = 1
+{txt}
+{com}. foreach i in a b c d e f g h {c -(}
+{txt}  2{com}. replace sibling_num = sibling_num + (d32`i'~=.)
+{txt}  3{com}. {c )-}
+{txt}(2992 real changes made)
+(2196 real changes made)
+(1520 real changes made)
+(987 real changes made)
+(558 real changes made)
+(267 real changes made)
+(47 real changes made)
+(10 real changes made)
+
+{com}. 
+. 
+. 
+. ****************** Income of first job *****************
+. gen yearfirstjob = c1
+{txt}(73 missing values generated)
+
+{com}. gen income_first = ln(c2+1)
+{txt}(67 missing values generated)
+
+{com}. **adjust the income with inflation
+. replace income_first = ln(c2*3.227714163+1) if yearfirstjob==1979
+{txt}(117 real changes made)
+
+{com}. replace income_first = ln(c2*3.11470454+1) if yearfirstjob==1980
+{txt}(127 real changes made)
+
+{com}. replace income_first = ln(c2*3.021877712+1) if yearfirstjob==1981
+{txt}(100 real changes made)
+
+{com}. replace income_first = ln(c2*2.920909512+1) if yearfirstjob==1982
+{txt}(79 real changes made)
+
+{com}. replace income_first = ln(c2*2.914224196+1) if yearfirstjob==1983
+{txt}(85 real changes made)
+
+{com}. replace income_first = ln(c2*2.831535288+1) if yearfirstjob==1984
+{txt}(75 real changes made)
+
+{com}. replace income_first = ln(c2*2.681229271+1) if yearfirstjob==1985
+{txt}(82 real changes made)
+
+{com}. replace income_first = ln(c2*2.532696543+1) if yearfirstjob==1986
+{txt}(68 real changes made)
+
+{com}. replace income_first = ln(c2*2.429815231+1) if yearfirstjob==1987
+{txt}(61 real changes made)
+
+{com}. replace income_first = ln(c2*2.166701001+1) if yearfirstjob==1988
+{txt}(66 real changes made)
+
+{com}. replace income_first = ln(c2*2.013516505+1) if yearfirstjob==1989
+{txt}(57 real changes made)
+
+{com}. replace income_first = ln(c2*1.879175895+1) if yearfirstjob==1990
+{txt}(85 real changes made)
+
+{com}. replace income_first = ln(c2*1.766445066+1) if yearfirstjob==1991
+{txt}(101 real changes made)
+
+{com}. replace income_first = ln(c2*1.660376738+1) if yearfirstjob==1992
+{txt}(86 real changes made)
+
+{com}. replace income_first = ln(c2*1.412610384+1) if yearfirstjob==1993
+{txt}(81 real changes made)
+
+{com}. replace income_first = ln(c2*1.175980051+1) if yearfirstjob==1994
+{txt}(69 real changes made)
+
+{com}. replace income_first = ln(c2*1.037001129+1) if yearfirstjob==1995
+{txt}(101 real changes made)
+
+{com}. replace income_first = ln(c2*0.973101647+1) if yearfirstjob==1996
+{txt}(124 real changes made)
+
+{com}. replace income_first = ln(c2*0.965979756+1) if yearfirstjob==1997
+{txt}(103 real changes made)
+
+{com}. replace income_first = ln(c2*0.9872016740+1) if yearfirstjob==1998
+{txt}(90 real changes made)
+
+{com}. replace income_first = ln(c2*1.010489192+1) if yearfirstjob==1999
+{txt}(84 real changes made)
+
+{com}. replace income_first = ln(c2*1.0097+1)      if yearfirstjob==2000
+{txt}(80 real changes made)
+
+{com}. replace income_first = ln(c2*0.997924491+1) if yearfirstjob==2001
+{txt}(91 real changes made)
+
+{com}. 
+. 
+. ************************ House ******************
+. gen house_area = e14
+{txt}(15 missing values generated)
+
+{com}. gen house_own  = (e16==1 | e16==2 |e16==3 |e16==4) if e16~=.
+{txt}(12 missing values generated)
+
+{com}. 
+. 
+. ************************HEALTH PROXIES******************
+. gen health = 6-f5
+{txt}(3 missing values generated)
+
+{com}. gen health_spouse = 6-f8
+{txt}(940 missing values generated)
+
+{com}. 
+. gen ill = (f11_1==1 | f11_2==1 | f11_3==1 | f11_4==1 | f11_5==1 | f11_6==1 | f11_7==1 | f11_8==1 | f11_9_1==1 |f11_9_2==1  | f11_9_3==1  | f11_9_4==1 )
+{txt}
+{com}. gen ill_spouse = (f13_1==1 | f13_2==1 | f13_3==1 | f13_4==1 | f13_5==1 | f13_6==1 | f13_7==1 | f13_8==1 | f13_9_1==1 |f13_9_2==1  | f13_9_3==1  | f13_9_4==1  )
+{txt}
+{com}. 
+. gen disfunction =  ( f11_9_1==1 |f11_9_2==1  | f11_9_3==1  | f11_9_4==1 )
+{txt}
+{com}. gen disfunction_spouse =  ( f13_9_1==1 |f13_9_2==1  | f13_9_3==1  | f13_9_4==1 )
+{txt}
+{com}. 
+. 
+. **********************LIFE HABIT***********************
+. gen smoke = f2a if (f2a~=6)
+{txt}(7 missing values generated)
+
+{com}. gen drink       = f3a if (f3a~=9)
+{txt}(87 missing values generated)
+
+{com}. gen sports = f4a if (f4a~=6)
+{txt}(37 missing values generated)
+
+{com}. 
+. 
+. **********************MOOD****************************
+. //use 4 scales:
+. gen happiness_4scale = 5-f15_3
+{txt}(6 missing values generated)
+
+{com}. 
+. // use 3 scales: 1,2 as new 1, 3 as new 2, 4 as new 3.
+. gen happiness = 4-f15_3
+{txt}(6 missing values generated)
+
+{com}. replace happiness=1 if happiness==0
+{txt}(53 real changes made)
+
+{com}. 
+. gen happiness_3scale = happiness
+{txt}(6 missing values generated)
+
+{com}. /*
+> replace happiness=0 if happiness<=2
+> replace happiness=1 if happiness==3
+> */
+. 
+. //binary value: 4 vs 321 or 43 vs 21
+. gen happiness_4_321 = f15_3==1 if f15_3~=.
+{txt}(6 missing values generated)
+
+{com}. gen happiness_43_21 = f15_3==1 | f15_3==2 if f15_3~=.
+{txt}(6 missing values generated)
+
+{com}. 
+. 
+. gen sad_4scale       = f15_1
+{txt}(7 missing values generated)
+
+{com}. gen scared_4scale        = f15_2
+{txt}(12 missing values generated)
+
+{com}. gen angry_4scale         = f15_4
+{txt}(8 missing values generated)
+
+{com}. gen hateful_4scale       = f15_5
+{txt}(5 missing values generated)
+
+{com}. 
+. 
+. // translate to 3 scales:
+. recode sad     (1 2 =1) (3=2) (4=3), generate (sad_3scale)
+{txt}(2834 differences between sad_4scale and sad_3scale)
+
+{com}. recode scared  (1 2 =1) (3=2) (4=3), generate (scared_3scale)
+{txt}(2949 differences between scared_4scale and scared_3scale)
+
+{com}. recode angry   (1 2 =1) (3=2) (4=3), generate (angry_3scale)
+{txt}(2833 differences between angry_4scale and angry_3scale)
+
+{com}. recode hateful (1 2 =1) (3=2) (4=3), generate (hateful_3scale)
+{txt}(2905 differences between hateful_4scale and hateful_3scale)
+
+{com}. 
+. 
+. *********************** Keep Twins both with complete information ************************
+. gen birth_year = e4_1_1
+{txt}
+{com}. gen birth_month = e4_1_2
+{txt}
+{com}. 
+. //gen d_haircolor = (e2==1) if (e2~=.)
+. //gen d_look  =  (e3==1) if (e3~=.)
+. //another defination to have more observations: code as not the same look/haircolor if not answered
+. gen d_haircolor = (e2==1) 
+{txt}
+{com}. gen d_look  =  (e3==1) 
+{txt}
+{com}. 
+. 
+. drop if (happiness==.)
+{txt}(6 observations deleted)
+
+{com}. /*
+> drop if (sad==.)
+> drop if (scared==.)
+> drop if (angry==.)
+> drop if (hateful==.)
+> */
+. drop if (sad_4scale==.)
+{txt}(5 observations deleted)
+
+{com}. drop if (scared_4scale==.)
+{txt}(7 observations deleted)
+
+{com}. drop if (angry_4scale==.)
+{txt}(2 observations deleted)
+
+{com}. drop if (hateful_4scale==.)
+{txt}(1 observation deleted)
+
+{com}. 
+. 
+. drop if income==.
+{txt}(44 observations deleted)
+
+{com}. drop if (age==.)
+{txt}(0 observations deleted)
+
+{com}. drop if (male==.)
+{txt}(0 observations deleted)
+
+{com}. drop if (edu==.)
+{txt}(11 observations deleted)
+
+{com}. drop if CCP==.
+{txt}(28 observations deleted)
+
+{com}. drop if (married==.)
+{txt}(5 observations deleted)
+
+{com}. drop if (divorced==.)
+{txt}(0 observations deleted)
+
+{com}. drop if (widowed==.)
+{txt}(0 observations deleted)
+
+{com}. drop if health==. 
+{txt}(2 observations deleted)
+
+{com}. 
+. //drop if workhour_month==.
+. drop if birth_rate==.
+{txt}(14 observations deleted)
+
+{com}. //drop if early_disease_d==.
+. drop if VeryEarly_disease_d==. 
+{txt}(0 observations deleted)
+
+{com}. drop if work_over_40h==.
+{txt}(17 observations deleted)
+
+{com}. //drop if not_in_lf==.
+. //drop if unemployed==.
+. 
+. drop if BirthOrder_ElderDummy==.
+{txt}(0 observations deleted)
+
+{com}. drop if height==.
+{txt}(2 observations deleted)
+
+{com}. 
+. 
+. 
+. save all_twins.dta, replace
+{txt}file all_twins.dta saved
+
+{com}. 
+. ********************************************************
+. use all_twins.dta, clear
+{txt}
+{com}. 
+. keep  happiness happiness_4scale sad_4scale scared_4scale angry_4scale hateful_4scale happiness_3scale sad_3scale scared_3scale angry_3scale hateful_3scale BirthOrder_ElderDummy happiness_4_321  happiness_43_21 birth_rate early_disease_d VeryEarly_disease_d income income_squared income_squared_sib income_num d_income_zero d_income_zero_sib IV_d_income_zero  d_income_below100 d_income_below100_sib IV_d_income_below100  income_bracket Incrank IVIncrank income_highschoolabove income_collegeabove edu_highschoolabove edu_collegeabove edu_univabove income_sib income_sib_selfreported d_income_zero_sib_selfreported  IVincome IVincome_squared income_spouse ///
+>       indu_med_income indu_mean_income indu_occu_med_income indu_occu_mean_income indu_occu_age_med_income indu_occu_age_mean_income ///
+>       indu_age_med_income indu_age_mean_income industry_wage_growth_past5y industry_wage_growth_past7y industry_wage_growth_past8y  industry_wage_1993 industry_wage_growth_past9y  industry_wage_1996 income_bothspouse income_aver  familyinc income_first yearfirstjob house_area house_own /// 
+>       rawwage wage d_zerowage wage_rate wage_spouse  unemployed not_in_lf working work_zero work_pt workday workhour workhour_sq workhour_month workhour_month_sq work_ot work_over_fifty work_over_40h age  agesquared tenure /// 
+>       edu  edusquared edu_spouse edu_sib IVedu sIVedu Aedu_own high techhigh college univ tech male  c5a c6a c7a /// 
+>       married divorced widowed smoke drink sports  health health_spouse  disfunction transfer_out transfer_in transfer_net /// 
+>       twcode twinpair  sibling_num d_haircolor d_look birth_year birth_month  d_Chengdu d_Chongqing d_Haerbin d_Hefei d_Wuhan ///
+>           edu_primary  edu_junior edu_senior edu_voc edu_college edu_univ edu_master edu_doctoral indu_age_group industry_wage_2001 log_industry_wage_2001 height height_spouse CCP
+{txt}
+{com}.           
+. quiet reshape wide happiness happiness_4scale sad_4scale scared_4scale angry_4scale hateful_4scale happiness_3scale sad_3scale scared_3scale angry_3scale hateful_3scale BirthOrder_ElderDummy happiness_4_321  happiness_43_21 birth_rate early_disease_d VeryEarly_disease_d income income_squared income_squared_sib income_num d_income_zero d_income_zero_sib IV_d_income_zero  d_income_below100 d_income_below100_sib IV_d_income_below100  income_bracket Incrank IVIncrank income_highschoolabove income_collegeabove edu_highschoolabove edu_collegeabove edu_univabove income_sib income_sib_selfreported d_income_zero_sib_selfreported IVincome IVincome_squared income_spouse ///
+>       indu_med_income indu_mean_income indu_occu_med_income indu_occu_mean_income indu_occu_age_med_income indu_occu_age_mean_income ///
+>       indu_age_med_income indu_age_mean_income industry_wage_growth_past5y industry_wage_growth_past7y industry_wage_growth_past8y  industry_wage_1993 industry_wage_growth_past9y  industry_wage_1996 income_bothspouse income_aver familyinc income_first yearfirstjob house_area house_own ///
+>       unemployed not_in_lf working work_zero work_pt workday workhour workhour_sq workhour_month workhour_month_sq work_ot work_over_fifty work_over_40h rawwage wage d_zerowage wage_rate wage_spouse  age  agesquared tenure ///
+>       edu  edusquared edu_spouse edu_sib IVedu sIVedu Aedu_own  high techhigh college univ tech male c5a c6a c7a /// 
+>       married divorced widowed  smoke drink sports health health_spouse   disfunction transfer_out transfer_in transfer_net /// 
+>           sibling_num d_haircolor d_look birth_year birth_month d_Chengdu d_Chongqing d_Haerbin d_Hefei d_Wuhan ///
+>           edu_primary  edu_junior edu_senior edu_voc edu_college edu_univ edu_master edu_doctoral indu_age_group industry_wage_2001 log_industry_wage_2001 height height_spouse CCP, i(twinpair) j(twcode)
+{txt}
+{com}. 
+. replace  IVedu1 = edu_sib2
+{txt}(292 real changes made, 76 to missing)
+
+{com}. replace  IVedu2 = edu_sib1
+{txt}(272 real changes made, 64 to missing)
+
+{com}. 
+. //gen dz=(male1~= male2 | d_haircolor1~=1 | d_look1~=1 | d_haircolor2~=1 | d_look2~=1)
+. 
+. gen mz=(male1== male2 & d_haircolor1==1 & d_look1==1 & d_haircolor2==1 & d_look2==1)
+{txt}
+{com}. gen dz= (mz~=1)
+{txt}
+{com}. 
+. //drop if BirthOrder_ElderDummy1==BirthOrder_ElderDummy2
+. 
+. 
+. drop if (age1==.)|(age2==.)
+{txt}(112 observations deleted)
+
+{com}. drop if (male1==.)|(male2==.)
+{txt}(0 observations deleted)
+
+{com}. drop if (happiness1==.)|(happiness2==.)
+{txt}(0 observations deleted)
+
+{com}. drop if (happiness_4scale1==.)|(happiness_4scale2==.)
+{txt}(0 observations deleted)
+
+{com}. 
+. drop if (sad_4scale1==.)|(sad_4scale2==.)
+{txt}(0 observations deleted)
+
+{com}. drop if (scared_4scale1==.)|(scared_4scale2==.)
+{txt}(0 observations deleted)
+
+{com}. drop if (angry_4scale1==.)|(angry_4scale2==.)
+{txt}(0 observations deleted)
+
+{com}. drop if (hateful_4scale1==.)|(hateful_4scale2==.)
+{txt}(0 observations deleted)
+
+{com}.   
+. 
+. 
+. //drop if  (male1~= male2 |  birth_year1~= birth_year2 | birth_month1~= birth_month2)
+. //drop if (birth_year1==. | birth_year2==.)
+. //drop if  (birth_year1~= birth_year2)
+. 
+. //drop if  (male1==. |  birth_year1==. | birth_month1==.)
+. 
+. 
+. drop if (BirthOrder_ElderDummy1==. )|( BirthOrder_ElderDummy2==.)
+{txt}(0 observations deleted)
+
+{com}. 
+. drop if (income1==. )| (income2==.)
+{txt}(0 observations deleted)
+
+{com}. drop if (married1==.)| (married2==.)
+{txt}(0 observations deleted)
+
+{com}. drop if (divorced1==.)| (divorced2==.)
+{txt}(0 observations deleted)
+
+{com}. drop if (widowed1==.)| (widowed2==.)
+{txt}(0 observations deleted)
+
+{com}. 
+. drop if (edu1==.)|(edu2==.)
+{txt}(0 observations deleted)
+
+{com}. drop if (CCP1==. )|(CCP2==.)
+{txt}(0 observations deleted)
+
+{com}. drop if (health1==.)|(health2==.)
+{txt}(0 observations deleted)
+
+{com}. 
+. 
+. //drop if (unemployed1==.)|(unemployed2==.)
+. //drop if workhour_month1==. | workhour_month2==.
+. //drop if not_in_lf1==. | not_in_lf2==.
+. 
+. drop if (work_over_40h1==.) | (work_over_40h2==.)
+{txt}(0 observations deleted)
+
+{com}. drop if (birth_rate1==.) | (birth_rate2==.)
+{txt}(0 observations deleted)
+
+{com}. drop if (height1==.) | (height2==.)
+{txt}(0 observations deleted)
+
+{com}. 
+. //drop if (early_disease_d1==.)  | (early_disease_d2==.)
+. drop if (VeryEarly_disease_d1==.)  | (VeryEarly_disease_d2==.) 
+{txt}(0 observations deleted)
+
+{com}. 
+. gen  Dhappiness         = happiness1-happiness2
+{txt}
+{com}. gen  Dhappiness_4scale = happiness_4scale1-happiness_4scale2
+{txt}
+{com}. gen  Dhappiness_4_321  = happiness_4_3211-happiness_4_3212
+{txt}
+{com}. gen  Dhappiness_43_21  = happiness_43_211-happiness_43_212
+{txt}
+{com}. 
+. /*
+> gen  Dsad           = sad1-sad2
+> gen  Dscared    = scared1-scared2
+> gen  Dangry     = angry1-angry2
+> gen  Dhateful   = hateful1-hateful2
+> */
+. 
+. gen  Dsad_4scale            = sad_4scale1-sad_4scale2
+{txt}
+{com}. gen  Dscared_4scale     = scared_4scale1-scared_4scale2
+{txt}
+{com}. gen  Dangry_4scale      = angry_4scale1-angry_4scale2
+{txt}
+{com}. gen  Dhateful_4scale    = hateful_4scale1-hateful_4scale2
+{txt}
+{com}. 
+. gen  Dhappiness_3scale  = happiness_3scale1-happiness_3scale2
+{txt}
+{com}. gen  Dsad_3scale            = sad_3scale1-sad_3scale2
+{txt}
+{com}. gen  Dscared_3scale     = scared_3scale1-scared_3scale2
+{txt}
+{com}. gen  Dangry_3scale      = angry_3scale1-angry_3scale2
+{txt}
+{com}. gen  Dhateful_3scale    = hateful_3scale1-hateful_3scale2
+{txt}
+{com}. 
+. 
+. 
+. 
+. gen  Dincome      = income1-income2
+{txt}
+{com}. gen  Dincome_squared = income_squared1-income_squared2
+{txt}
+{com}. 
+. replace  income_sib_selfreported1 = income2 
+{txt}(1203 real changes made)
+
+{com}. replace  income_sib_selfreported2 = income1
+{txt}(1197 real changes made)
+
+{com}. 
+. replace d_income_zero_sib_selfreported1= income_sib_selfreported1==0 if income_sib_selfreported1~=.
+{txt}(108 real changes made)
+
+{com}. replace d_income_zero_sib_selfreported2= income_sib_selfreported2==0 if income_sib_selfreported2~=.
+{txt}(87 real changes made)
+
+{com}. 
+. gen  Dincome_num  = exp(income1)-exp(income2)
+{txt}
+{com}. gen  Dincome_num_year = Dincome_num*12 
+{txt}
+{com}. 
+. gen  Dincome_bracket = income_bracket1-income_bracket2
+{txt}
+{com}. gen  DIncrank        = Incrank1-Incrank2 
+{txt}
+{com}. 
+. gen  Diff_d_income_zero = d_income_zero1-d_income_zero2
+{txt}
+{com}. gen  Diff_d_income_below100 =  d_income_below1001-d_income_below1002
+{txt}
+{com}. 
+. gen  Dincome_highschoolabove  = income_highschoolabove1-income_highschoolabove2
+{txt}
+{com}. gen  Dincome_collegeabove  = income_collegeabove1-income_collegeabove2
+{txt}
+{com}. 
+. 
+. gen  DBirthOrder_ElderDummy = BirthOrder_ElderDummy1 - BirthOrder_ElderDummy2
+{txt}
+{com}. gen  Dmale = male1-male2    //for DZ twins only
+{txt}
+{com}. 
+. gen  Dmarried   = married1-married2
+{txt}
+{com}. gen  Ddivorced    = divorced1-divorced2
+{txt}
+{com}. gen  Dwidowed     = widowed1-widowed2
+{txt}
+{com}. 
+. gen  Dhealth      = health1-health2
+{txt}
+{com}. gen  Dedu         = edu1-edu2
+{txt}
+{com}. gen  AbsDedu      = Dedu
+{txt}
+{com}. replace AbsDedu   = -Dedu if Dedu<0
+{txt}(337 real changes made)
+
+{com}. 
+. gen  DCCP         = CCP1-CCP2
+{txt}
+{com}. 
+. gen  Dedu_highschoolabove = edu_highschoolabove1-edu_highschoolabove2
+{txt}
+{com}. gen  Dedu_collegeabove    = edu_collegeabove1-edu_collegeabove2
+{txt}
+{com}. 
+. gen  Dedu_junior = edu_junior1-edu_junior2
+{txt}
+{com}. gen  Dedu_senior = edu_senior1-edu_senior2
+{txt}
+{com}. gen  Dedu_voc = edu_voc1-edu_voc2
+{txt}
+{com}. gen  Dedu_college = edu_college1-edu_college2
+{txt}
+{com}. gen  Dedu_univ = edu_univ1-edu_univ2
+{txt}
+{com}. gen  Dedu_master = edu_master1-edu_master2
+{txt}
+{com}. gen  Dedu_doctoral = edu_doctoral1-edu_doctoral2
+{txt}
+{com}. gen  Dedu_univabove= edu_univabove1-edu_univabove2
+{txt}
+{com}. 
+. 
+. gen  Dunemployed  = unemployed1-unemployed2
+{txt}
+{com}. gen  Dnot_in_lf   = not_in_lf1-not_in_lf2
+{txt}
+{com}. gen  Dbirth_rate  = birth_rate1-birth_rate2
+{txt}
+{com}. gen  Dearly_disease_d = early_disease_d1-early_disease_d2
+{txt}
+{com}. gen  DVeryEarly_disease_d =  VeryEarly_disease_d1-VeryEarly_disease_d2
+{txt}
+{com}. 
+. gen  Dheight      = height1 - height2
+{txt}
+{com}. 
+. gen  Dworkday     = workday1-workday2
+{txt}(1 missing value generated)
+
+{com}. gen  Dworkhour    = workhour1-workhour2
+{txt}
+{com}. gen  Dworkhour_sq = workhour_sq1-workhour_sq2
+{txt}
+{com}. gen  Dworkhour_month = workhour_month1-workhour_month2
+{txt}(1 missing value generated)
+
+{com}. gen  Dworkhour_month_sq =  workhour_month_sq1-workhour_month_sq2
+{txt}(1 missing value generated)
+
+{com}. gen  Dwork_ot     = work_ot1-work_ot2
+{txt}(11 missing values generated)
+
+{com}. gen  Dwork_over_fifty     = work_over_fifty1-work_over_fifty2
+{txt}
+{com}. gen  Dwork_over_40h = work_over_40h1-work_over_40h2
+{txt}
+{com}. gen  Dwork_zero   = work_zero1-work_zero2
+{txt}
+{com}. gen  Dwork_pt     = work_pt1-work_pt2
+{txt}
+{com}. gen  Dtenure      = tenure1-tenure2
+{txt}(46 missing values generated)
+
+{com}. 
+. gen  Dwage        = wage1-wage2
+{txt}(629 missing values generated)
+
+{com}. gen  D_d_zerowage = d_zerowage1-d_zerowage2
+{txt}(236 missing values generated)
+
+{com}. 
+. gen  Dwage_rate   = wage_rate1-wage_rate2
+{txt}(689 missing values generated)
+
+{com}. gen  Dhouse_own   = house_own1-house_own2
+{txt}(9 missing values generated)
+
+{com}. gen  Dincome_bothspouse = income_bothspouse1-income_bothspouse2
+{txt}(602 missing values generated)
+
+{com}. gen  Dfamilyinc = familyinc1-familyinc2
+{txt}(8 missing values generated)
+
+{com}. gen  Dincome_first = income_first1-income_first2
+{txt}(46 missing values generated)
+
+{com}. 
+. gen  Dincome_spouse = income_spouse1-income_spouse2
+{txt}(595 missing values generated)
+
+{com}. gen  Dwage_spouse         = wage_spouse1-wage_spouse2
+{txt}(741 missing values generated)
+
+{com}. gen  Dedu_spouse    = edu_spouse1-edu_spouse2
+{txt}(568 missing values generated)
+
+{com}. 
+. gen  Dindu_med_income                   = indu_med_income1-indu_med_income2
+{txt}
+{com}. gen  Dindu_mean_income                  = indu_mean_income1-indu_mean_income2 
+{txt}(29 missing values generated)
+
+{com}. gen  Dindu_occu_med_income              = indu_occu_med_income1-indu_occu_med_income2
+{txt}
+{com}. gen  Dindu_occu_mean_income             = indu_occu_mean_income1-indu_occu_mean_income2 
+{txt}
+{com}. gen  Dindu_occu_age_med_income  = indu_occu_age_med_income1-indu_occu_age_med_income2
+{txt}
+{com}. gen  Dindu_occu_age_mean_income = indu_occu_age_mean_income1-indu_occu_age_mean_income2
+{txt}
+{com}. gen  Dindu_age_med_income               = indu_age_med_income1-indu_age_med_income2
+{txt}
+{com}. gen  Dindu_age_mean_income              = indu_age_mean_income1-indu_age_mean_income2
+{txt}(31 missing values generated)
+
+{com}. gen  Dindustry_wage_growth_past5y   = industry_wage_growth_past5y1-industry_wage_growth_past5y2
+{txt}(576 missing values generated)
+
+{com}. gen  Dindustry_wage_growth_past9y  = industry_wage_growth_past9y1-industry_wage_growth_past9y2
+{txt}(576 missing values generated)
+
+{com}. 
+. gen  Dindustry_wage_2001        = industry_wage_20011-industry_wage_20012
+{txt}(576 missing values generated)
+
+{com}. gen  Dlog_industry_wage_2001    = log_industry_wage_20011-log_industry_wage_20012
+{txt}(576 missing values generated)
+
+{com}. 
+. //maximum income
+. gen Max_income = income1
+{txt}
+{com}. replace Max_income = income2 if income2>income1
+{txt}(590 real changes made)
+
+{com}. 
+. 
+. *** For comparison of correlations ***
+. gen Ahappiness_4scale= 0.5*(happiness_4scale1+happiness_4scale2)
+{txt}
+{com}. gen Ahappiness = 0.5*(happiness1+happiness2)
+{txt}
+{com}. gen Ahappiness_4_321 = 0.5*(happiness_4_3211+happiness_4_3212)
+{txt}
+{com}. gen Ahappiness_43_21 = 0.5*(happiness_43_211+happiness_43_212)
+{txt}
+{com}. 
+. /*
+> gen  Asad           = 0.5*(sad1+sad2)
+> gen  Ascared    = 0.5*(scared1+scared2)
+> gen  Aangry     = 0.5*(angry1+angry2)
+> gen  Ahateful   = 0.5*(hateful1+hateful2)
+> */
+. 
+. gen  Asad_4scale            = 0.5*(sad_4scale1+sad_4scale2)
+{txt}
+{com}. gen  Ascared_4scale     = 0.5*(scared_4scale1+scared_4scale2)
+{txt}
+{com}. gen  Aangry_4scale      = 0.5*(angry_4scale1+angry_4scale2)
+{txt}
+{com}. gen  Ahateful_4scale    = 0.5*(hateful_4scale1+hateful_4scale2)
+{txt}
+{com}. 
+. gen  Ahappiness_3scale  = 0.5*(happiness_3scale1+happiness_3scale2)
+{txt}
+{com}. gen  Asad_3scale            = 0.5*(sad_3scale1+sad_3scale2)
+{txt}
+{com}. gen  Ascared_3scale     = 0.5*(scared_3scale1+scared_3scale2)
+{txt}
+{com}. gen  Aangry_3scale      = 0.5*(angry_3scale1+angry_3scale2)
+{txt}
+{com}. gen  Ahateful_3scale    = 0.5*(hateful_3scale1+hateful_3scale2)
+{txt}
+{com}. 
+. 
+. 
+. gen Aincome = 0.5*(income1+income2)
+{txt}
+{com}. gen Ad_income_zero = 0.5*(d_income_zero1+d_income_zero2)
+{txt}
+{com}. gen Ad_income_below100 = 0.5*(d_income_below1001+d_income_below1002)
+{txt}
+{com}. gen Aincome_squared = 0.5*(income_squared1+income_squared2  )
+{txt}
+{com}. 
+. gen Awage    = 0.5*(wage1+wage2)
+{txt}(629 missing values generated)
+
+{com}. gen Amarried = 0.5*(married1+married2)
+{txt}
+{com}. gen Adivorced    = 0.5*(divorced1+divorced2)
+{txt}
+{com}. gen Awidowed     = 0.5*(widowed1+widowed2)
+{txt}
+{com}. 
+. 
+. gen ABirthOrder_ElderDummy = 0.5*(BirthOrder_ElderDummy1+BirthOrder_ElderDummy2)
+{txt}
+{com}. 
+. gen Ahealth  = 0.5*(health1+health2)
+{txt}
+{com}. gen Aedu     = 0.5*(edu1+edu2)
+{txt}
+{com}. gen ACCP     = 0.5*(CCP1+CCP2)
+{txt}
+{com}. 
+. gen Aunemployed  = 0.5*(unemployed1+unemployed2)
+{txt}
+{com}. gen Awork_over_40h = 0.5*(work_over_40h1+work_over_40h2)
+{txt}
+{com}. gen Abirth_rate  = 0.5*(birth_rate1+birth_rate2)
+{txt}
+{com}. gen Aearly_disease_d = 0.5*(early_disease_d1+early_disease_d2) 
+{txt}
+{com}. gen AVeryEarly_disease_d = 0.5*(VeryEarly_disease_d1+VeryEarly_disease_d2)
+{txt}
+{com}. gen Aheight      = 0.5*(height1+height2)
+{txt}
+{com}. 
+. gen Aincome_spouse = 0.5*(income_spouse1+income_spouse2)
+{txt}(595 missing values generated)
+
+{com}. gen Awage_spouse          = 0.5*(wage_spouse1+wage_spouse2)
+{txt}(741 missing values generated)
+
+{com}. gen Aedu_spouse     = 0.5*(edu_spouse1+edu_spouse2)
+{txt}(568 missing values generated)
+
+{com}. gen Atenure         = 0.5*(tenure1+tenure2)
+{txt}(46 missing values generated)
+
+{com}. gen Dtransfer_out    = log(transfer_out1+1)-log(transfer_out2+1)
+{txt}(43 missing values generated)
+
+{com}. gen Dtransfer_in     = log(transfer_in1+1)-log(transfer_in2+1)
+{txt}(41 missing values generated)
+
+{com}. gen transfer_netout_mean = 0.5*(Dtransfer_out-Dtransfer_in)
+{txt}(48 missing values generated)
+
+{com}. gen transfer_netout_mean_num = 0.5*((transfer_out1-transfer_in1)+(transfer_in2-transfer_out2))
+{txt}(48 missing values generated)
+
+{com}. 
+. save twins_DIF.dta, replace
+{txt}(note: file twins_DIF.dta not found)
+file twins_DIF.dta saved
+
+{com}. 
+. 
+. quiet reshape long
+{txt}
+{com}. save twins_clean.dta, replace
+{txt}(note: file twins_clean.dta not found)
+file twins_clean.dta saved
+
+{com}. 
+. 
+. drop if dz==1
+{txt}(1046 observations deleted)
+
+{com}. save twins_mz_DIF.dta, replace
+{txt}(note: file twins_mz_DIF.dta not found)
+file twins_mz_DIF.dta saved
+
+{com}. 
+. quiet reshape long
+{txt}
+{com}. save twins_mz_clean.dta, replace
+{txt}(note: file twins_mz_clean.dta not found)
+file twins_mz_clean.dta saved
+
+{com}. 
+. 
+. use twins_DIF.dta, clear
+{txt}
+{com}. keep if dz==1
+{txt}(847 observations deleted)
+
+{com}. save twins_dz_DIF.dta, replace
+{txt}(note: file twins_dz_DIF.dta not found)
+file twins_dz_DIF.dta saved
+
+{com}. 
+. quiet reshape long
+{txt}
+{com}. save twins_dz_clean.dta, replace
+{txt}(note: file twins_dz_clean.dta not found)
+file twins_dz_clean.dta saved
+
+{com}. 
+. 
+. *** use income variable and IV ***
+. use twins_DIF.dta, clear
+{txt}
+{com}. 
+. drop if (income1==.)|(income2==.)
+{txt}(0 observations deleted)
+
+{com}. //drop if IVincome1==.
+. //drop if IVincome2==.
+. 
+. * IVFE-1
+. gen  IVDincome    = income_sib2-income_sib1
+{txt}(27 missing values generated)
+
+{com}. gen  IVDincome_squared = income_squared_sib2-income_squared_sib1
+{txt}(27 missing values generated)
+
+{com}. 
+. gen  IVDincome_num = exp(income_sib2)-exp(income_sib1)
+{txt}(27 missing values generated)
+
+{com}. 
+. gen  IVD_d_income_zero = d_income_zero_sib2-d_income_zero_sib1 
+{txt}(27 missing values generated)
+
+{com}. 
+. gen  IVD_d_income_below100 = d_income_below100_sib2-d_income_below100_sib1
+{txt}(27 missing values generated)
+
+{com}. 
+. gen  IVDIncrank   = IVIncrank2-IVIncrank1
+{txt}
+{com}. 
+. gen  IVDedu       = edu_sib2-edu_sib1
+{txt}(26 missing values generated)
+
+{com}. 
+. * IVFE-2
+. gen  sDincome     = income1-income_sib1
+{txt}(17 missing values generated)
+
+{com}. gen  sDincome_squared = income_squared1-income_squared_sib1
+{txt}(17 missing values generated)
+
+{com}. 
+. gen  sIVDincome   = income_sib2-income2
+{txt}(13 missing values generated)
+
+{com}. gen  sIVDincome_squared = income_squared_sib2-income_squared2
+{txt}(13 missing values generated)
+
+{com}. 
+. 
+. gen  sD_d_income_zero   = d_income_zero1-d_income_zero_sib1
+{txt}(17 missing values generated)
+
+{com}. gen  sIVD_d_income_zero = d_income_zero_sib2-d_income_zero2
+{txt}(13 missing values generated)
+
+{com}. 
+. gen  sD_d_income_below100   = d_income_below1001-d_income_below100_sib1
+{txt}(17 missing values generated)
+
+{com}. gen  sIVD_d_income_below100 = d_income_below100_sib2-d_income_below1002
+{txt}(13 missing values generated)
+
+{com}. 
+. gen  sDIncrank    = Incrank1-IVIncrank1
+{txt}
+{com}. gen  sIVDIncrank  = Incrank2-IVIncrank2 
+{txt}
+{com}. 
+. //gen  sDedu        = edu1-edu_sib1
+. //gen  sIVDedu      = edu_sib2-edu2
+. 
+. //correct IV for income
+. replace  IVincome1    = income_sib2
+{txt}(1117 real changes made, 10 to missing)
+
+{com}. replace  IVincome2    = income_sib1
+{txt}(1117 real changes made, 14 to missing)
+
+{com}. 
+. replace  IVincome_squared1    = income_squared_sib2
+{txt}(1117 real changes made, 10 to missing)
+
+{com}. replace  IVincome_squared2     = income_squared_sib1
+{txt}(1117 real changes made, 14 to missing)
+
+{com}. 
+. replace IV_d_income_zero1 =    d_income_zero_sib2
+{txt}(132 real changes made, 10 to missing)
+
+{com}. replace IV_d_income_zero2 =    d_income_zero_sib1
+{txt}(132 real changes made, 14 to missing)
+
+{com}. 
+. 
+. replace IV_d_income_below1001 =    d_income_below100_sib2
+{txt}(184 real changes made, 10 to missing)
+
+{com}. replace IV_d_income_below1002 =    d_income_below100_sib1
+{txt}(184 real changes made, 14 to missing)
+
+{com}. 
+. gen IVIncrank_temp  = IVIncrank1
+{txt}
+{com}. replace  IVIncrank1   = IVIncrank2
+{txt}(724 real changes made)
+
+{com}. replace  IVIncrank2   = IVIncrank_temp
+{txt}(724 real changes made)
+
+{com}. 
+. //IV for Edu
+. gen  DIVedu       = IVedu1-IVedu2
+{txt}(26 missing values generated)
+
+{com}. 
+. gen  sDedu        = edu1-edu_sib1
+{txt}(13 missing values generated)
+
+{com}. gen  sIVDedu      = edu_sib2-edu2 
+{txt}(15 missing values generated)
+
+{com}. 
+. replace  Aedu_own1        = (edu1+edu_sib2)/2
+{txt}(180 real changes made, 15 to missing)
+
+{com}. replace  Aedu_own2        = (edu2+edu_sib1)/2
+{txt}(163 real changes made, 13 to missing)
+
+{com}. 
+. quiet reshape long
+{txt}
+{com}. save twins_IV_DIF.dta, replace
+{txt}(note: file twins_IV_DIF.dta not found)
+file twins_IV_DIF.dta saved
+
+{com}. 
+. drop if dz==1
+{txt}(1046 observations deleted)
+
+{com}. save twins_MZ_IV_DIF.dta, replace
+{txt}file twins_MZ_IV_DIF.dta saved
+
+{com}. 
+. use twins_IV_DIF.dta, clear
+{txt}
+{com}. keep if dz==1
+{txt}(1694 observations deleted)
+
+{com}. save twins_DZ_IV_DIF.dta, replace
+{txt}(note: file twins_DZ_IV_DIF.dta not found)
+file twins_DZ_IV_DIF.dta saved
+
+{com}. 
+. 
+{txt}end of do-file
+
+{com}. do "C:\Users\AIQING~1\AppData\Local\Temp\STD01000000.tmp"
+{txt}
+{com}. clear
+{txt}
+{com}. //clear matrix
+. set mem 80m
+{txt}{bf:set memory} ignored.
+{p 4 4 2}
+Memory no longer
+needs to be set in modern Statas;
+memory adjustments are performed on the fly
+automatically.
+{p_end}
+
+{com}. set more off
+{txt}
+{com}. set matsize 800
+{txt}
+{com}. capture log close
+{smcl}
+{com}{sf}{ul off}

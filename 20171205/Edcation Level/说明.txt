@@ -1,0 +1,15 @@
+education level  20121206
+1.分组方式
+default group ：小学及以下
+其余分成五组：初中，高中，中专，大专，大学本科及以上
+
+2.code： 
+gen edu_junior  = a4_2==1 & a4_3~=1 & a4_4~=1 & a4_5~=1 & a4_6~=1 & a4_7~=1 & a4_8~=1
+gen edu_senior  = a4_3==1 & a4_4~=1 & a4_5~=1 & a4_6~=1 & a4_7~=1 & a4_8~=1
+gen edu_techhigh     = a4_4==1 & a4_5~=1 & a4_6~=1 & a4_7~=1 & a4_8~=1
+gen edu_college = a4_5==1 & a4_6~=1 & a4_7~=1 & a4_8~=1
+gen edu_univ    = a4_6==1 & a4_7~=1 & a4_8~=1
+gen edu_master  = a4_7==1 & a4_8~=1
+gen edu_doctoral= a4_8==1
+
+gen edu_univabove = edu_univ | edu_master |edu_doctoral // too few master & doctorals

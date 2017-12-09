@@ -1,0 +1,548 @@
+{smcl}
+{txt}{sf}{ul off}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}C:\Users\Aiqing-Jiang\Desktop\HappinessCODES\results\tables.txt
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res}30 Nov 2017, 17:08:44
+{txt}
+{com}. 
+. 
+. 
+. //Draw Figure 1
+. egen bins=cut(income_num),at(0(100)30000)
+{txt}(1 missing value generated)
+
+{com}. replace bins=bins+25
+{txt}(2851 real changes made)
+
+{com}. drop if income==0
+{txt}(217 observations deleted)
+
+{com}. 
+. bysort edu: egen happiness_4scale_mean=mean(happiness_4scale)
+{txt}
+{com}. twoway (scatter happiness_4scale_mean edu) (lfit happiness_4scale edu)(qfit happiness_4scale edu), ///
+> ytitle(Mean happiness_4scale) xtitle(Education) saving(Meanhappiness_4scale_Edu.tif, replace) legend(label(1 "Mean happiness") label(2 "Linear fit") label(3 "Quadratic fit")) 
+{res}{txt}(note: file Meanhappiness_4scale_Edu.tif not found)
+{res}{txt}(file Meanhappiness_4scale_Edu.tif saved)
+
+{com}. 
+. drop happiness_4scale_mean
+{txt}
+{com}. 
+. 
+. //Table 1: educaton duration and happiness matrix
+. tab f15_1  edu
+
+           {txt}{c |}                                                      edu
+     F15_1 {c |}         0          2          3        3.5          4        4.5          5          6        6.5          7 {c |}     Total
+{hline 11}{c +}{hline 110}{c +}{hline 10}
+         1 {c |}{res}         0          1          3          0          1          0          2          0          0          2 {txt}{c |}{res}       120 
+{txt}         2 {c |}{res}         0          1          4          0          3          1          8         17          1         15 {txt}{c |}{res}       895 
+{txt}         3 {c |}{res}         1          3          3          0          1          0         10         14          0         16 {txt}{c |}{res}     1,152 
+{txt}         4 {c |}{res}         1          4          1          1          0          0          4          9          0          6 {txt}{c |}{res}       468 
+{txt}{hline 11}{c +}{hline 110}{c +}{hline 10}
+     Total {c |}{res}         2          9         11          1          5          1         24         40          1         39 {txt}{c |}{res}     2,635 
+
+
+           {txt}{c |}                                                      edu
+     F15_1 {c |}       7.5          8        8.5          9        9.5         10       10.5         11       11.5         12 {c |}     Total
+{hline 11}{c +}{hline 110}{c +}{hline 10}
+         1 {c |}{res}         0         13          0         34          0         10          0         21          2         14 {txt}{c |}{res}       120 
+{txt}         2 {c |}{res}         1         85          1        144          1         55          1        128          0        163 {txt}{c |}{res}       895 
+{txt}         3 {c |}{res}         0        104          0        174          0         74          3        134          2        234 {txt}{c |}{res}     1,152 
+{txt}         4 {c |}{res}         2         52          0         82          0         42          4         73          2         80 {txt}{c |}{res}       468 
+{txt}{hline 11}{c +}{hline 110}{c +}{hline 10}
+     Total {c |}{res}         3        254          1        434          1        181          8        356          6        491 {txt}{c |}{res}     2,635 
+
+
+           {txt}{c |}                                                      edu
+     F15_1 {c |}      12.5         13       13.5         14       14.5         15       15.5         16       16.5         17 {c |}     Total
+{hline 11}{c +}{hline 110}{c +}{hline 10}
+         1 {c |}{res}         0          4          0          4          0          5          0          2          0          0 {txt}{c |}{res}       120 
+{txt}         2 {c |}{res}         4         51          1         61          0         74          2         28          0         20 {txt}{c |}{res}       895 
+{txt}         3 {c |}{res}         1         60          5         89          5         99          0         56          2         31 {txt}{c |}{res}     1,152 
+{txt}         4 {c |}{res}         1         18          3         23          2         32          1         13          0          4 {txt}{c |}{res}       468 
+{txt}{hline 11}{c +}{hline 110}{c +}{hline 10}
+     Total {c |}{res}         6        133          9        177          7        210          3         99          2         55 {txt}{c |}{res}     2,635 
+
+
+           {txt}{c |}                                                edu
+     F15_1 {c |}      17.5         18       18.5         19         20       20.5         21         22         23 {c |}     Total
+{hline 11}{c +}{hline 99}{c +}{hline 10}
+         1 {c |}{res}         0          1          0          0          1          0          0          0          0 {txt}{c |}{res}       120 
+{txt}         2 {c |}{res}         0         15          0          6          3          0          1          0          0 {txt}{c |}{res}       895 
+{txt}         3 {c |}{res}         1         13          2          5          5          2          1          1          1 {txt}{c |}{res}     1,152 
+{txt}         4 {c |}{res}         0          5          0          2          0          0          1          0          0 {txt}{c |}{res}       468 
+{txt}{hline 11}{c +}{hline 99}{c +}{hline 10}
+     Total {c |}{res}         1         34          2         13          9          2          3          1          1 {txt}{c |}{res}     2,635 
+
+{txt}
+{com}. tab f15_2  edu
+
+           {txt}{c |}                                                      edu
+     F15_2 {c |}         0          2          3        3.5          4        4.5          5          6        6.5          7 {c |}     Total
+{hline 11}{c +}{hline 110}{c +}{hline 10}
+         1 {c |}{res}         0          0          0          0          0          0          0          0          0          1 {txt}{c |}{res}        26 
+{txt}         2 {c |}{res}         0          1          4          0          3          0          3          3          0          5 {txt}{c |}{res}       387 
+{txt}         3 {c |}{res}         0          6          4          0          2          0          8         11          0          9 {txt}{c |}{res}       904 
+{txt}         4 {c |}{res}         2          2          3          1          0          1         13         26          1         24 {txt}{c |}{res}     1,318 
+{txt}{hline 11}{c +}{hline 110}{c +}{hline 10}
+     Total {c |}{res}         2          9         11          1          5          1         24         40          1         39 {txt}{c |}{res}     2,635 
+
+
+           {txt}{c |}                                                      edu
+     F15_2 {c |}       7.5          8        8.5          9        9.5         10       10.5         11       11.5         12 {c |}     Total
+{hline 11}{c +}{hline 110}{c +}{hline 10}
+         1 {c |}{res}         0          3          0          6          0          0          0          5          0          5 {txt}{c |}{res}        26 
+{txt}         2 {c |}{res}         1         46          1         70          1         17          0         51          0         82 {txt}{c |}{res}       387 
+{txt}         3 {c |}{res}         0         67          0        129          0         55          2        114          3        180 {txt}{c |}{res}       904 
+{txt}         4 {c |}{res}         2        138          0        229          0        109          6        186          3        224 {txt}{c |}{res}     1,318 
+{txt}{hline 11}{c +}{hline 110}{c +}{hline 10}
+     Total {c |}{res}         3        254          1        434          1        181          8        356          6        491 {txt}{c |}{res}     2,635 
+
+
+           {txt}{c |}                                                      edu
+     F15_2 {c |}      12.5         13       13.5         14       14.5         15       15.5         16       16.5         17 {c |}     Total
+{hline 11}{c +}{hline 110}{c +}{hline 10}
+         1 {c |}{res}         0          1          0          2          0          2          0          0          0          0 {txt}{c |}{res}        26 
+{txt}         2 {c |}{res}         3         16          1         24          0         33          0          9          0          5 {txt}{c |}{res}       387 
+{txt}         3 {c |}{res}         1         51          5         73          2         84          0         42          1         25 {txt}{c |}{res}       904 
+{txt}         4 {c |}{res}         2         65          3         78          5         91          3         48          1         25 {txt}{c |}{res}     1,318 
+{txt}{hline 11}{c +}{hline 110}{c +}{hline 10}
+     Total {c |}{res}         6        133          9        177          7        210          3         99          2         55 {txt}{c |}{res}     2,635 
+
+
+           {txt}{c |}                                                edu
+     F15_2 {c |}      17.5         18       18.5         19         20       20.5         21         22         23 {c |}     Total
+{hline 11}{c +}{hline 99}{c +}{hline 10}
+         1 {c |}{res}         0          1          0          0          0          0          0          0          0 {txt}{c |}{res}        26 
+{txt}         2 {c |}{res}         0          4          0          1          2          0          1          0          0 {txt}{c |}{res}       387 
+{txt}         3 {c |}{res}         0         16          0          7          3          2          2          0          0 {txt}{c |}{res}       904 
+{txt}         4 {c |}{res}         1         13          2          5          4          0          0          1          1 {txt}{c |}{res}     1,318 
+{txt}{hline 11}{c +}{hline 99}{c +}{hline 10}
+     Total {c |}{res}         1         34          2         13          9          2          3          1          1 {txt}{c |}{res}     2,635 
+
+{txt}
+{com}. tab f15_3  edu
+
+           {txt}{c |}                                                      edu
+     F15_3 {c |}         0          2          3        3.5          4        4.5          5          6        6.5          7 {c |}     Total
+{hline 11}{c +}{hline 110}{c +}{hline 10}
+         1 {c |}{res}         1          6          6          0          0          0         11         20          0         17 {txt}{c |}{res}     1,555 
+{txt}         2 {c |}{res}         1          2          4          1          4          1          9         15          1         15 {txt}{c |}{res}       842 
+{txt}         3 {c |}{res}         0          0          1          0          1          0          4          3          0          6 {txt}{c |}{res}       191 
+{txt}         4 {c |}{res}         0          1          0          0          0          0          0          2          0          1 {txt}{c |}{res}        47 
+{txt}{hline 11}{c +}{hline 110}{c +}{hline 10}
+     Total {c |}{res}         2          9         11          1          5          1         24         40          1         39 {txt}{c |}{res}     2,635 
+
+
+           {txt}{c |}                                                      edu
+     F15_3 {c |}       7.5          8        8.5          9        9.5         10       10.5         11       11.5         12 {c |}     Total
+{hline 11}{c +}{hline 110}{c +}{hline 10}
+         1 {c |}{res}         0        134          1        243          1        102          5        179          3        312 {txt}{c |}{res}     1,555 
+{txt}         2 {c |}{res}         1         91          0        143          0         63          2        137          1        145 {txt}{c |}{res}       842 
+{txt}         3 {c |}{res}         0         21          0         36          0         14          1         35          1         28 {txt}{c |}{res}       191 
+{txt}         4 {c |}{res}         2          8          0         12          0          2          0          5          1          6 {txt}{c |}{res}        47 
+{txt}{hline 11}{c +}{hline 110}{c +}{hline 10}
+     Total {c |}{res}         3        254          1        434          1        181          8        356          6        491 {txt}{c |}{res}     2,635 
+
+
+           {txt}{c |}                                                      edu
+     F15_3 {c |}      12.5         13       13.5         14       14.5         15       15.5         16       16.5         17 {c |}     Total
+{hline 11}{c +}{hline 110}{c +}{hline 10}
+         1 {c |}{res}         3         81          7        125          6        148          3         61          1         37 {txt}{c |}{res}     1,555 
+{txt}         2 {c |}{res}         3         46          1         40          1         50          0         31          1         15 {txt}{c |}{res}       842 
+{txt}         3 {c |}{res}         0          4          1         11          0          9          0          6          0          3 {txt}{c |}{res}       191 
+{txt}         4 {c |}{res}         0          2          0          1          0          3          0          1          0          0 {txt}{c |}{res}        47 
+{txt}{hline 11}{c +}{hline 110}{c +}{hline 10}
+     Total {c |}{res}         6        133          9        177          7        210          3         99          2         55 {txt}{c |}{res}     2,635 
+
+
+           {txt}{c |}                                                edu
+     F15_3 {c |}      17.5         18       18.5         19         20       20.5         21         22         23 {c |}     Total
+{hline 11}{c +}{hline 99}{c +}{hline 10}
+         1 {c |}{res}         1         22          2          6          6          1          2          1          1 {txt}{c |}{res}     1,555 
+{txt}         2 {c |}{res}         0          8          0          6          3          0          1          0          0 {txt}{c |}{res}       842 
+{txt}         3 {c |}{res}         0          4          0          1          0          1          0          0          0 {txt}{c |}{res}       191 
+{txt}         4 {c |}{res}         0          0          0          0          0          0          0          0          0 {txt}{c |}{res}        47 
+{txt}{hline 11}{c +}{hline 99}{c +}{hline 10}
+     Total {c |}{res}         1         34          2         13          9          2          3          1          1 {txt}{c |}{res}     2,635 
+
+{txt}
+{com}. tab f15_4  edu
+
+           {txt}{c |}                                                      edu
+     F15_4 {c |}         0          2          3        3.5          4        4.5          5          6        6.5          7 {c |}     Total
+{hline 11}{c +}{hline 110}{c +}{hline 10}
+         1 {c |}{res}         0          2          5          0          0          0          0          3          0          7 {txt}{c |}{res}       125 
+{txt}         2 {c |}{res}         1          1          2          0          1          1          9          8          0         14 {txt}{c |}{res}       983 
+{txt}         3 {c |}{res}         0          5          3          0          4          0          9         19          0         15 {txt}{c |}{res}     1,151 
+{txt}         4 {c |}{res}         1          1          1          1          0          0          6         10          1          3 {txt}{c |}{res}       376 
+{txt}{hline 11}{c +}{hline 110}{c +}{hline 10}
+     Total {c |}{res}         2          9         11          1          5          1         24         40          1         39 {txt}{c |}{res}     2,635 
+
+
+           {txt}{c |}                                                      edu
+     F15_4 {c |}       7.5          8        8.5          9        9.5         10       10.5         11       11.5         12 {c |}     Total
+{hline 11}{c +}{hline 110}{c +}{hline 10}
+         1 {c |}{res}         0         12          0         22          0         13          1         19          1         13 {txt}{c |}{res}       125 
+{txt}         2 {c |}{res}         1        101          1        156          1         63          5        127          1        194 {txt}{c |}{res}       983 
+{txt}         3 {c |}{res}         1        106          0        171          0         74          1        142          4        227 {txt}{c |}{res}     1,151 
+{txt}         4 {c |}{res}         1         35          0         85          0         31          1         68          0         57 {txt}{c |}{res}       376 
+{txt}{hline 11}{c +}{hline 110}{c +}{hline 10}
+     Total {c |}{res}         3        254          1        434          1        181          8        356          6        491 {txt}{c |}{res}     2,635 
+
+
+           {txt}{c |}                                                      edu
+     F15_4 {c |}      12.5         13       13.5         14       14.5         15       15.5         16       16.5         17 {c |}     Total
+{hline 11}{c +}{hline 110}{c +}{hline 10}
+         1 {c |}{res}         0          3          0          8          0          9          2          0          0          1 {txt}{c |}{res}       125 
+{txt}         2 {c |}{res}         4         52          3         67          3         79          1         33          0         21 {txt}{c |}{res}       983 
+{txt}         3 {c |}{res}         2         63          5         82          4        103          0         57          2         26 {txt}{c |}{res}     1,151 
+{txt}         4 {c |}{res}         0         15          1         20          0         19          0          9          0          7 {txt}{c |}{res}       376 
+{txt}{hline 11}{c +}{hline 110}{c +}{hline 10}
+     Total {c |}{res}         6        133          9        177          7        210          3         99          2         55 {txt}{c |}{res}     2,635 
+
+
+           {txt}{c |}                                                edu
+     F15_4 {c |}      17.5         18       18.5         19         20       20.5         21         22         23 {c |}     Total
+{hline 11}{c +}{hline 99}{c +}{hline 10}
+         1 {c |}{res}         0          3          0          0          1          0          0          0          0 {txt}{c |}{res}       125 
+{txt}         2 {c |}{res}         1         16          1          8          4          1          1          0          1 {txt}{c |}{res}       983 
+{txt}         3 {c |}{res}         0         15          1          4          3          1          2          0          0 {txt}{c |}{res}     1,151 
+{txt}         4 {c |}{res}         0          0          0          1          1          0          0          1          0 {txt}{c |}{res}       376 
+{txt}{hline 11}{c +}{hline 99}{c +}{hline 10}
+     Total {c |}{res}         1         34          2         13          9          2          3          1          1 {txt}{c |}{res}     2,635 
+
+{txt}
+{com}. tab f15_5  edu
+
+           {txt}{c |}                                                      edu
+     F15_5 {c |}         0          2          3        3.5          4        4.5          5          6        6.5          7 {c |}     Total
+{hline 11}{c +}{hline 110}{c +}{hline 10}
+         1 {c |}{res}         0          1          1          0          0          0          0          0          0          4 {txt}{c |}{res}        70 
+{txt}         2 {c |}{res}         1          2          6          0          2          1          7          6          1          6 {txt}{c |}{res}       742 
+{txt}         3 {c |}{res}         0          3          3          1          3          0         11         15          0         15 {txt}{c |}{res}     1,118 
+{txt}         4 {c |}{res}         1          3          1          0          0          0          6         19          0         14 {txt}{c |}{res}       705 
+{txt}{hline 11}{c +}{hline 110}{c +}{hline 10}
+     Total {c |}{res}         2          9         11          1          5          1         24         40          1         39 {txt}{c |}{res}     2,635 
+
+
+           {txt}{c |}                                                      edu
+     F15_5 {c |}       7.5          8        8.5          9        9.5         10       10.5         11       11.5         12 {c |}     Total
+{hline 11}{c +}{hline 110}{c +}{hline 10}
+         1 {c |}{res}         0          7          0         14          0          4          1         10          2         17 {txt}{c |}{res}        70 
+{txt}         2 {c |}{res}         1         76          1        114          1         42          3        101          0        143 {txt}{c |}{res}       742 
+{txt}         3 {c |}{res}         0         93          0        168          0         74          3        143          2        209 {txt}{c |}{res}     1,118 
+{txt}         4 {c |}{res}         2         78          0        138          0         61          1        102          2        122 {txt}{c |}{res}       705 
+{txt}{hline 11}{c +}{hline 110}{c +}{hline 10}
+     Total {c |}{res}         3        254          1        434          1        181          8        356          6        491 {txt}{c |}{res}     2,635 
+
+
+           {txt}{c |}                                                      edu
+     F15_5 {c |}      12.5         13       13.5         14       14.5         15       15.5         16       16.5         17 {c |}     Total
+{hline 11}{c +}{hline 110}{c +}{hline 10}
+         1 {c |}{res}         0          1          0          3          0          2          2          0          0          0 {txt}{c |}{res}        70 
+{txt}         2 {c |}{res}         3         43          1         51          0         63          0         24          0         19 {txt}{c |}{res}       742 
+{txt}         3 {c |}{res}         2         56          7         86          4        105          1         54          1         28 {txt}{c |}{res}     1,118 
+{txt}         4 {c |}{res}         1         33          1         37          3         40          0         21          1          8 {txt}{c |}{res}       705 
+{txt}{hline 11}{c +}{hline 110}{c +}{hline 10}
+     Total {c |}{res}         6        133          9        177          7        210          3         99          2         55 {txt}{c |}{res}     2,635 
+
+
+           {txt}{c |}                                                edu
+     F15_5 {c |}      17.5         18       18.5         19         20       20.5         21         22         23 {c |}     Total
+{hline 11}{c +}{hline 99}{c +}{hline 10}
+         1 {c |}{res}         0          1          0          0          0          0          0          0          0 {txt}{c |}{res}        70 
+{txt}         2 {c |}{res}         0         12          1          8          3          0          0          0          0 {txt}{c |}{res}       742 
+{txt}         3 {c |}{res}         1         17          1          5          2          2          3          0          0 {txt}{c |}{res}     1,118 
+{txt}         4 {c |}{res}         0          4          0          0          4          0          0          1          1 {txt}{c |}{res}       705 
+{txt}{hline 11}{c +}{hline 99}{c +}{hline 10}
+     Total {c |}{res}         1         34          2         13          9          2          3          1          1 {txt}{c |}{res}     2,635 
+
+{txt}
+{com}. 
+. tab f15_1  edu_level
+
+           {txt}{c |}                       edu_level
+     F15_1 {c |}         1          2          3          4          5 {c |}     Total
+{hline 11}{c +}{hline 55}{c +}{hline 10}
+         1 {c |}{res}         8         48         38         23          3 {txt}{c |}{res}       120 
+{txt}         2 {c |}{res}        30        258        256        284         67 {txt}{c |}{res}       895 
+{txt}         3 {c |}{res}        32        331        303        373        113 {txt}{c |}{res}     1,152 
+{txt}         4 {c |}{res}        19        156        141        123         29 {txt}{c |}{res}       468 
+{txt}{hline 11}{c +}{hline 55}{c +}{hline 10}
+     Total {c |}{res}        89        793        738        803        212 {txt}{c |}{res}     2,635 
+
+{txt}
+{com}. tab f15_2  edu_level
+
+           {txt}{c |}                       edu_level
+     F15_2 {c |}         1          2          3          4          5 {c |}     Total
+{hline 11}{c +}{hline 55}{c +}{hline 10}
+         1 {c |}{res}         0         12          7          5          2 {txt}{c |}{res}        26 
+{txt}         2 {c |}{res}        14        129        108        111         25 {txt}{c |}{res}       387 
+{txt}         3 {c |}{res}        30        222        242        321         89 {txt}{c |}{res}       904 
+{txt}         4 {c |}{res}        45        430        381        366         96 {txt}{c |}{res}     1,318 
+{txt}{hline 11}{c +}{hline 55}{c +}{hline 10}
+     Total {c |}{res}        89        793        738        803        212 {txt}{c |}{res}     2,635 
+
+{txt}
+{com}. tab f15_3  edu_level
+
+           {txt}{c |}                       edu_level
+     F15_3 {c |}         1          2          3          4          5 {c |}     Total
+{hline 11}{c +}{hline 55}{c +}{hline 10}
+         1 {c |}{res}        42        437        419        515        142 {txt}{c |}{res}     1,555 
+{txt}         2 {c |}{res}        34        270        248        234         56 {txt}{c |}{res}       842 
+{txt}         3 {c |}{res}         9         65         61         43         13 {txt}{c |}{res}       191 
+{txt}         4 {c |}{res}         4         21         10         11          1 {txt}{c |}{res}        47 
+{txt}{hline 11}{c +}{hline 55}{c +}{hline 10}
+     Total {c |}{res}        89        793        738        803        212 {txt}{c |}{res}     2,635 
+
+{txt}
+{com}. tab f15_4  edu_level
+
+           {txt}{c |}                       edu_level
+     F15_4 {c |}         1          2          3          4          5 {c |}     Total
+{hline 11}{c +}{hline 55}{c +}{hline 10}
+         1 {c |}{res}         8         49         29         31          8 {txt}{c |}{res}       125 
+{txt}         2 {c |}{res}        22        292        297        293         79 {txt}{c |}{res}       983 
+{txt}         3 {c |}{res}        40        318        300        381        112 {txt}{c |}{res}     1,151 
+{txt}         4 {c |}{res}        19        134        112         98         13 {txt}{c |}{res}       376 
+{txt}{hline 11}{c +}{hline 55}{c +}{hline 10}
+     Total {c |}{res}        89        793        738        803        212 {txt}{c |}{res}     2,635 
+
+{txt}
+{com}. tab f15_5  edu_level
+
+           {txt}{c |}                       edu_level
+     F15_5 {c |}         1          2          3          4          5 {c |}     Total
+{hline 11}{c +}{hline 55}{c +}{hline 10}
+         1 {c |}{res}         2         28         24         13          3 {txt}{c |}{res}        70 
+{txt}         2 {c |}{res}        25        211        227        220         59 {txt}{c |}{res}       742 
+{txt}         3 {c |}{res}        33        307        283        377        118 {txt}{c |}{res}     1,118 
+{txt}         4 {c |}{res}        29        247        204        193         32 {txt}{c |}{res}       705 
+{txt}{hline 11}{c +}{hline 55}{c +}{hline 10}
+     Total {c |}{res}        89        793        738        803        212 {txt}{c |}{res}     2,635 
+
+{txt}
+{com}. 
+. tab f15_1  house_own
+
+           {txt}{c |}       house_own
+     F15_1 {c |}         0          1 {c |}     Total
+{hline 11}{c +}{hline 22}{c +}{hline 10}
+         1 {c |}{res}        50         68 {txt}{c |}{res}       118 
+{txt}         2 {c |}{res}       215        677 {txt}{c |}{res}       892 
+{txt}         3 {c |}{res}       237        909 {txt}{c |}{res}     1,146 
+{txt}         4 {c |}{res}        98        370 {txt}{c |}{res}       468 
+{txt}{hline 11}{c +}{hline 22}{c +}{hline 10}
+     Total {c |}{res}       600      2,024 {txt}{c |}{res}     2,624 
+
+{txt}
+{com}. tab f15_2  house_own
+
+           {txt}{c |}       house_own
+     F15_2 {c |}         0          1 {c |}     Total
+{hline 11}{c +}{hline 22}{c +}{hline 10}
+         1 {c |}{res}         5         21 {txt}{c |}{res}        26 
+{txt}         2 {c |}{res}       105        280 {txt}{c |}{res}       385 
+{txt}         3 {c |}{res}       182        717 {txt}{c |}{res}       899 
+{txt}         4 {c |}{res}       308      1,006 {txt}{c |}{res}     1,314 
+{txt}{hline 11}{c +}{hline 22}{c +}{hline 10}
+     Total {c |}{res}       600      2,024 {txt}{c |}{res}     2,624 
+
+{txt}
+{com}. tab f15_3  house_own
+
+           {txt}{c |}       house_own
+     F15_3 {c |}         0          1 {c |}     Total
+{hline 11}{c +}{hline 22}{c +}{hline 10}
+         1 {c |}{res}       330      1,219 {txt}{c |}{res}     1,549 
+{txt}         2 {c |}{res}       206        632 {txt}{c |}{res}       838 
+{txt}         3 {c |}{res}        51        139 {txt}{c |}{res}       190 
+{txt}         4 {c |}{res}        13         34 {txt}{c |}{res}        47 
+{txt}{hline 11}{c +}{hline 22}{c +}{hline 10}
+     Total {c |}{res}       600      2,024 {txt}{c |}{res}     2,624 
+
+{txt}
+{com}. tab f15_4  house_own
+
+           {txt}{c |}       house_own
+     F15_4 {c |}         0          1 {c |}     Total
+{hline 11}{c +}{hline 22}{c +}{hline 10}
+         1 {c |}{res}        41         84 {txt}{c |}{res}       125 
+{txt}         2 {c |}{res}       233        747 {txt}{c |}{res}       980 
+{txt}         3 {c |}{res}       243        901 {txt}{c |}{res}     1,144 
+{txt}         4 {c |}{res}        83        292 {txt}{c |}{res}       375 
+{txt}{hline 11}{c +}{hline 22}{c +}{hline 10}
+     Total {c |}{res}       600      2,024 {txt}{c |}{res}     2,624 
+
+{txt}
+{com}. tab f15_5  house_own
+
+           {txt}{c |}       house_own
+     F15_5 {c |}         0          1 {c |}     Total
+{hline 11}{c +}{hline 22}{c +}{hline 10}
+         1 {c |}{res}        19         50 {txt}{c |}{res}        69 
+{txt}         2 {c |}{res}       179        562 {txt}{c |}{res}       741 
+{txt}         3 {c |}{res}       231        880 {txt}{c |}{res}     1,111 
+{txt}         4 {c |}{res}       171        532 {txt}{c |}{res}       703 
+{txt}{hline 11}{c +}{hline 22}{c +}{hline 10}
+     Total {c |}{res}       600      2,024 {txt}{c |}{res}     2,624 
+
+{txt}
+{com}. 
+. 
+. 
+. gen tenure_squared = tenure*tenure
+{txt}(43 missing values generated)
+
+{com}. 
+. 
+. //Table 2: summary
+. sum sad_4scale scared_4scale happiness_4scale angry_4scale hateful_4scale  
+
+{txt}    Variable {c |}       Obs        Mean    Std. Dev.       Min        Max
+{hline 13}{c +}{hline 56}
+{space 2}sad_4scale {c |}{res}      2635    2.746869    .7972432          1          4
+{txt}scared_4sc~e {c |}{res}      2635    3.333586    .7585948          1          4
+{txt}hap~s_4scale {c |}{res}      2635    3.481973    .7084193          1          4
+{txt}angry_4scale {c |}{res}      2635    2.674763    .7745652          1          4
+{txt}hateful_4s~e {c |}{res}      2635    2.932827    .8069343          1          4
+{txt}
+{com}. sum sad_hide_4scale  scared_hide_4scale  happiness_hide_4scale  angry_hide_4scale  hateful_hide_4scale 
+
+{txt}    Variable {c |}       Obs        Mean    Std. Dev.       Min        Max
+{hline 13}{c +}{hline 56}
+sad_hide_4~e {c |}{res}      2620     2.15916     1.02817          1          4
+{txt}scared_hid~e {c |}{res}      2584    2.272446      1.1082          1          4
+{txt}hap~e_4scale {c |}{res}      2631    2.451919    1.096428          1          4
+{txt}angry_hide~e {c |}{res}      2624    2.378049    1.022241          1          4
+{txt}hateful_hi~e {c |}{res}      2609    2.298199    1.032078          1          4
+{txt}
+{com}. sum sad_control_4scale  scared_control_4scale  happiness_control_4scale  angry_control_4scale  hateful_control_4scale
+
+{txt}    Variable {c |}       Obs        Mean    Std. Dev.       Min        Max
+{hline 13}{c +}{hline 56}
+sad_contro~e {c |}{res}      2622    1.749809    .8369279          1          4
+{txt}scared_con~e {c |}{res}      2598    1.859507    .9528184          1          4
+{txt}hap~l_4scale {c |}{res}      2629    1.879041     .946743          1          4
+{txt}angry_cont~e {c |}{res}      2625     1.93181    .9241002          1          4
+{txt}hateful_co~e {c |}{res}      2600    1.883846    .9248236          1          4
+{txt}
+{com}. sum life_short future_decided 
+
+{txt}    Variable {c |}       Obs        Mean    Std. Dev.       Min        Max
+{hline 13}{c +}{hline 56}
+{space 2}life_short {c |}{res}      2635    4.699051    1.888738          1          7
+{txt}future_dec~d {c |}{res}      2634    4.007213    2.218835          1          7
+{txt}
+{com}. sum edu edu_level house_own travel sports drink smoke
+
+{txt}    Variable {c |}       Obs        Mean    Std. Dev.       Min        Max
+{hline 13}{c +}{hline 56}
+{space 9}edu {c |}{res}      2635    11.37154    2.970991          0         23
+{txt}{space 3}edu_level {c |}{res}      2635    3.097154     1.02644          1          5
+{txt}{space 3}house_own {c |}{res}      2624    .7713415    .4200489          0          1
+{txt}{space 6}travel {c |}{res}      2635    .1745731    .3796736          0          1
+{txt}{space 6}sports {c |}{res}      2605    1.908637    1.454145          1          5
+{txt}{hline 13}{c +}{hline 56}
+{space 7}drink {c |}{res}      2565    .9723197     1.96131          0          8
+{txt}{space 7}smoke {c |}{res}      2629    2.023203    1.425948          1          5
+{txt}
+{com}. sum income_num age agesquared male birth_rate VeryEarly_disease_d edu married health work_over_40h
+
+{txt}    Variable {c |}       Obs        Mean    Std. Dev.       Min        Max
+{hline 13}{c +}{hline 56}
+{space 2}income_num {c |}{res}      2635    902.2489    1029.957         30      30000
+{txt}{space 9}age {c |}{res}      2635    3.644478    1.023963        1.7        6.2
+{txt}{space 2}agesquared {c |}{res}      2635    14.33032    7.729927       2.89      38.44
+{txt}{space 8}male {c |}{res}      2635    .5757116    .4943283          0          1
+{txt}{space 2}birth_rate {c |}{res}      2635    2.422827    .5960202         .7        7.8
+{txt}{hline 13}{c +}{hline 56}
+VeryEarly_~d {c |}{res}      2635    .0151803    .1222927          0          1
+{txt}{space 9}edu {c |}{res}      2635    11.37154    2.970991          0         23
+{txt}{space 5}married {c |}{res}      2635     .688425     .463225          0          1
+{txt}{space 6}health {c |}{res}      2635    3.722581    .8057798          1          5
+{txt}work_ove~40h {c |}{res}      2635    .3324478    .4711799          0          1
+{txt}
+{com}. 
+{txt}end of do-file
+
+{com}. do "C:\Users\AIQING~1\AppData\Local\Temp\STD00000000.tmp"
+{txt}
+{com}. sum sad_4scale scared_4scale happiness_4scale angry_4scale hateful_4scale  
+
+{txt}    Variable {c |}       Obs        Mean    Std. Dev.       Min        Max
+{hline 13}{c +}{hline 56}
+{space 2}sad_4scale {c |}{res}      2635    2.746869    .7972432          1          4
+{txt}scared_4sc~e {c |}{res}      2635    3.333586    .7585948          1          4
+{txt}hap~s_4scale {c |}{res}      2635    3.481973    .7084193          1          4
+{txt}angry_4scale {c |}{res}      2635    2.674763    .7745652          1          4
+{txt}hateful_4s~e {c |}{res}      2635    2.932827    .8069343          1          4
+{txt}
+{com}. sum sad_hide_4scale  scared_hide_4scale  happiness_hide_4scale  angry_hide_4scale  hateful_hide_4scale 
+
+{txt}    Variable {c |}       Obs        Mean    Std. Dev.       Min        Max
+{hline 13}{c +}{hline 56}
+sad_hide_4~e {c |}{res}      2620     2.15916     1.02817          1          4
+{txt}scared_hid~e {c |}{res}      2584    2.272446      1.1082          1          4
+{txt}hap~e_4scale {c |}{res}      2631    2.451919    1.096428          1          4
+{txt}angry_hide~e {c |}{res}      2624    2.378049    1.022241          1          4
+{txt}hateful_hi~e {c |}{res}      2609    2.298199    1.032078          1          4
+{txt}
+{com}. sum sad_control_4scale  scared_control_4scale  happiness_control_4scale  angry_control_4scale  hateful_control_4scale
+
+{txt}    Variable {c |}       Obs        Mean    Std. Dev.       Min        Max
+{hline 13}{c +}{hline 56}
+sad_contro~e {c |}{res}      2622    1.749809    .8369279          1          4
+{txt}scared_con~e {c |}{res}      2598    1.859507    .9528184          1          4
+{txt}hap~l_4scale {c |}{res}      2629    1.879041     .946743          1          4
+{txt}angry_cont~e {c |}{res}      2625     1.93181    .9241002          1          4
+{txt}hateful_co~e {c |}{res}      2600    1.883846    .9248236          1          4
+{txt}
+{com}. sum life_short future_decided 
+
+{txt}    Variable {c |}       Obs        Mean    Std. Dev.       Min        Max
+{hline 13}{c +}{hline 56}
+{space 2}life_short {c |}{res}      2635    4.699051    1.888738          1          7
+{txt}future_dec~d {c |}{res}      2634    4.007213    2.218835          1          7
+{txt}
+{com}. sum edu edu_level house_own travel sports drink smoke
+
+{txt}    Variable {c |}       Obs        Mean    Std. Dev.       Min        Max
+{hline 13}{c +}{hline 56}
+{space 9}edu {c |}{res}      2635    11.37154    2.970991          0         23
+{txt}{space 3}edu_level {c |}{res}      2635    3.097154     1.02644          1          5
+{txt}{space 3}house_own {c |}{res}      2624    .7713415    .4200489          0          1
+{txt}{space 6}travel {c |}{res}      2635    .1745731    .3796736          0          1
+{txt}{space 6}sports {c |}{res}      2605    1.908637    1.454145          1          5
+{txt}{hline 13}{c +}{hline 56}
+{space 7}drink {c |}{res}      2565    .9723197     1.96131          0          8
+{txt}{space 7}smoke {c |}{res}      2629    2.023203    1.425948          1          5
+{txt}
+{com}. sum income_num age agesquared male birth_rate VeryEarly_disease_d edu married health work_over_40h
+
+{txt}    Variable {c |}       Obs        Mean    Std. Dev.       Min        Max
+{hline 13}{c +}{hline 56}
+{space 2}income_num {c |}{res}      2635    902.2489    1029.957         30      30000
+{txt}{space 9}age {c |}{res}      2635    3.644478    1.023963        1.7        6.2
+{txt}{space 2}agesquared {c |}{res}      2635    14.33032    7.729927       2.89      38.44
+{txt}{space 8}male {c |}{res}      2635    .5757116    .4943283          0          1
+{txt}{space 2}birth_rate {c |}{res}      2635    2.422827    .5960202         .7        7.8
+{txt}{hline 13}{c +}{hline 56}
+VeryEarly_~d {c |}{res}      2635    .0151803    .1222927          0          1
+{txt}{space 9}edu {c |}{res}      2635    11.37154    2.970991          0         23
+{txt}{space 5}married {c |}{res}      2635     .688425     .463225          0          1
+{txt}{space 6}health {c |}{res}      2635    3.722581    .8057798          1          5
+{txt}work_ove~40h {c |}{res}      2635    .3324478    .4711799          0          1
+{txt}
+{com}. 
+. 
+. 
+{txt}end of do-file
+
+{com}. 

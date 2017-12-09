@@ -1,0 +1,60 @@
+{\rtf1\fs24
+\trowd\trgaph75\trleft-75\intbl\trqc\clbrdrt\brdrs\cellx3024\clbrdrt\brdrs\cellx5328\clbrdrt\brdrs\cellx7632\clbrdrt\brdrs\cellx9936\clbrdrt\brdrs\cellx12240\clbrdrt\brdrs\cellx14544\clbrdrt\brdrs\cellx16848\clbrdrt\brdrs\cellx19296\clbrdrt\brdrs\cellx21744\clbrdrt\brdrs\cellx24192
+\ql \cell\qc (1)\cell\qc (2)\cell\qc (3)\cell\qc (4)\cell\qc (5)\cell\qc (6)\cell\qc (7)\cell\qc (8)\cell\qc (9)\cell\row
+\trowd\trgaph75\trleft-75\trqc\cellx3024\cellx5328\cellx7632\cellx9936\cellx12240\cellx14544\cellx16848\cellx19296\cellx21744\cellx24192
+\trowd\trgaph75\trleft-75\trqc\clbrdrb\brdrs\cellx3024\clbrdrb\brdrs\cellx5328\clbrdrb\brdrs\cellx7632\clbrdrb\brdrs\cellx9936\clbrdrb\brdrs\cellx12240\clbrdrb\brdrs\cellx14544\clbrdrb\brdrs\cellx16848\clbrdrb\brdrs\cellx19296\clbrdrb\brdrs\cellx21744\clbrdrb\brdrs\cellx24192
+\ql VARIABLES\cell\qc sad_hide_4scale\cell\qc sad_hide_4scale\cell\qc sad_hide_4scale\cell\qc sad_hide_4scale\cell\qc sad_hide_4scale\cell\qc sad_hide_4scale\cell\qc Dsad_hide_4scale\cell\qc Dsad_hide_4scale\cell\qc Dsad_hide_4scale\cell\row
+\trowd\trgaph75\trleft-75\trqc\cellx3024\cellx5328\cellx7632\cellx9936\cellx12240\cellx14544\cellx16848\cellx19296\cellx21744\cellx24192
+\ql \cell\qc \cell\qc \cell\qc \cell\qc \cell\qc \cell\qc \cell\qc \cell\qc \cell\qc \cell\row
+\ql house_own\cell\qc 0.0293\cell\qc 0.0500\cell\qc 0.0494\cell\qc -0.0689\cell\qc -0.0559\cell\qc -0.0586\cell\qc \cell\qc \cell\qc \cell\row
+\ql \cell\qc (0.0526)\cell\qc (0.0524)\cell\qc (0.0524)\cell\qc (0.0776)\cell\qc (0.0770)\cell\qc (0.0771)\cell\qc \cell\qc \cell\qc \cell\row
+\ql age\cell\qc -0.503***\cell\qc -0.423**\cell\qc -0.428**\cell\qc -0.617**\cell\qc -0.669**\cell\qc -0.690***\cell\qc \cell\qc \cell\qc \cell\row
+\ql \cell\qc (0.168)\cell\qc (0.183)\cell\qc (0.183)\cell\qc (0.242)\cell\qc (0.260)\cell\qc (0.262)\cell\qc \cell\qc \cell\qc \cell\row
+\ql agesquared\cell\qc 0.0605***\cell\qc 0.0501**\cell\qc 0.0504**\cell\qc 0.0714**\cell\qc 0.0754**\cell\qc 0.0771**\cell\qc \cell\qc \cell\qc \cell\row
+\ql \cell\qc (0.0226)\cell\qc (0.0236)\cell\qc (0.0236)\cell\qc (0.0319)\cell\qc (0.0332)\cell\qc (0.0333)\cell\qc \cell\qc \cell\qc \cell\row
+\ql male\cell\qc -0.0296\cell\qc -0.00974\cell\qc -0.00842\cell\qc 0.0958\cell\qc 0.127*\cell\qc 0.132*\cell\qc \cell\qc \cell\qc \cell\row
+\ql \cell\qc (0.0487)\cell\qc (0.0492)\cell\qc (0.0491)\cell\qc (0.0691)\cell\qc (0.0703)\cell\qc (0.0701)\cell\qc \cell\qc \cell\qc \cell\row
+\ql birth_rate\cell\qc -0.0399\cell\qc -0.0280\cell\qc -0.0280\cell\qc -0.0521\cell\qc -0.0377\cell\qc -0.0386\cell\qc \cell\qc \cell\qc \cell\row
+\ql \cell\qc (0.0401)\cell\qc (0.0398)\cell\qc (0.0398)\cell\qc (0.0545)\cell\qc (0.0542)\cell\qc (0.0541)\cell\qc \cell\qc \cell\qc \cell\row
+\ql VeryEarly_disease_d\cell\qc -0.0303\cell\qc -0.0821\cell\qc -0.0824\cell\qc 0.0286\cell\qc -0.0241\cell\qc -0.0224\cell\qc \cell\qc \cell\qc \cell\row
+\ql \cell\qc (0.187)\cell\qc (0.190)\cell\qc (0.191)\cell\qc (0.281)\cell\qc (0.285)\cell\qc (0.283)\cell\qc \cell\qc \cell\qc \cell\row
+\ql income\cell\qc \cell\qc -0.0593*\cell\qc -0.0566*\cell\qc \cell\qc -0.0703\cell\qc -0.0627\cell\qc \cell\qc \cell\qc \cell\row
+\ql \cell\qc \cell\qc (0.0322)\cell\qc (0.0329)\cell\qc \cell\qc (0.0459)\cell\qc (0.0470)\cell\qc \cell\qc \cell\qc \cell\row
+\ql married\cell\qc \cell\qc -0.0717\cell\qc -0.0707\cell\qc \cell\qc 0.0286\cell\qc 0.0340\cell\qc \cell\qc \cell\qc \cell\row
+\ql \cell\qc \cell\qc (0.0571)\cell\qc (0.0572)\cell\qc \cell\qc (0.0841)\cell\qc (0.0842)\cell\qc \cell\qc \cell\qc \cell\row
+\ql health\cell\qc \cell\qc -0.0861***\cell\qc -0.0859***\cell\qc \cell\qc -0.0871**\cell\qc -0.0857**\cell\qc \cell\qc \cell\qc \cell\row
+\ql \cell\qc \cell\qc (0.0306)\cell\qc (0.0306)\cell\qc \cell\qc (0.0435)\cell\qc (0.0434)\cell\qc \cell\qc \cell\qc \cell\row
+\ql work_over_40h\cell\qc \cell\qc \cell\qc -0.0243\cell\qc \cell\qc \cell\qc -0.0769\cell\qc \cell\qc \cell\qc \cell\row
+\ql \cell\qc \cell\qc \cell\qc (0.0462)\cell\qc \cell\qc \cell\qc (0.0684)\cell\qc \cell\qc \cell\qc \cell\row
+\ql d_Chengdu\cell\qc -0.0757\cell\qc -0.0482\cell\qc -0.0489\cell\qc -0.210**\cell\qc -0.192**\cell\qc -0.193**\cell\qc \cell\qc \cell\qc \cell\row
+\ql \cell\qc (0.0675)\cell\qc (0.0681)\cell\qc (0.0680)\cell\qc (0.0904)\cell\qc (0.0902)\cell\qc (0.0899)\cell\qc \cell\qc \cell\qc \cell\row
+\ql d_Chongqing\cell\qc 0.205**\cell\qc 0.203**\cell\qc 0.203**\cell\qc 0.243*\cell\qc 0.236*\cell\qc 0.236*\cell\qc \cell\qc \cell\qc \cell\row
+\ql \cell\qc (0.0891)\cell\qc (0.0878)\cell\qc (0.0877)\cell\qc (0.141)\cell\qc (0.139)\cell\qc (0.139)\cell\qc \cell\qc \cell\qc \cell\row
+\ql d_Haerbin\cell\qc 0.247***\cell\qc 0.277***\cell\qc 0.277***\cell\qc 0.263**\cell\qc 0.290**\cell\qc 0.291**\cell\qc \cell\qc \cell\qc \cell\row
+\ql \cell\qc (0.0914)\cell\qc (0.0912)\cell\qc (0.0912)\cell\qc (0.128)\cell\qc (0.128)\cell\qc (0.128)\cell\qc \cell\qc \cell\qc \cell\row
+\ql d_Hefei\cell\qc -0.0451\cell\qc -0.0207\cell\qc -0.0207\cell\qc -0.0246\cell\qc -0.0107\cell\qc -0.0176\cell\qc \cell\qc \cell\qc \cell\row
+\ql \cell\qc (0.0671)\cell\qc (0.0684)\cell\qc (0.0684)\cell\qc (0.0998)\cell\qc (0.101)\cell\qc (0.102)\cell\qc \cell\qc \cell\qc \cell\row
+\ql Dhouse_own\cell\qc \cell\qc \cell\qc \cell\qc \cell\qc \cell\qc \cell\qc -0.106\cell\qc -0.104\cell\qc -0.104\cell\row
+\ql \cell\qc \cell\qc \cell\qc \cell\qc \cell\qc \cell\qc \cell\qc (0.117)\cell\qc (0.116)\cell\qc (0.116)\cell\row
+\ql Dbirth_rate\cell\qc \cell\qc \cell\qc \cell\qc \cell\qc \cell\qc \cell\qc -0.176*\cell\qc -0.166*\cell\qc -0.166*\cell\row
+\ql \cell\qc \cell\qc \cell\qc \cell\qc \cell\qc \cell\qc \cell\qc (0.0942)\cell\qc (0.0926)\cell\qc (0.0928)\cell\row
+\ql DVeryEarly_disease_d\cell\qc \cell\qc \cell\qc \cell\qc \cell\qc \cell\qc \cell\qc -0.0279\cell\qc -0.0447\cell\qc -0.0472\cell\row
+\ql \cell\qc \cell\qc \cell\qc \cell\qc \cell\qc \cell\qc \cell\qc (0.329)\cell\qc (0.335)\cell\qc (0.336)\cell\row
+\ql Dincome\cell\qc \cell\qc \cell\qc \cell\qc \cell\qc \cell\qc \cell\qc \cell\qc -0.0470\cell\qc -0.0491\cell\row
+\ql \cell\qc \cell\qc \cell\qc \cell\qc \cell\qc \cell\qc \cell\qc \cell\qc (0.0730)\cell\qc (0.0745)\cell\row
+\ql Dmarried\cell\qc \cell\qc \cell\qc \cell\qc \cell\qc \cell\qc \cell\qc \cell\qc 0.00521\cell\qc 0.00330\cell\row
+\ql \cell\qc \cell\qc \cell\qc \cell\qc \cell\qc \cell\qc \cell\qc \cell\qc (0.105)\cell\qc (0.106)\cell\row
+\ql Dhealth\cell\qc \cell\qc \cell\qc \cell\qc \cell\qc \cell\qc \cell\qc \cell\qc -0.0177\cell\qc -0.0179\cell\row
+\ql \cell\qc \cell\qc \cell\qc \cell\qc \cell\qc \cell\qc \cell\qc \cell\qc (0.0650)\cell\qc (0.0651)\cell\row
+\ql Dwork_over_40h\cell\qc \cell\qc \cell\qc \cell\qc \cell\qc \cell\qc \cell\qc \cell\qc \cell\qc 0.0179\cell\row
+\ql \cell\qc \cell\qc \cell\qc \cell\qc \cell\qc \cell\qc \cell\qc \cell\qc \cell\qc (0.0932)\cell\row
+\ql Constant\cell\qc 3.191***\cell\qc 3.740***\cell\qc 3.741***\cell\qc 3.492***\cell\qc 4.321***\cell\qc 4.343***\cell\qc \cell\qc \cell\qc \cell\row
+\ql \cell\qc (0.316)\cell\qc (0.404)\cell\qc (0.404)\cell\qc (0.465)\cell\qc (0.587)\cell\qc (0.586)\cell\qc \cell\qc \cell\qc \cell\row
+\ql \cell\qc \cell\qc \cell\qc \cell\qc \cell\qc \cell\qc \cell\qc \cell\qc \cell\qc \cell\row
+\ql Observations\cell\qc 2,609\cell\qc 2,609\cell\qc 2,609\cell\qc 1,320\cell\qc 1,320\cell\qc 1,320\cell\qc 660\cell\qc 660\cell\qc 660\cell\row
+\trowd\trgaph75\trleft-75\trqc\trbrdrb\brdrs\clbrdrb\brdrs\cellx3024\clbrdrb\brdrs\cellx5328\clbrdrb\brdrs\cellx7632\clbrdrb\brdrs\cellx9936\clbrdrb\brdrs\cellx12240\clbrdrb\brdrs\cellx14544\clbrdrb\brdrs\cellx16848\clbrdrb\brdrs\cellx19296\clbrdrb\brdrs\cellx21744\clbrdrb\brdrs\cellx24192
+\ql R-squared\cell\qc 0.017\cell\qc 0.024\cell\qc 0.024\cell\qc 0.031\cell\qc 0.038\cell\qc 0.039\cell\qc 0.006\cell\qc 0.007\cell\qc 0.007\cell\row
+\pard\qc
+Robust standard errors in parentheses\par
+*** p<0.01, ** p<0.05, * p<0.1\par
+}

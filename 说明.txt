@@ -1,0 +1,47 @@
+1. Education on SWB: 
+effect of years of schooling on happiness, sadness and other three emotions, f15_1 - f15_5 (already generated), and f16-f19 (to generate varialbes).
+effect of education levels on happiness, sadness and other three emotions, f15_1 - f15_5 (already generated), and f16-f19 (to generate varialbes).
+
+2. home ownership on SWB:
+
+3. travel on SWB
+
+4. self-reported health and health behavior (exercise, smoking, alcohol) etc. 
+
+
+Independent variable£º
+1.1  edu(years of schooling)
+1.2  edu_level(primary or less ==1; junior==2; high==3; techhigh and college==4; university¡¢master and docter==5)
+2.  house_own(0/1)
+3.  travel(0/1)
+4. drink(days a week,1-7), smoke(1-5), sports(days a month,1-5)
+
+
+Dependent variable£¨SWB£©:
+**********************F15 MOOD****************************
+gen happiness_4scale   = 5-f15_3
+gen sad_4scale	  = f15_1
+gen scared_4scale	 = f15_2
+gen angry_4scale	 = f15_4
+gen hateful_4scale	 = f15_5
+
+****************** F16 MOOD Hide *********************
+gen sad_hide_4scale	                  = f16_1
+gen scared_hide_4scale	 = f16_2
+gen happiness_hide_4scale          = f16_3
+gen angry_hide_4scale	 = f16_4
+gen hateful_hide_4scale	 = f16_5
+
+****************** F17 MOOD Control *********************
+gen sad_control_4scale	 = f17_1
+gen scared_control_4scale	 = f17_2
+gen happiness_control_4scale      = f17_3
+gen angry_control_4scale	 = f17_4
+gen hateful_control_4scale	 = f17_5
+
+******************  F18 Life Short(7 scale) ******************
+gen life_short	  	 = 8-f18
+
+******************  F19 Future Decided(7 scale) ***************
+gen future_decided                        = 8-f19
+
